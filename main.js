@@ -59,43 +59,67 @@ let expType = 0; // see below
 10: Screen Size too small, "press any button to continue"
 */
 
-//stimStruct: aStimbStim
+//Flanker task:
+//Task A: Central up/down
+//Task B: Flanking up/down
+
+//Set up target-resp mappings
 //2191: Up; 2193: Down
 let stimA = ["\u2191", "\u2193"];
 let stimB = ["\u2191", "\u2193"];
+// [[Up, Up], [Up, Down], [Down, Up], [Down, Down]]
+let stimSet = [[stimA[0], stimB[0]], [stimA[0], stimB[1]], [stimA[1], stimB[0]], [stimA[1], stimB[1]]];
 
-let taskMap = [[] ]
+let taskMap = randIntFromInterval(1,2);
+if (taskMap == 1) {
+  var respMap = {
+    taskA : [codeL, codeL, codeR, codeR],
+    taskB : [codeL, codeR, codeL, codeR]
+  };
+} else { //taskMap==2
+  var respMap = {
+    taskA : [codeR, codeR, codeL, codeL],
+    taskB : [codeR, codeL, codeR, codeL]
+  };
+}
+
+//get indicies of congruent/incongruent stimuli from response match/mismatch
+let conIndex = [];
+let incIndex = [];
+respMap.taskA.forEach((respA, index) => {
+  (respA == respMap.taskB[index]) ? conIndex.push(index) : incIndex.push(index);
+});
+
 
 let pracOrder = randIntFromInterval(1,2);
 // console.log("pracOrder", pracOrder);
 // case 1: practice task A first
 // case 2: practice task B first
 
-let taskMapping = randIntFromInterval(1,2);
-// console.log("taskMapping", taskMapping);
+// console.log("taskMap", taskMap);
 // case 1: odd/even: "z" and "m", greater/less: "z" and "m"
 // case 2: odd/even: "z" and "m", greater/less: "m" and "z"
 // case 3: odd/even: "m" and "z", greater/less: "z" and "m"
 // case 4: odd/even: "m" and "z", greater/less: "m" and "z"
 
-let colorMapping = randIntFromInterval(1,2);
-// console.log("colorMapping", colorMapping);
+// color-task mapping
 // case 1: taskA = Red, taskB = Blue
 // case 2: taskA = Blue, taskB = Red
+let colorMapping = randIntFromInterval(1,2);
+let colorA = (colorMapping == 1) ? "red" : "blue";
+let taskColor = {A: colorA, B: colorB};
 
 // instrction variables based on mappings
-let colorA = (colorMapping == 1) ? "red" : "blue";
 let colorB = (colorMapping == 1) ? "blue" : "red";
-let taskColor = {A: colorA, B: colorB};
 
 let respL = 'z';
 let respR = 'm';
 let codeL = 77;
 let codeR = 90;
 
-let parity_z = (taskMapping == 1 || taskMapping == 2) ? "odd" : "even";
+let parity_z = (taskMap == 1 || taskMap == 2) ? "odd" : "even";
 let parity_m = (parity_z == "odd") ? "even" : "odd";
-let magnitude_z = (taskMapping == 1 || taskMapping == 3) ? "greater than 5" : "less than 5";
+let magnitude_z = (taskMap == 1 || taskMap == 3) ? "greater than 5" : "less than 5";
 let magnitude_m = (magnitude_z == "greater than 5") ? "less than 5" : "greater than 5";
 
 let blockOrder = getBlockOrder(numBlocks);
@@ -148,7 +172,9 @@ $(document).ready(function(){
 
       // 7: block feedback - press button to start next block
       sectionEnd = new Date().getTime() - runStart;
-      data.push(["feedback", sectionType, block, blockType, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart]);
+      data.push(["feedback", sectionType, block, blockType, 
+        NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, 
+        sectionStart, sectionEnd, sectionEnd - sectionStart]);
       console.log(data);
       expType = 0;
 
@@ -161,7 +187,9 @@ $(document).ready(function(){
     } else if (expType == 8) { // 8: "press button to start task"
       // log how much time was spent in this section
       sectionEnd = new Date().getTime() - runStart;
-      data.push([expStage, sectionType, block, blockType, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart]);
+      data.push([expStage, sectionType, block, blockType, 
+        NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN,
+        sectionStart, sectionEnd, sectionEnd - sectionStart]);
       console.log(data);
       // reset expStage and start task
       expType = 0;

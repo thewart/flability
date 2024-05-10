@@ -33,7 +33,7 @@ function getBlockParameters(blockLetter) {
 }
 
 function get_task_image(num){
-  switch (taskMapping) {
+  switch (taskMap) {
     case 1:
       if (pracOrder == num) { //task is parity
         return (colorMapping == 1) ? 3 : 11;
@@ -63,13 +63,13 @@ function get_task_image(num){
 
 function first_task(){
   if (pracOrder == 1) {
-    if (taskMapping == 1 || taskMapping == 2) {
+    if (taskMap == 1 || taskMap == 2) {
       return "odd or even";
     } else {
       return "even or odd";
     }
   } else {
-    if (taskMapping == 1 || taskMapping == 3) {
+    if (taskMap == 1 || taskMap == 3) {
       return "greater or less than five";
     } else {
       return "less or greater than five";
@@ -79,13 +79,13 @@ function first_task(){
 
 function second_task(){
   if (pracOrder == 1) {
-    if (taskMapping == 1 || taskMapping == 3) {
+    if (taskMap == 1 || taskMap == 3) {
       return "greater or less than five";
     } else {
       return "less or greater than five";
     }
   } else {
-    if (taskMapping == 1 || taskMapping == 2) {
+    if (taskMap == 1 || taskMap == 2) {
       return "odd or even";
     } else {
       return "even or odd";
