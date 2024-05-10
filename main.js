@@ -15,8 +15,6 @@ let cohHard = 0.6;
 let cohMed = 0.7;
 let cohEasy = 0.8;
 
-let conStimSet = ["\u2191\u2191", "\u2193\u2193"];
-let incStimSet = ["\u2191\u2193","\u2193\u2191"];
 
 // ----- Structural Paramenters (CHANGE ME) ----- //
 let colorValues = {red: "#ff3503", blue: "#0381ff"};
@@ -48,40 +46,53 @@ let stimTimeout, breakOn = false, repeatNecessary = false, data=[];
 let sectionStart, sectionEnd, sectionType, sectionTimer;
 let expType = 0; // see below
 /*  expType explanations:
-      0: No key press expected/needed
-      1: Key press expected (triggered by stimScreen() func that presents stimuli)
-      2: Key press from 1 received. Awaiting keyup event, which resets to 0 and calls itiScreen() function immediately.
-      3: Parcticipant still holding keypress from 1 during ITI. Awaitng keyup event, which resets to 0 but doesn't call itiScreen() function.
-      4: Participant still holding keypress from 1 at start of next Trial. Call promptLetGo() func to get participant to let go. After keyup resume experiment and reset to 0.
-      5: Key press from 0 still being held down. On keyup, reset to 0.
-      6: Key press from 0 still being held down when stimScreen() func is called. Call promptLetGo() func. After keyup resume and reset to 0.
-      7: mini block screen/feedback. Awaiting key press to continue, keyup resets to 0 and goes to next trial.
-      8: instruction start task "press to continue"
-      9: proceed to next instruction "press to continue"
-      10: Screen Size too small, "press any button to continue"
+0: No key press expected/needed
+1: Key press expected (triggered by stimScreen() func that presents stimuli)
+2: Key press from 1 received. Awaiting keyup event, which resets to 0 and calls itiScreen() function immediately.
+3: Parcticipant still holding keypress from 1 during ITI. Awaitng keyup event, which resets to 0 but doesn't call itiScreen() function.
+4: Participant still holding keypress from 1 at start of next Trial. Call promptLetGo() func to get participant to let go. After keyup resume experiment and reset to 0.
+5: Key press from 0 still being held down. On keyup, reset to 0.
+6: Key press from 0 still being held down when stimScreen() func is called. Call promptLetGo() func. After keyup resume and reset to 0.
+7: mini block screen/feedback. Awaiting key press to continue, keyup resets to 0 and goes to next trial.
+8: instruction start task "press to continue"
+9: proceed to next instruction "press to continue"
+10: Screen Size too small, "press any button to continue"
 */
+
+//stimStruct: aStimbStim
+//2191: Up; 2193: Down
+let stimA = ["\u2191", "\u2193"];
+let stimB = ["\u2191", "\u2193"];
+
+let taskMap = [[] ]
 
 let pracOrder = randIntFromInterval(1,2);
 // console.log("pracOrder", pracOrder);
-  // case 1: practice parity first
-  // case 2: practice magnitude first
+// case 1: practice task A first
+// case 2: practice task B first
 
 let taskMapping = randIntFromInterval(1,2);
 // console.log("taskMapping", taskMapping);
-  // case 1: odd/even: "z" and "m", greater/less: "z" and "m"
-  // case 2: odd/even: "z" and "m", greater/less: "m" and "z"
-  // case 3: odd/even: "m" and "z", greater/less: "z" and "m"
-  // case 4: odd/even: "m" and "z", greater/less: "m" and "z"
+// case 1: odd/even: "z" and "m", greater/less: "z" and "m"
+// case 2: odd/even: "z" and "m", greater/less: "m" and "z"
+// case 3: odd/even: "m" and "z", greater/less: "z" and "m"
+// case 4: odd/even: "m" and "z", greater/less: "m" and "z"
 
 let colorMapping = randIntFromInterval(1,2);
 // console.log("colorMapping", colorMapping);
-  // case 1: odd/even = Red, greater/less = Blue
-  // case 2: greater/less = Blue, odd/even = Red
+// case 1: taskA = Red, taskB = Blue
+// case 2: taskA = Blue, taskB = Red
 
 // instrction variables based on mappings
-let parityColor = (colorMapping == 1) ? "red" : "blue";
-let magnitudeColor = (colorMapping == 1) ? "blue" : "red";
-let taskColor = {p: parityColor , m: magnitudeColor};
+let colorA = (colorMapping == 1) ? "red" : "blue";
+let colorB = (colorMapping == 1) ? "blue" : "red";
+let taskColor = {A: colorA, B: colorB};
+
+let respL = 'z';
+let respR = 'm';
+let codeL = 77;
+let codeR = 90;
+
 let parity_z = (taskMapping == 1 || taskMapping == 2) ? "odd" : "even";
 let parity_m = (parity_z == "odd") ? "even" : "odd";
 let magnitude_z = (taskMapping == 1 || taskMapping == 3) ? "greater than 5" : "less than 5";

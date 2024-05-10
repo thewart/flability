@@ -119,29 +119,13 @@ function createTargetsArray(congruenciesArr){
 function createActionArray(){
   let responseMappings = {
     1: {
-      odd : [90,122],
-      even : [77,109],
-      larger : [90,122],
-      smaller : [77,109]
+      taskA : [codeL, codeR],
+      taskB : [codeL, codeR]
     },
     2: {
-      odd : [90,122],
-      even : [77,109],
-      larger : [77,109],
-      smaller : [90,122]
+      taskA : [codeR, codeL],
+      taskB : [codeR, codeL]
     },
-    3: {
-      odd : [77,109],
-      even : [90,122],
-      larger : [90,122],
-      smaller : [77,109]
-    },
-    4: {
-      odd : [77,109],
-      even : [90,122],
-      larger : [77,109],
-      smaller : [90,122]
-    }
   };
 
   // for each stimulus and associated task, identify required action for correct response
