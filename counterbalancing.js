@@ -14,21 +14,11 @@ function getBlockOrder(numBlocks){
 
 function getBlockParameters(blockLetter) {
   var thisBlock = {
-    switchProp: 0.5,
-    // repeat: 1-switchProp,
-    // ct_con: 1-incProp,
-    incProp: 0.5
+    switchProp: switchPropByBlock[blockLetter],
+    incProp: incPropByBlock[blockLetter],
+    cueDiff: cueDiffByBlock[blockLetter]
   };
-
-  switch (blockLetter){
-    case "A":
-      thisBlock.cueCoh = cohEasy;
-    case "B":
-      thisBlock.cueCoh = cohMed;
-    case "C":
-      thisBlock.cueCoh = cohHard;
-  }
-
+  
   return thisBlock;
 }
 

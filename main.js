@@ -9,16 +9,60 @@ let skipPractice = false; // turn practice blocks on or off
 let openerNeeded = false; //true
 
 // ----- Block Paramenters (CHANGE ME) ----- //
-// let switchProp = 0.5;
-// let incProp = 0.5;
-let cohHard = 0.6;
-let cohMed = 0.7;
-let cohEasy = 0.8;
+let cueDiffByBlock = {A: 0.55, B: 0.6, C: 0.7};
+let switchPropByBlock = {A: 0.5, B: 0.5, C: 0.5};
+let incPropByBlock = {A: 0.5, B: 0.5, C: 0.5};
 
+// ----- Cue Paramenters (CHANGE ME) ----- //
 
-// ----- Structural Paramenters (CHANGE ME) ----- //
 let colorValues = {red: "#ff3503", blue: "#0381ff"};
 let cueType = "rect"; // {rect, ring, squircle}
+let cueOpts = {lineWidth: 7, numSegments: 10, radius: 100};
+
+// ----- Stimulus Paramenters (CHANGE ME) ----- //
+
+//Flanker task:
+//Task A: Central up/down
+//Task B: Flanking up/down
+//2191: Up; 2193: Down
+let stimElem = ["\u2191", "\u2193"];
+
+// [Center, Flanker]
+let stimSet = {UUUU: [stimElem[0], stimElem[0]], 
+  DUUD: [stimElem[0], stimElem[1]], 
+  UDDU: [stimElem[1], stimElem[0]],
+  DDDD: [stimElem[1], stimElem[1]]};
+
+// ----- Task Paramenters (CHANGE ME) ----- //
+let respL = 'z';
+let respR = 'm';
+let codeL = 77;
+let codeR = 90;
+
+//Set up target-resp mappings
+//Each respMap element must have same length as stimSet
+let taskMap = randIntFromInterval(1,2);
+if (taskMap == 1) {
+  var respMap = {
+    taskA : {UUUU: codeL, DUUD: codeL, UDDU: codeR, DDDD: codeR},
+    taskB : {UUUU: codeL, DUUD: codeR, UDDU: codeL, DDDD: codeR}
+  };
+} else { //taskMap==2
+  var respMap = {
+    taskA : {UUUU: codeL, DUUD: codeR, UDDU: codeL, DDDD: codeR},
+    taskB : {UUUU: codeL, DUUD: codeL, UDDU: codeR, DDDD: codeR}
+  };
+}
+//get indicies of congruent/incongruent stimuli from response match/mismatch
+let conStim = [];
+let incStim = [];
+for (var stim in stimSet) respMap.taskA.stim == respMap.taskB.stim ? conStims.push(stim) : incStim.push(stim);
+
+respMap.taskA.forEach((respA, index) => {
+  (respA == respMap.taskB[index]) ? conIndex.push(index) : incIndex.push(index);
+});
+
+// ----- Structural Paramenters (CHANGE ME) ----- //
 let stimInterval = (speed == "fast") ? 10 : 1500; //2000 stimulus interval
 let fixInterval = (speed == "fast") ? 10 : 500; //500 ms intertrial interval
 let earlyCueInterval = 0; //100; early cue (relative to target presentation), 0 makes cue concurrant with target presentation. only valid with rectangle cue
@@ -59,37 +103,6 @@ let expType = 0; // see below
 10: Screen Size too small, "press any button to continue"
 */
 
-//Flanker task:
-//Task A: Central up/down
-//Task B: Flanking up/down
-
-//Set up target-resp mappings
-//2191: Up; 2193: Down
-let stimA = ["\u2191", "\u2193"];
-let stimB = ["\u2191", "\u2193"];
-// [[Up, Up], [Up, Down], [Down, Up], [Down, Down]]
-let stimSet = [[stimA[0], stimB[0]], [stimA[0], stimB[1]], [stimA[1], stimB[0]], [stimA[1], stimB[1]]];
-
-let taskMap = randIntFromInterval(1,2);
-if (taskMap == 1) {
-  var respMap = {
-    taskA : [codeL, codeL, codeR, codeR],
-    taskB : [codeL, codeR, codeL, codeR]
-  };
-} else { //taskMap==2
-  var respMap = {
-    taskA : [codeR, codeR, codeL, codeL],
-    taskB : [codeR, codeL, codeR, codeL]
-  };
-}
-
-//get indicies of congruent/incongruent stimuli from response match/mismatch
-let conIndex = [];
-let incIndex = [];
-respMap.taskA.forEach((respA, index) => {
-  (respA == respMap.taskB[index]) ? conIndex.push(index) : incIndex.push(index);
-});
-
 
 let pracOrder = randIntFromInterval(1,2);
 // console.log("pracOrder", pracOrder);
@@ -111,11 +124,6 @@ let taskColor = {A: colorA, B: colorB};
 
 // instrction variables based on mappings
 let colorB = (colorMapping == 1) ? "blue" : "red";
-
-let respL = 'z';
-let respR = 'm';
-let codeL = 77;
-let codeR = 90;
 
 let parity_z = (taskMap == 1 || taskMap == 2) ? "odd" : "even";
 let parity_m = (parity_z == "odd") ? "even" : "odd";
