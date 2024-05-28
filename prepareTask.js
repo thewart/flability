@@ -13,7 +13,7 @@ function createPracticeArrays(nTrials, task){
   cueArr = createCueArray(nTrials);
 }
 
-function createArrays(trialsPerBlock, blockOrder){
+function createArrays(blockOrder, trialsPerBlock){
   let blockParams;
   
   // write over practice block

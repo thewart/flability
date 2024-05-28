@@ -9,16 +9,17 @@ let skipPractice = false; // turn practice blocks on or off
 let openerNeeded = false; //true
 
 // ----- Block Paramenters (CHANGE ME) ----- //
-let cueDiffByBlock = {A: 0.55, B: 0.6, C: 0.7};
+let cueDiffByBlock = {A: 0.6, B: 0.7, C: 0.9};
 let switchPropByBlock = {A: 0.5, B: 0.5, C: 0.5};
 let incPropByBlock = {A: 0.5, B: 0.5, C: 0.5};
 
 // ----- Cue Paramenters (CHANGE ME) ----- //
 
 let colorValues = {red: "#ff3503", blue: "#0381ff"};
-let cueType = "rect"; // {rect, circle, squircle}
-let cueOpts = {lineWidth: 7, numSegments: 10, radius: 100};
-let stimOpts = {fontSize: 100, gapProp: 0.4}
+let cueType = "circle"; // {rect, circle, squircle}
+let stimType = "flanker"
+let cueOpts = {lineWidth: 10, numSegments: 10, radius: 150};
+let stimOpts = {fontSize: 120, gapProp: 0.4}
 stimOpts.gap = stimOpts.fontSize * stimOpts.gapProp;
 
 // ----- Stimulus Paramenters (CHANGE ME) ----- //
@@ -39,19 +40,19 @@ let stimSet = {
 
 // ----- Task Paramenters (CHANGE ME) ----- //
 let respL = 'z', respR = 'm';
-let codeL = 77, codeR = 90;
+// let codeL = 77, codeR = 90;
 
 let taskMap = randIntFromInterval(1,2);
-let codeUp = (taskMap == 1) ? codeL : codeR;
-let codeDown = (taskMap == 1) ? codeR : codeL;
+// let codeUp = (taskMap == 1) ? codeL : codeR;
+// let codeDown = (taskMap == 1) ? codeR : codeL;
 let respUp = (taskMap == 1) ? respL : respR;
 let respDown = (taskMap == 1) ? respR : respL;
 
 //Set up target-resp mappings
 //Each respMap element must have same length as stimSet
 var respMap = {
-  taskA : {UUUU: codeUp, DUUD: codeUp, UDDU: codeDown, DDDD: codeDown},
-  taskB : {UUUU: codeUp, DUUD: codeDown, UDDU: codeUp, DDDD: codeDown}
+  taskA : {UUUU: respUp, DUUD: respUp, UDDU: respDown, DDDD: respDown},
+  taskB : {UUUU: respUp, DUUD: respDown, UDDU: respUp, DDDD: respDown}
 };
 
 //get indicies of congruent/incongruent stimuli from response match/mismatch
@@ -127,15 +128,15 @@ let taskColor = {taskA: colorA, taskB: colorB};
 // let magnitude_m = (magnitude_z == "greater than 5") ? "less than 5" : "greater than 5";
 
 let blockOrder = getBlockOrder(numBlocks);
-  // Latin square counterbalancing
-  // 1:   A   B   D   C
-  // 2:   B   C   A   D
-  // 3:   C   D   B   A
-  // 4:   D   A   C   B
-  //
-  // Congruency manipulations
-  // A: H Fl L TS, B: H FL H TS, C: L Fl L TS, D: L Fl L TS
-  // high 75% (H), low 25% (L), Flanker Inc (Fl), Task Switch (TS)
+// Latin square counterbalancing
+// 1:   A   B   D   C
+// 2:   B   C   A   D
+// 3:   C   D   B   A
+// 4:   D   A   C   B
+//
+// Congruency manipulations
+// A: H Fl L TS, B: H FL H TS, C: L Fl L TS, D: L Fl L TS
+// high 75% (H), low 25% (L), Flanker Inc (Fl), Task Switch (TS)
 
 // ------ EXPERIMENT STARTS HERE ------ //
 $(document).ready(function(){
@@ -145,21 +146,22 @@ $(document).ready(function(){
   ctx.font = "bold 60px Arial";
   ctx.textBaseline= "middle";
   ctx.textAlign="center";
-
+  
   // create key press listener
   $("body").keypress(function(event){
     if (expType == 0) {
       expType = 5; //keydown when not needed. Keyup will reset to 0.
     } else if (expType == 1){
       expType = 2; //prevent additional responses during this trial (i.e. holding down key)
-      partResp = event.which;
-      acc = (respArr[trialCount].indexOf(partResp)) != -1 ? 1 : 0;
-      if (acc == 1){accCount++;}
+      partResp = event.key;
+      acc = respArr[trialCount] == event.key;
+      // if (acc == 1){accCount++;}
+      accCount += acc;
       respOnset = new Date().getTime() - runStart;
       respTime = respOnset - stimOnset;
     }
   })
-
+  
   // create key release listener
   $("body").keyup(function(event){
     if (expType == 2){
@@ -173,20 +175,20 @@ $(document).ready(function(){
       countDown(3);
     } else if (expType == 7) {
       clearInterval(sectionTimer);
-
+      
       // 7: block feedback - press button to start next block
       sectionEnd = new Date().getTime() - runStart;
       data.push(["feedback", sectionType, block, blockType, 
-        NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, 
-        sectionStart, sectionEnd, sectionEnd - sectionStart]);
+      NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, 
+      sectionStart, sectionEnd, sectionEnd - sectionStart]);
       console.log(data);
       expType = 0;
-
+      
       // increment block information before beginning next block
       block++; blockIndexer++;
       blockTrialCount = 0;
       blockType = blockOrder[blockIndexer];
-
+      
       countDown(3);
     } else if (expType == 8) { // 8: "press button to start task"
       // log how much time was spent in this section
@@ -195,24 +197,31 @@ $(document).ready(function(){
         NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN,
         sectionStart, sectionEnd, sectionEnd - sectionStart]);
       console.log(data);
-      // reset expStage and start task
+        // reset expStage and start task
       expType = 0;
       runTasks();
+        
     } else if (expType == 9) { // 9: "press button to start next section"
       // log how much time was spent in this section
       sectionEnd = new Date().getTime() - runStart;
-      data.push([expStage, sectionType, block, blockType, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart]);
+      data.push([expStage, sectionType, block, blockType, 
+        NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, 
+        sectionStart, sectionEnd, sectionEnd - sectionStart]);
       console.log(data);
       // reset expStage and proceed to next section
       expType = 0;
       navigateInstructionPath(repeatNecessary);
+      
     } else if (expType == 11) { // repeat instructions
       // log how much time was spent in this section
       sectionEnd = new Date().getTime() - runStart;
-      data.push([expStage, sectionType, block, blockType, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart]);
+      data.push([expStage, sectionType, block, blockType, 
+        NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, 
+        sectionStart, sectionEnd, sectionEnd - sectionStart]);
       console.log(data);
       // iterate block and go back to instructions
       expType = 0;
+      
       if (repeatNecessary) {
         block++;
       } else {
@@ -221,22 +230,23 @@ $(document).ready(function(){
       navigateInstructionPath(repeatNecessary);
     }
   });
-
-  // see if menu.html is still open
-  if (openerNeeded == true && opener == null) {
-    promptMenuClosed();
-  } else {
-    // start experiment
-    runStart = new Date().getTime();
-    runInstructions();
+    
+    // see if menu.html is still open
+    if (openerNeeded == true && opener == null) {
+      promptMenuClosed();
+    } else {
+      // start experiment
+      runStart = new Date().getTime();
+      runInstructions();
+    }
+  });
+  
+  // ------- Misc Experiment Functions ------- //
+  function randIntFromInterval(min, max) { // min and max included
+    return Math.floor(Math.random() * (max - min + 1) + min);
   }
-});
-
-// ------- Misc Experiment Functions ------- //
-function randIntFromInterval(min, max) { // min and max included
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
-function promptMenuClosed(){
-  $('.MenuClosedPrompt').show();
-}
+  
+  function promptMenuClosed(){
+    $('.MenuClosedPrompt').show();
+  }
+  

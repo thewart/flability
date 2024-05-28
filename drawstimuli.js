@@ -13,7 +13,7 @@ function drawRect(opts){
     ctx.stroke();
 }
 
-function drawSolid(propRed, opts) {
+function drawCircle(propRed, opts) {
     var centerX = canvas.width / 2;
     var centerY = canvas.height / 2;
     var startAngle = 2 * Math.PI * Math.random();
@@ -71,26 +71,26 @@ function drawFlanker(middle, flanker, opts) {
   }
 
 
-function drawRing(densDots, radius, dotSize, prob) {
+function drawDotRing(probRed, opts) {
     // Set the center of the canvas
     var centerX = canvas.width / 2;
     var centerY = canvas.height / 2;
     
     // Calculate the number of dots
-    var numDots = densDots * radius/100;
+    var numDots = opts.densDots * opts.radius/100;
     var dotsLeft = numDots;
     
     // Determine the number of red dots
-    var numRedDots = Math.round(numDots * prob);
+    var numRedDots = Math.round(numDots * probRed);
     var redDotsLeft = numRedDots;
     
     // Draw the dots
     for (var i = 0; i < numDots; i++) {
         var angle = (i / numDots) * 2 * Math.PI;
-        var x = centerX + radius * Math.cos(angle);
-        var y = centerY + radius * Math.sin(angle);
+        var x = centerX + opts.radius * Math.cos(angle);
+        var y = centerY + opts.radius * Math.sin(angle);
         ctx.beginPath();
-        ctx.arc(x, y, dotSize, 0, 2 * Math.PI);
+        ctx.arc(x, y, opts.dotSize, 0, 2 * Math.PI);
         
         // Randomly choose the color of the dot
         if (Math.random() < redDotsLeft/dotsLeft) {

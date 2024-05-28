@@ -2,7 +2,7 @@
 
 // global instruction iterator information. Change as needed
 let instructions = {
-  // contains the interator for each instruction block
+  // contains the iterator for each instruction block
   iterator: {
     "prac1-1": 1, "prac1-2": 1, "prac2": 1, "prac3": 1, "main1": 1, "main2": 1
   },
@@ -90,8 +90,8 @@ function runInstructions(){
 
     // clear all previous instructions, reset styles, and remove pictures
     for (let i = 1; i <= 8; i++) {
-      $('#instructions' + i).text("");
-      resetDefaultStyles('#instructions' + i);
+      $('#instructions' + i).remove();
+      // resetDefaultStyles('#instructions' + i);
       $('.insertedImage').remove();
     }
 
@@ -121,7 +121,9 @@ function runInstructions(){
     console.log("button click");
     // log data for time spent on this section
     sectionEnd = new Date().getTime() - runStart;
-    data.push([expStage, sectionType, block, blockType, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart]);
+    data.push([expStage, sectionType, block, blockType, 
+      NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, 
+      sectionStart, sectionEnd, sectionEnd - sectionStart]);
     console.log(data);
 
     // clear all button press listeners
@@ -134,7 +136,9 @@ function runInstructions(){
   $(document).on('click', '#nextSectionButton', function(){
     // log data for time spent on this section
     sectionEnd = new Date().getTime() - runStart;
-    data.push([expStage, sectionType, block, blockType, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart]);
+    data.push([expStage, sectionType, block, blockType, 
+      NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, 
+      sectionStart, sectionEnd, sectionEnd - sectionStart]);
     console.log(data);
 
     // clear all button press listeners
@@ -145,116 +149,14 @@ function runInstructions(){
   });
 };
 
-function getNextInstructions(slideNum, expStage){
-/* use the following options when modifying text appearance
-    -  iterateAgain = true;
-    -  changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-    -  changeTextFormat('#instructions' + slideNum,'font-size','60px');
-    -  changeTextFormat('#instructions' + slideNum,'color','red');
-    -  changeTextFormat('#instructions' + slideNum,'margin-top', '20px');
-    -  changeTextFormat('#instructions' + slideNum,'margin-bottom', '20px');
-    - $("<img src='../pics/finalpics/M33.jpg' class='insertedImage'>").insertAfter( "#instructions" + slideNum);
-*/
-  switch (expStage){
-    case "prac1-1":
-      switch (slideNum){
-        case 1:
-          $( getImageText(instructionImages[2]) ).insertAfter( "#instructions" + slideNum);
-          return "In this task, you will see a single number (1-9 excluding 5) appear in the middle of the screen.";
-        case 2:
-          return "You will either need to identify the number as " + first_task() + " or identify the number as " + second_task() + ".";
-        case 3:
-          return "On each trial, a colored rectangle surrounding the number will tell you how you should classify the number.";
-        case 4:
-          return "You will begin with a few practice sections to familiarize you with the task before beginning the main experiment. You will need to get at least " + practiceAccCutoff + "% correct on each practice section before you can move on to the next one.";
-      }
-    case "prac1-2":
-      switch (slideNum){
-        case 1:
-          $( getImageText(instructionImages[get_task_image(1)]) ).insertAfter( "#instructions" + slideNum);
-          return "In the first practice task, you will indicate whether the number in the center of the screen is " + first_task() + ".";
-        case 2:
-          return "Press 'Z' with your left hand index finger if the number is " + task_instruction(1,1) + ".";
-        case 3:
-          return "Press 'M' with your right hand index finger if the number is " + task_instruction(1,2) + ".";
-        case 4:
-          $( getImageText(instructionImages[1]) ).insertAfter( "#instructions" + slideNum);
-          iterateAgain = true;
-          return "This block contains " + numPracticeTrials + " trials. Please place your hands on the 'Z' and 'M' keys as shown.";
-        case 5:
-          changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-          return "Press any button to begin.";
-      }
-    case "prac2":
-      task = 2;
-      switch (slideNum){
-        case 1:
-          $( getImageText(instructionImages[get_task_image(2)]) ).insertAfter( "#instructions" + slideNum);
-          return "In the second practice task, you will indicate whether the number in the center of the screen is " + second_task() + ".";
-        case 2:
-          return "Press 'Z' with your left hand index finger if the number is " + task_instruction(2,1) + ".";
-        case 3:
-          return "Press 'M' with your right hand index finger if the number is " + task_instruction(2,2) + ".";
-        case 4:
-          $( getImageText(instructionImages[1]) ).insertAfter( "#instructions" + slideNum);
-          iterateAgain = true;
-          return "This block contains " + numPracticeTrials + " trials. Please place your hands on the 'Z' and 'M' keys as shown.";
-        case 5:
-          changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-          return "Press any button to begin.";
-      }
-    case "prac3":
-      switch (slideNum){
-        case 1:
-          return "In this last practice task, you will either indicate if the number is " + first_task() + " or if the number is " + second_task() + ", based on the color of the rectangle surrounding the number.";
-        case 2:
-          $( getImageText(instructionImages[get_task_image(1)]) ).insertBefore( "#instructions" + slideNum);
-          return "If the rectangle is " + colorFirstTask() + ", indicate if the number is " + first_task() + " using the 'Z' and 'M' keys, respectively." ;
-        case 3:
-          $( getImageText(instructionImages[get_task_image(2)]) ).insertBefore( "#instructions" + slideNum);
-          return "If the rectangle is " + colorSecondTask() + ", indicate if the number is " + second_task() + " using the 'Z' and 'M' keys, respectively." ;
-        case 4:
-          iterateAgain = true;
-          $( getImageText(instructionImages[1]) ).insertAfter( "#instructions" + slideNum);
-          return "This block contains "+(numPracticeTrials * 2)+" trials. Please place your hands on the 'Z' and 'M' keys as shown.";
-        case 5:
-          changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-          return "Press any button to begin.";
-      }
-    case "main1":
-      switch (slideNum){
-        case 1:
-          return "Great job! You are now ready to begin the main experiment.";
-        case 2:
-          return "Please try to maintain at least 75% accuracy throughout the task. We will let you know how you are doing at each break.";
-        case 3:
-          changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-          return "Remember to respond as quickly and as accuractely as possible on each trial.";
-        case 4:
-          return "This experiment consists of 4 sections, with each section lasting about 3 to 4 minutes.";
-      }
-    case "main2":
-      switch (slideNum){
-        case 1:
-          $( getImageText(instructionImages[get_task_image(1)]) ).insertBefore( "#instructions" + slideNum);
-          return "Remember, if the rectangle is " + colorFirstTask() + ", indicate if the number is " + first_task() + " using the 'Z' and 'M' keys, respectively." ;
-        case 2:
-          $( getImageText(instructionImages[get_task_image(2)]) ).insertBefore( "#instructions" + slideNum);
-          return "If the rectangle is " + colorSecondTask() + ", indicate if the number is " + second_task() + " using the 'Z' and 'M' keys, respectively." ;
-        case 3:
-          iterateAgain = true;
-          $( getImageText(instructionImages[1])).insertAfter( "#instructions" + slideNum);
-          return "Please place your hands on the 'Z' and 'M' keys as shown.";
-        case 4:
-          changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-          return "Press any button to begin.";
-    }
-  }
-};
-
 function iterateInstruction(){
   let instrNum = instructions["iterator"][expStage];
-  $('#instructions' + instrNum).text( getNextInstructions( instrNum, expStage));
+  var new_row = document.createElement( "div" );
+  new_row.setAttribute( "id", 'instructions' + instrNum);
+  $('.instruction-body')[0].appendChild( new_row );
+
+  // $('#instructions' + instrNum).show();
+  $('#instructions' + instrNum)[0].innerHTML = getNextInstructions(instrNum, expStage);
 
   // iterate as appropriate or allow next phase
   if (instrNum < instructions["max"][expStage]){
@@ -325,9 +227,10 @@ function hideInstructions(){
   $('#nextSectionButton').hide();
 
   // clear text from instruction DOMs
-  for (let i = 1; i <= 8; i++) {
-    $('#instructions' + i).text("");
-    resetDefaultStyles('#instructions' + i);
+  for (let i = 1; i <= 9; i++) {
+    // $('#instructions' + i).text("");
+    $('#instructions' + i).remove()
+    // resetDefaultStyles('#instructions' + i);
     $('.insertedImage').remove();
   }
 }
