@@ -42,7 +42,7 @@ function runTasks(){
     trialCount = 0; block = 1;
 
     // create task arrays
-    createArrays(trialsPerBlock);
+    createArrays(blockOrder, trialsPerBlock);
 
     // start countdown into main task
     countDown(3);
@@ -78,7 +78,7 @@ function countDown(seconds){
 function runPracticeTrial(){
   if (openerNeeded == false || opener != null) {
     sectionType = "pracTask";
-    if (trialCount < taskStimuliSet.length){
+    if (trialCount < stimArr.length){
       if (expType == 3){ //check if key is being held down
         expType = 4;
         promptLetGo();
@@ -194,27 +194,20 @@ function stimScreen(){
       case "rect":
         drawRect();
         break;
-      case "ring":
-        drawRingSet();
+      case "circle":
+        propRed = taskColor[taskArr[trialCount]] == "red" ? cueArr[trialCount] : 1-cueArr[trialCount];
+        drawRingSet(propRed, cueOpts);
     }
 
     //reset all response variables and await response (expType = 1)
     expType = 1; acc = NaN, respTime = NaN, partResp = NaN, respOnset = NaN;
     // display stimulus
-    drawStimulus();
+    let middle = stimSet[stimArr[trialCount]][0];
+    let flanker = stimSet[stimArr[trialCount]][1];
+    drawFlanker(middle, flanker, stimOpts);
     // proceed to ITI screen after timeout
-    stimTimeout = setTimeout(itiScreen,stimInterval);
+    stimTimeout = setTimeout(itiScreen, stimInterval);
   }
-}
-
-function drawStimulus(){
-  let number = taskStimuliSet[trialCount];
-
-  ctx.fillStyle = "black";
-  ctx.font = "bold 100px Arial";
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  ctx.fillText(number,canvas.width/2,canvas.height/2);
 }
 
 function earlyTaskCue(){
@@ -239,12 +232,12 @@ function itiScreen(){
   }
 
   // variable for readability below
-  // let stim = taskStimuliSet[trialCount];
+  // let stim = stimArr[trialCount];
 
   // log data
   data.push(["task", sectionType, block, blockType, trialCount + 1,
-    blockTrialCount + 1, getAccuracy(acc), respTime, taskStimuliSet[trialCount],
-    incSet[trialCount], cuedTaskSet[trialCount], partResp, stimOnset, respOnset, actionSet[trialCount][1], NaN, NaN, NaN]);
+    blockTrialCount + 1, getAccuracy(acc), respTime, stimArr[trialCount],
+    incArr[trialCount], taskArr[trialCount], partResp, stimOnset, respOnset, respArr[trialCount][1], NaN, NaN, NaN]);
   console.log(data);
 
   // prepare ITI canvas

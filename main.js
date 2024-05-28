@@ -16,51 +16,47 @@ let incPropByBlock = {A: 0.5, B: 0.5, C: 0.5};
 // ----- Cue Paramenters (CHANGE ME) ----- //
 
 let colorValues = {red: "#ff3503", blue: "#0381ff"};
-let cueType = "rect"; // {rect, ring, squircle}
+let cueType = "rect"; // {rect, circle, squircle}
 let cueOpts = {lineWidth: 7, numSegments: 10, radius: 100};
+let stimOpts = {fontSize: 100, gapProp: 0.4}
+stimOpts.gap = stimOpts.fontSize * stimOpts.gapProp;
 
 // ----- Stimulus Paramenters (CHANGE ME) ----- //
 
 //Flanker task:
-//Task A: Central up/down
+//Task A: Middle up/down
 //Task B: Flanking up/down
 //2191: Up; 2193: Down
 let stimElem = ["\u2191", "\u2193"];
 
 // [Center, Flanker]
-let stimSet = {UUUU: [stimElem[0], stimElem[0]], 
+let stimSet = {
+  UUUU: [stimElem[0], stimElem[0]], 
   DUUD: [stimElem[0], stimElem[1]], 
   UDDU: [stimElem[1], stimElem[0]],
-  DDDD: [stimElem[1], stimElem[1]]};
+  DDDD: [stimElem[1], stimElem[1]]
+};
 
 // ----- Task Paramenters (CHANGE ME) ----- //
-let respL = 'z';
-let respR = 'm';
-let codeL = 77;
-let codeR = 90;
+let respL = 'z', respR = 'm';
+let codeL = 77, codeR = 90;
+
+let taskMap = randIntFromInterval(1,2);
+let codeUp = (taskMap == 1) ? codeL : codeR;
+let codeDown = (taskMap == 1) ? codeR : codeL;
+let respUp = (taskMap == 1) ? respL : respR;
+let respDown = (taskMap == 1) ? respR : respL;
 
 //Set up target-resp mappings
 //Each respMap element must have same length as stimSet
-let taskMap = randIntFromInterval(1,2);
-if (taskMap == 1) {
-  var respMap = {
-    taskA : {UUUU: codeL, DUUD: codeL, UDDU: codeR, DDDD: codeR},
-    taskB : {UUUU: codeL, DUUD: codeR, UDDU: codeL, DDDD: codeR}
-  };
-} else { //taskMap==2
-  var respMap = {
-    taskA : {UUUU: codeL, DUUD: codeR, UDDU: codeL, DDDD: codeR},
-    taskB : {UUUU: codeL, DUUD: codeL, UDDU: codeR, DDDD: codeR}
-  };
-}
-//get indicies of congruent/incongruent stimuli from response match/mismatch
-let conStim = [];
-let incStim = [];
-for (var stim in stimSet) respMap.taskA.stim == respMap.taskB.stim ? conStims.push(stim) : incStim.push(stim);
+var respMap = {
+  taskA : {UUUU: codeUp, DUUD: codeUp, UDDU: codeDown, DDDD: codeDown},
+  taskB : {UUUU: codeUp, DUUD: codeDown, UDDU: codeUp, DDDD: codeDown}
+};
 
-respMap.taskA.forEach((respA, index) => {
-  (respA == respMap.taskB[index]) ? conIndex.push(index) : incIndex.push(index);
-});
+//get indicies of congruent/incongruent stimuli from response match/mismatch
+let conStim = [], incStim = [];
+for (var stim in stimSet) respMap.taskA[stim] == respMap.taskB[stim] ? conStim.push(stim) : incStim.push(stim);
 
 // ----- Structural Paramenters (CHANGE ME) ----- //
 let stimInterval = (speed == "fast") ? 10 : 1500; //2000 stimulus interval
@@ -81,7 +77,7 @@ function ITIInterval(){
 }
 
 //initialize global task variables
-let taskStimuliSet, cuedTaskSet, actionSet, switchSet, incSet, cueCohereSet; // global vars for task arrays
+let stimArr, taskArr, respArr, switchArr, incArr, cueArr; // global vars for task arrays
 let canvas, ctx; // global canvas variable
 let expStage = (skipPractice == true) ? "main1" : "prac1-1";
 // vars for tasks (iterator, accuracy) and reaction times:
@@ -120,15 +116,15 @@ let pracOrder = randIntFromInterval(1,2);
 // case 2: taskA = Blue, taskB = Red
 let colorMapping = randIntFromInterval(1,2);
 let colorA = (colorMapping == 1) ? "red" : "blue";
-let taskColor = {A: colorA, B: colorB};
+let colorB = (colorMapping == 1) ? "blue" : "red";
+let taskColor = {taskA: colorA, taskB: colorB};
 
 // instrction variables based on mappings
-let colorB = (colorMapping == 1) ? "blue" : "red";
 
-let parity_z = (taskMap == 1 || taskMap == 2) ? "odd" : "even";
-let parity_m = (parity_z == "odd") ? "even" : "odd";
-let magnitude_z = (taskMap == 1 || taskMap == 3) ? "greater than 5" : "less than 5";
-let magnitude_m = (magnitude_z == "greater than 5") ? "less than 5" : "greater than 5";
+// let parity_z = (taskMap == 1 || taskMap == 2) ? "odd" : "even";
+// let parity_m = (parity_z == "odd") ? "even" : "odd";
+// let magnitude_z = (taskMap == 1 || taskMap == 3) ? "greater than 5" : "less than 5";
+// let magnitude_m = (magnitude_z == "greater than 5") ? "less than 5" : "greater than 5";
 
 let blockOrder = getBlockOrder(numBlocks);
   // Latin square counterbalancing
@@ -157,7 +153,7 @@ $(document).ready(function(){
     } else if (expType == 1){
       expType = 2; //prevent additional responses during this trial (i.e. holding down key)
       partResp = event.which;
-      acc = (actionSet[trialCount].indexOf(partResp)) != -1 ? 1 : 0;
+      acc = (respArr[trialCount].indexOf(partResp)) != -1 ? 1 : 0;
       if (acc == 1){accCount++;}
       respOnset = new Date().getTime() - runStart;
       respTime = respOnset - stimOnset;

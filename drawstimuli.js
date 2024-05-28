@@ -2,12 +2,12 @@ function drawRect(opts){
     // set size of rectangle
     let frameWidth = opts.width;
     let frameHeight = opts.width;
-    let thisTaskColor = taskColor[cuedTaskSet[trialCount]];
+    let thisTaskColor = colorValues.taskColor[taskArr[trialCount]];
     
     // draw box
     ctx.beginPath();
     ctx.lineWidth = opts.lineWidth;
-    // ctx.strokeStyle = (cuedTaskSet[trialCount] == "m") ? magnitudeColor : parityColor;
+    // ctx.strokeStyle = (taskArr[trialCount] == "m") ? magnitudeColor : parityColor;
     ctx.strokeStyle = colorValues[thisTaskColor];
     ctx.rect((canvas.width/2) - (frameWidth/2), (canvas.height/2) - (frameHeight/2) - 5, frameWidth, frameHeight);
     ctx.stroke();
@@ -39,38 +39,35 @@ function drawSolid(propRed, opts) {
     }
 }
 
-function drawFlanker(flank, center, opts) {
+function drawFlanker(middle, flanker, opts) {
     // var flank = "\u2191"
     // var center = "\u2193"
-    var opts.gapPerFnt = 0.4;
-    var opts.fnt = 100;
-    var gap = fnt * gapPerFnt;
+    // var opts.gapPerFnt = 0.4;
+    // var opts.fnt = 100;
+    // var gap = fnt * gapPerFnt;
     
     // draw number on canvas
-    ctx.font = fnt + "px Arial";
+    ctx.font = opts.fontSize + "px Arial";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText(flank, canvas.width/2 + opts.gap * 1.5, canvas.height/2);
-    ctx.fillText(center, canvas.width/2 + opts.gap * 0.5, canvas.height/2);
-    ctx.fillText(center, canvas.width/2 - opts.gap * 0.5, canvas.height/2);
-    ctx.fillText(flank, canvas.width/2 - opts.gap * 1.5, canvas.height/2);
+    ctx.fillText(flanker, canvas.width/2 + opts.gap * 1.5, canvas.height/2);
+    ctx.fillText(middle, canvas.width/2 + opts.gap * 0.5, canvas.height/2);
+    ctx.fillText(middle, canvas.width/2 - opts.gap * 0.5, canvas.height/2);
+    ctx.fillText(flanker, canvas.width/2 - opts.gap * 1.5, canvas.height/2);
   }
 
-  function drawSandwich() {
-    var flank = "\u2190"
-    var central = "\u2192"
-    var gapPerFnt = 0.4;
-    var fnt = 100;
-    var gap = fnt * gapPerFnt;
+  function drawSandwich(middle, flanker, opts) {
+    // var flank = "\u2190"
+    // var central = "\u2192"
     
     // draw number on canvas
-    ctx.font = fnt + "px Arial";
+    ctx.font = opts.fontSize + "px Arial";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText(flank, canvas.width/2, canvas.height/2 + gap * 1.5);
-    ctx.fillText(central, canvas.width/2, canvas.height/2  + gap * 0.5);
-    ctx.fillText(central, canvas.width/2, canvas.height/2 - gap * 0.5);
-    ctx.fillText(flank, canvas.width/2, canvas.height/2 - gap * 1.5);
+    ctx.fillText(flanker, canvas.width/2, canvas.height/2 + opts.gap * 1.5);
+    ctx.fillText(middle, canvas.width/2, canvas.height/2 + opts.gap * 0.5);
+    ctx.fillText(middle, canvas.width/2, canvas.height/2 - opts.gap * 0.5);
+    ctx.fillText(flanker, canvas.width/2, canvas.height/2 - opts.gap * 1.5);
   }
 
 
@@ -110,10 +107,20 @@ function drawRing(densDots, radius, dotSize, prob) {
 }
 
 function drawRingSet(){
-    let isThisTaskRed = taskColor[cuedTaskSet[trialCount]] == "red";
-    let propRed = isThisTaskRed ? cueCohereSet[trialCount] : 1-cueCohereSet[trialCount];
+    let isThisTaskRed = taskColor[taskArr[trialCount]] == "red";
+    let propRed = isThisTaskRed ? cueArr[trialCount] : 1-cueArr[trialCount];
     drawRing(50, 130, 5, propRed);
     drawRing(50, 142, 5, propRed);
     drawRing(50, 118, 5, propRed);
 }
 
+function drawStimulus(){
+    let number = stimArr[trialCount];
+  
+    ctx.fillStyle = "black";
+    ctx.font = "bold 100px Arial";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(number,canvas.width/2,canvas.height/2);
+  }
+  
