@@ -18,31 +18,32 @@ function getNextInstructions(slideNum, expStage){
               "You will need to identify the arrows as either pointing up or poiting down.</p>";
             case 2:
               return "<p>On some trials you will need to identify the central two arrows," + "\n" +
-              "while on other trials, you will need to identify the two arrows on the sides.";
+              "while on other trials, you will need to identify the two arrows on the sides.</p>";
             case 3:
-              return "On each trial, a colored circle surrounding the arrows will indicate whether you should respond to the central or side arrows."
+              return "<p>On each trial, a colored circle surrounding the arrows will indicate" + "\n" + 
+              "whether you should respond to the central or side arrows.</p>";
             case 4:
               return "You will begin with a few practice sections to familiarize you with the task before beginning the main experiment. You will need to get at least " + practiceAccCutoff + "% correct on each practice section before you can move on to the next one.";
           }
         case "prac1-2":
           switch (slideNum){
             case 1:
-              $( getImageText(instructionImages[get_task_image(1)]) ).insertAfter( "#instructions" + slideNum);
-              return "In the first practice task, you will indicate whether the number in the center of the screen is " + first_task() + ".";
+              // $( getImageText(instructionImages[get_task_image(1)]) ).insertAfter( "#instructions" + slideNum);
+              return "<p>In the first practice task, you will indicate whether the " + taskName[pracOrder[0]] + " arrows are pointing up or down.</p>";
             case 2:
-              return "Press 'Z' with your left hand index finger if the number is " + task_instruction(1,1) + ".";
+              return "<p>Press '" + respL + "' with your left hand index finger if the " + taskName[pracOrder[0]] + " arrows are pointing " + (respL === respUp ? "up" : "down") + ".</p>";
             case 3:
-              return "Press 'M' with your right hand index finger if the number is " + task_instruction(1,2) + ".";
+              return "<p>Press '" + respR + "' with your right hand index finger if the " + taskName[pracOrder[0]] + " arrows are pointing " + (respR === respUp ? "up" : "down") + ". </p>";
             case 4:
-              $( getImageText(instructionImages[1]) ).insertAfter( "#instructions" + slideNum);
+              // $( getImageText(instructionImages[1]) ).insertAfter( "#instructions" + slideNum);
               iterateAgain = true;
-              return "This block contains " + numPracticeTrials + " trials. Please place your hands on the 'Z' and 'M' keys as shown.";
-            case 5:
-              changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-              return "Press any button to begin.";
+              return "<p>This block contains " + numPracticeTrials + " trials. Please place your hands on the '" + respL + "' and '" + respR + "' keys as shown.</p>";
+            // case 5:
+              // changeTextFormat('#instructions' + slideNum,'font-weight','bold');
+              
           }
         case "prac2":
-          task = 2;
+          // task = 2;
           switch (slideNum){
             case 1:
               $( getImageText(instructionImages[get_task_image(2)]) ).insertAfter( "#instructions" + slideNum);

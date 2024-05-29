@@ -19,12 +19,12 @@ function runTasks(){
   // --- PRACTICE 1 --- //
   if (expStage.indexOf("prac1") != -1){
     
-    runPractice(numPracticeTrials, getFirstPracticeTask());
+    runPractice(numPracticeTrials, pracOrder[0]);
     
     // --- PRACTICE 2 --- //
   } else if (expStage.indexOf("prac2") != -1){
     
-    runPractice(numPracticeTrials, getSecondPracticeTask());
+    runPractice(numPracticeTrials, pracOrder[1]);
     
     // --- PRACTICE 3 --- //
   } else if (expStage.indexOf("prac3") != -1) {

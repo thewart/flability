@@ -9,7 +9,7 @@ let skipPractice = false; // turn practice blocks on or off
 let openerNeeded = false; //true
 
 // ----- Block Paramenters (CHANGE ME) ----- //
-let cueDiffByBlock = {A: 0.6, B: 0.7, C: 0.9};
+let cueDiffByBlock = {A: 0.6, B: 0.7, C: 0.8};
 let switchPropByBlock = {A: 0.5, B: 0.5, C: 0.5};
 let incPropByBlock = {A: 0.5, B: 0.5, C: 0.5};
 
@@ -18,8 +18,8 @@ let incPropByBlock = {A: 0.5, B: 0.5, C: 0.5};
 let colorValues = {red: "#ff3503", blue: "#0381ff"};
 let cueType = "circle"; // {rect, circle, squircle}
 let stimType = "flanker"
-let cueOpts = {lineWidth: 10, numSegments: 10, radius: 150};
-let stimOpts = {fontSize: 120, gapProp: 0.4}
+let cueOpts = {lineWidth: 10, numSegments: 10, radius: 125};
+let stimOpts = {fontSize: 100, gapProp: 0.3}
 stimOpts.gap = stimOpts.fontSize * stimOpts.gapProp;
 
 // ----- Stimulus Paramenters (CHANGE ME) ----- //
@@ -28,6 +28,7 @@ stimOpts.gap = stimOpts.fontSize * stimOpts.gapProp;
 //Task A: Middle up/down
 //Task B: Flanking up/down
 //2191: Up; 2193: Down
+let taskName = {taskA: "inner", taskB: "outer"}
 let stimElem = ["\u2191", "\u2193"];
 
 // [Center, Flanker]
@@ -39,12 +40,8 @@ let stimSet = {
 };
 
 // ----- Task Paramenters (CHANGE ME) ----- //
-let respL = 'z', respR = 'm';
-// let codeL = 77, codeR = 90;
-
 let taskMap = randIntFromInterval(1,2);
-// let codeUp = (taskMap == 1) ? codeL : codeR;
-// let codeDown = (taskMap == 1) ? codeR : codeL;
+let respL = 'z', respR = 'm';
 let respUp = (taskMap == 1) ? respL : respR;
 let respDown = (taskMap == 1) ? respR : respL;
 
@@ -54,6 +51,8 @@ var respMap = {
   taskA : {UUUU: respUp, DUUD: respUp, UDDU: respDown, DDDD: respDown},
   taskB : {UUUU: respUp, DUUD: respDown, UDDU: respUp, DDDD: respDown}
 };
+
+var pracOrder = shuffle(["taskA", "taskB"]);
 
 //get indicies of congruent/incongruent stimuli from response match/mismatch
 let conStim = [], incStim = [];
@@ -101,7 +100,7 @@ let expType = 0; // see below
 */
 
 
-let pracOrder = randIntFromInterval(1,2);
+// let pracOrder = randIntFromInterval(1,2);
 // console.log("pracOrder", pracOrder);
 // case 1: practice task A first
 // case 2: practice task B first
