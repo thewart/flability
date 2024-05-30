@@ -1,4 +1,4 @@
-function createPracticeArrays(nTrials, task){
+function createPracticeArrays(nTrials, task, cueDiff){
   // let stimPairs = createPracticeStimPairs(nTrials, task);
   incArr = createBinaryArray(nTrials, 0.5, ["i", "c"]);
   stimArr = createStimArray(incArr, conStim, incStim);
@@ -10,7 +10,7 @@ function createPracticeArrays(nTrials, task){
     taskArr = Array(nTrials).fill(task);
   }
   respArr = createRespArray(stimArr, taskArr, respMap);
-  cueArr = createCueArray(nTrials, 1.0);
+  cueArr = createCueArray(nTrials, cueDiff);
 }
 
 function createArrays(blockOrder, trialsPerBlock){

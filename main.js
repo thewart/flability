@@ -19,7 +19,7 @@ let colorValues = {red: "#ff3503", blue: "#0381ff"};
 let cueType = "circle"; // {rect, circle, squircle}
 let stimType = "flanker"
 let cueOpts = {lineWidth: 10, numSegments: 10, radius: 125};
-let stimOpts = {fontSize: 100, gapProp: 0.3}
+let stimOpts = {fontSize: 100, gapProp: 0.35}
 stimOpts.gap = stimOpts.fontSize * stimOpts.gapProp;
 
 // ----- Stimulus Paramenters (CHANGE ME) ----- //
@@ -62,8 +62,8 @@ for (var stim in stimSet) respMap.taskA[stim] == respMap.taskB[stim] ? conStim.p
 let stimInterval = (speed == "fast") ? 10 : 1500; //2000 stimulus interval
 let fixInterval = (speed == "fast") ? 10 : 500; //500 ms intertrial interval
 let earlyCueInterval = 0; //100; early cue (relative to target presentation), 0 makes cue concurrant with target presentation. only valid with rectangle cue
-let numBlocks = 3, trialsPerBlock = 10; // (multiples of 16) (48 usually)
-let numPracticeTrials = 8;
+let numBlocks = 3, trialsPerBlock = 30;
+let numPracticeTrials = 10;
 let miniBlockLength = 0; //doesn't need to be multiple of 24. 0 to turn off
 let practiceAccCutoff = (testMode == true) ? 0 : 85; // 75 acc%
 let taskAccCutoff = (testMode == true) ? 0 : 85; // 75 acc%

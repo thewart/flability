@@ -28,55 +28,45 @@ function getNextInstructions(slideNum, expStage){
         case "prac1-2":
           switch (slideNum){
             case 1:
-              // $( getImageText(instructionImages[get_task_image(1)]) ).insertAfter( "#instructions" + slideNum);
-              return "<p>In the first practice task, you will indicate whether the " + taskName[pracOrder[0]] + " arrows are pointing up or down.</p>";
+              return "<p>In the first practice task, you will indicate whether the <b>" + taskName[pracOrder[0]] + "</b> arrows are pointing up or down.</p>";
             case 2:
-              return "<p>Press '" + respL + "' with your left hand index finger if the " + taskName[pracOrder[0]] + " arrows are pointing " + (respL === respUp ? "up" : "down") + ".</p>";
+              return "<p>Press '" + respL + "' with your left hand index finger if the <b>" + taskName[pracOrder[0]] + "</b> arrows are pointing " + (respL === respUp ? "up" : "down") + ".</p>";
             case 3:
-              return "<p>Press '" + respR + "' with your right hand index finger if the " + taskName[pracOrder[0]] + " arrows are pointing " + (respR === respUp ? "up" : "down") + ". </p>";
+              return "<p>Press '" + respR + "' with your right hand index finger if the <b>" + taskName[pracOrder[0]] + "</b> arrows are pointing " + (respR === respUp ? "up" : "down") + ". </p>";
             case 4:
-              // $( getImageText(instructionImages[1]) ).insertAfter( "#instructions" + slideNum);
               iterateAgain = true;
-              return "<p>This block contains " + numPracticeTrials + " trials. Please place your hands on the '" + respL + "' and '" + respR + "' keys as shown.</p>";
-            // case 5:
-              // changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-              
+              return "<p>This block contains " + numPracticeTrials + " trials. Please place your hands on the '" + respL + "' and '" + respR + "' keys as shown.</p>" + 
+              "<img src=images/handsOnKeyboard6.png>";              
           }
         case "prac2":
           // task = 2;
           switch (slideNum){
             case 1:
-              $( getImageText(instructionImages[get_task_image(2)]) ).insertAfter( "#instructions" + slideNum);
-              return "In the second practice task, you will indicate whether the number in the center of the screen is " + second_task() + ".";
+              return "<p>In the second practice task, you will indicate whether the <b>" + taskName[pracOrder[1]] + "</b> arrows are pointing up or down.</p>";
             case 2:
-              return "Press 'Z' with your left hand index finger if the number is " + task_instruction(2,1) + ".";
+              return "<p>Press '" + respL + "' with your left hand index finger if the <b>" + taskName[pracOrder[1]] + "</b> arrows are pointing " + (respL === respUp ? "up" : "down") + ".</p>";
             case 3:
-              return "Press 'M' with your right hand index finger if the number is " + task_instruction(2,2) + ".";
+              return "<p>Press '" + respR + "' with your right hand index finger if the <b>" + taskName[pracOrder[1]] + "</b> arrows are pointing " + (respR === respUp ? "up" : "down") + ". </p>";
             case 4:
-              $( getImageText(instructionImages[1]) ).insertAfter( "#instructions" + slideNum);
               iterateAgain = true;
-              return "This block contains " + numPracticeTrials + " trials. Please place your hands on the 'Z' and 'M' keys as shown.";
-            case 5:
-              changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-              return "Press any button to begin.";
+              return "<p>This block contains " + numPracticeTrials + " trials. Please place your hands on the '" + respL + "' and '" + respR + "' keys as shown.</p>" + 
+              "<img src=images/handsOnKeyboard6.png>";              
           }
         case "prac3":
           switch (slideNum){
             case 1:
-              return "In this last practice task, you will either indicate if the number is " + first_task() + " or if the number is " + second_task() + ", based on the color of the rectangle surrounding the number.";
+              return "In this last practice task, you will either respond to the <b>" + taskName[pracOrder[0]] + "</b> or <b>" + taskName[pracOrder[1]] + "</b> arrows, depending on the color of the circle surrounding them.";
             case 2:
-              $( getImageText(instructionImages[get_task_image(1)]) ).insertBefore( "#instructions" + slideNum);
-              return "If the rectangle is " + colorFirstTask() + ", indicate if the number is " + first_task() + " using the 'Z' and 'M' keys, respectively." ;
+              return "If the circle is " + taskColor[pracOrder[0]] + ", indicate the direction of the <b>" + taskName[pracOrder[0]] + "</b> arrows." ;
             case 3:
-              $( getImageText(instructionImages[get_task_image(2)]) ).insertBefore( "#instructions" + slideNum);
-              return "If the rectangle is " + colorSecondTask() + ", indicate if the number is " + second_task() + " using the 'Z' and 'M' keys, respectively." ;
+              return "If the circle is " + taskColor[pracOrder[1]] + ", indicate the direction of the <b>" + taskName[pracOrder[1]] + "</b> arrows." ;
             case 4:
-              iterateAgain = true;
-              $( getImageText(instructionImages[1]) ).insertAfter( "#instructions" + slideNum);
-              return "This block contains "+(numPracticeTrials * 2)+" trials. Please place your hands on the 'Z' and 'M' keys as shown.";
+              return "As before, press '" + respL + "' if the relevant arrows are pointing " + (respL === respUp ? "up" : "down") + 
+              ", and '" + respR + "' if the relevant arrows are pointing " + (respR === respUp ? "up" : "down");
             case 5:
-              changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-              return "Press any button to begin.";
+              iterateAgain = true;
+              return "This block contains " + (numPracticeTrials * 2)+" trials. Please place your hands on the '" + respL + "' and '" + respR + "' keys as shown." +
+             "<img src=images/handsOnKeyboard6.png>";              
           }
         case "main1":
           switch (slideNum){

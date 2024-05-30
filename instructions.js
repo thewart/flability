@@ -45,6 +45,9 @@ function navigateInstructionPath(repeat = false){
         expStage = "prac3";
         break;
       case "prac3":
+        expStage = "prac4";
+        break;
+      case "prac4":
         expStage = "main1";
         break;
       case "main1":

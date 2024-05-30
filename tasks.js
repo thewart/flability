@@ -30,6 +30,10 @@ function runTasks(){
   } else if (expStage.indexOf("prac3") != -1) {
     
     runPractice(numPracticeTrials * 2);
+
+  } else if (expStage.indexOf("prac4") != -1) {
+    
+    runPractice(numPracticeTrials * 2, 0.75);
     
     // --- MAIN TASK --- //
   } else if (expStage.indexOf("main") != -1) {
@@ -49,14 +53,14 @@ function runTasks(){
   }
 }
 
-function runPractice(numPracticeTrials, task = ""){
+function runPractice(numPracticeTrials, task = "", cueDiff=1.0){
   trialCount = 0;
   if (repeatNecessary != true){
     block = 1;
   }
   
   // create task array for practice block
-  createPracticeArrays(numPracticeTrials, task);
+  createPracticeArrays(numPracticeTrials, task, cueDiff);
   
   // start countdown into practice block
   countDown(3);
