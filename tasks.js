@@ -260,7 +260,7 @@ function itiScreen(){
   trialCount++; blockTrialCount++;
   
   // proceed to next trial or to next section after delay
-  setTimeout(trialFunc, ITIInterval());
+  setTimeout(trialFunc, ITIInterval);
 }
 
 function practiceAccuracyFeedback(accuracy){

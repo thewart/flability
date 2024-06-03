@@ -8,7 +8,7 @@ let instructions = {
   },
   // contains the max value of each instruction iteration. iteration will STOP at max.
   max: {
-    "prac1-1": 4, "prac1-2": 5, "prac2": 5, "prac3": 5, "main1": 4, "main2": 4
+    "prac1-1": 4, "prac1-2": 4, "prac2": 4, "prac3": 5, "main1": 4, "main2": 4
   },
   // what does instruction section end with?
   // #nextSectionButton, #startExpButton, buttonPressNextSection, buttonPressStartTask

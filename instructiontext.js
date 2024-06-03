@@ -14,7 +14,8 @@ function getNextInstructions(slideNum, expStage){
   var color2 = taskColor[task2];
   var dirL = (respL === respUp ? "up" : "down");
   var dirR = (respR === respUp ? "up" : "down");
-
+  var blockTime = Math.ceil(trialsPerBlock * (fixInterval + stimInterval + ITIInterval) / (1000 * 60));
+  
   switch (expStage){
     case "prac1-1":
     switch (slideNum){
@@ -30,7 +31,7 @@ function getNextInstructions(slideNum, expStage){
       return "<p>On each trial, a colored circle surrounding the arrows will indicate" + "\n" + 
       "whether you should respond to the central or side arrows.</p>";
       case 4:
-      return "You will begin with a few practice sections to familiarize you with the task before beginning the main experiment. You will need to get at least " + practiceAccCutoff + "% correct on each practice section before you can move on to the next one.";
+      return "You will begin with a few practice blocks to familiarize you with the task before beginning the main experiment. You will need to get at least " + practiceAccCutoff + "% correct on each practice block before you can move on to the next one.";
     }
     case "prac1-2":
     switch (slideNum){
@@ -70,7 +71,7 @@ function getNextInstructions(slideNum, expStage){
       case 3:
       return "<p>If the circle is more " + color2 + ", indicate the direction of the <b>" + task2 + "</b> arrows.</p>" ;
       case 4:
-      return "<p>As before, press '" + respL + "' if the relevant arrows are pointing " + dirL + 
+      return "<p>As before, press '" + respL + "' if the relevant arrows are pointing " + dirL + " and " + respR +
       ", and '" + respR + "' if the relevant arrows are pointing " + dirR + ".</p>";
       case 5:
       iterateAgain = true;
@@ -80,14 +81,19 @@ function getNextInstructions(slideNum, expStage){
     case "main1":
     switch (slideNum){
       case 1:
-      return "Great job! You are now ready to begin the main experiment.";
+      return "<p>Great job! You are now ready to begin the main experiment.</p>";
       case 2:
-      return "Please try to maintain at least 75% accuracy throughout the task. We will let you know how you are doing at each break.";
+      return "<p>This experiment consists of " + numBlocks + " blocks, with each block lasting about " + blockTime + ".</p>";
       case 3:
-      changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-      return "Remember to respond as quickly and as accuractely as possible on each trial.";
-      case 4:
-      return "This experiment consists of 4 sections, with each section lasting about 3 to 4 minutes.";
+      return"<p>Each block will be similar to the practice task you just completed. However, in each block the balance of colors in the circle will be different." + '\n' +
+      "For example, in one block the circle might be nearly all one color, while in another block the colors might be more balanced: as in the examples below:</p>" + 
+      "<canvas id='main1-3' height='100'</canvas>"
+      case 5: 
+      return "<p>In another block, the colors might be more evenly balanced, as in the example below:</p>"
+      case 6:
+      return "<p>Try to respond as quickly and as accuractely as possible on each trial.</p>";
+      case 7:
+      return "<p>Please try to maintain at least 75% accuracy throughout the task. We will let you know how you are doing at each break.</p>";
     }
     case "main2":
     switch (slideNum){
