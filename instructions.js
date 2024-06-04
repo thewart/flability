@@ -4,12 +4,9 @@
 let instructions = {
   // contains the iterator for each instruction block
   iterator: {
-    "prac1-1": 1, "prac1-2": 1, "prac2": 1, "prac3": 1, "main1": 1, "main2": 1
+    "prac1-1": 0, "prac1-2": 0, "prac2": 0, "prac3": 0, "main1": 0
   },
-  // contains the max value of each instruction iteration. iteration will STOP at max.
-  max: {
-    "prac1-1": 4, "prac1-2": 4, "prac2": 4, "prac3": 5, "main1": 4, "main2": 4
-  },
+  order: ["prac1-1", "prac1-2", "prac2", "prac3", "main1"],
   // what does instruction section end with?
   // #nextSectionButton, #startExpButton, buttonPressNextSection, buttonPressStartTask
   exitResponse: {
@@ -17,45 +14,22 @@ let instructions = {
     "prac1-2": 'buttonPressStartTask',
     "prac2": 'buttonPressStartTask',
     "prac3": 'buttonPressStartTask',
-    "main1": '#nextSectionButton',
-    "main2": 'buttonPressStartTask'
+    "main1": 'buttonPressStartTask',
   }
 };
 let iterateAgain = false, task;
+let instructionText = getInstructionText();
 
 function navigateInstructionPath(repeat = false){
   if (repeat == true) {
     // if multi stage instructions, ensures it goes back to first not second
-    switch (expStage){
-      case "prac1-1":
-      case "prac1-2":
-        expStage = "prac1-1";
-        break;
-    }
-    runInstructions();
+    if (expStage === "prac1-2") expStage = "prac1-1";
   } else {
-    switch (expStage){
-      case "prac1-1":
-        expStage = "prac1-2";
-        break;
-      case "prac1-2":
-        expStage = "prac2";
-        break;
-      case "prac2":
-        expStage = "prac3";
-        break;
-      case "prac3":
-        expStage = "prac4";
-        break;
-      case "prac4":
-        expStage = "main1";
-        break;
-      case "main1":
-        expStage = "main2";
-        break;
-    }
-    runInstructions();
+    let nextStage = instructions.order.indexOf(expStage) + 1;
+    expStage = instructions.order[nextStage];
   }
+  
+  runInstructions();
 }
 
 function runInstructions(){
@@ -70,11 +44,12 @@ function runInstructions(){
   canvas.style.display = "none";
 
   // if need to repeat instructions (e.g., participant failed to meet accuracy requirement), then reshow all instructions
-  if (instructions["iterator"][expStage] >= instructions["max"][expStage]){
+  if (instructions["iterator"][expStage] >= instructionText[expStage].length) {
 
     // loop through instructions and show
-    for (var i = 1; i <= instructions["max"][expStage]; i++) {
-      $('#instructions' + i).text( getNextInstructions( i, expStage ));
+    for (var i = 0; i < instructionText[expStage].length; i++) {
+      // $('#instructions' + i).text( getNextInstructions( i, expStage ));
+      $('#instruction-body').append(instructionText[expStage][i]);
     }
 
     // reset iterateAgain incase looping turned it on by accident
@@ -92,11 +67,7 @@ function runInstructions(){
     $(document).off("click","#nextSectionButton");
 
     // clear all previous instructions, reset styles, and remove pictures
-    for (let i = 1; i <= 8; i++) {
-      $('#instructions' + i).remove();
-      // resetDefaultStyles('#instructions' + i);
-      $('.insertedImage').remove();
-    }
+    $('#instruction-body').empty();
 
     // display proper instruction components, in case they are hidden
     $('.instructions').show();
@@ -119,7 +90,7 @@ function runInstructions(){
   $(document).on('click', '#startExpButton', function(){
     $('.instructions').hide();
     $('#startExpButton').hide();
-    $('.insertedImage').remove();
+    // $('.insertedImage').remove();
 
     console.log("button click");
     // log data for time spent on this section
@@ -154,24 +125,18 @@ function runInstructions(){
 
 function iterateInstruction(){
   let instrNum = instructions["iterator"][expStage];
-  var new_row = document.createElement( "div" );
-  new_row.setAttribute( "id", 'instructions' + instrNum);
-  $('.instruction-body')[0].appendChild( new_row );
-
-  // $('#instructions' + instrNum).show();
-  $('#instructions' + instrNum)[0].innerHTML = getNextInstructions(instrNum, expStage);
-
+  $('#instruction-body').append(instructionText[expStage][instrNum]);
+  instructions["iterator"][expStage]++;
+  
   // iterate as appropriate or allow next phase
-  if (instrNum < instructions["max"][expStage]){
-    instructions["iterator"][expStage]++;
-  } else{
+  if (instructions["iterator"][expStage] === instructionText[expStage].length){
     exitResponse();
   }
 
-  if (iterateAgain == true) {
-    iterateAgain = false;
-    iterateInstruction();
-  }
+  // if (iterateAgain == true) {
+  //   iterateAgain = false;
+  //   iterateInstruction();
+  // }
 }
 
 function exitResponse(){
@@ -229,19 +194,14 @@ function hideInstructions(){
   $('#startExpButton').hide();
   $('#nextSectionButton').hide();
 
-  // clear text from instruction DOMs
-  for (let i = 1; i <= 9; i++) {
-    // $('#instructions' + i).text("");
-    $('#instructions' + i).remove()
-    // resetDefaultStyles('#instructions' + i);
-    $('.insertedImage').remove();
-  }
+  // clear text from instruction DOM
+  $('#instruction-body').empty();
 }
 
-function resetDefaultStyles(domObject){
-  $(domObject).css('font-weight','');
-  $(domObject).css('font-size','');
-  $(domObject).css('color','');
-  $(domObject).css('margin-top','');
-  $(domObject).css('margin-bottom','');
-}
+// function resetDefaultStyles(domObject){
+//   $(domObject).css('font-weight','');
+//   $(domObject).css('font-size','');
+//   $(domObject).css('color','');
+//   $(domObject).css('margin-top','');
+//   $(domObject).css('margin-bottom','');
+// }

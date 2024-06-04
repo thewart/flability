@@ -17,40 +17,67 @@ let incPropByBlock = {A: 0.5, B: 0.5, C: 0.5};
 
 let colorValues = {red: "#ff3503", blue: "#0381ff"};
 let cueType = "circle"; // {rect, circle, squircle}
-let stimType = "flanker"
+let stimType = "sandwich"
 let cueOpts = {lineWidth: 10, numSegments: 10, radius: 125};
-let stimOpts = {fontSize: 100, gapProp: 0.35}
+let stimOpts = {fontSize: 75, gapProp: 0.4}
 stimOpts.gap = stimOpts.fontSize * stimOpts.gapProp;
-
+let taskMap;
 // ----- Stimulus Paramenters (CHANGE ME) ----- //
 
-//Flanker task:
-//Task A: Middle up/down
-//Task B: Flanking up/down
-//2191: Up; 2193: Down
-let taskName = {taskA: "inner", taskB: "outer"}
-let stimElem = ["\u2191", "\u2193"];
+var respL = 'z', respR = 'm';
 
-// [Center, Flanker]
-let stimSet = {
-  UUUU: [stimElem[0], stimElem[0]], 
-  DUUD: [stimElem[0], stimElem[1]], 
-  UDDU: [stimElem[1], stimElem[0]],
-  DDDD: [stimElem[1], stimElem[1]]
-};
+if (stimType === "flanker") {
+  //Flanker task:
+  //Task A: Middle up/down
+  //Task B: Flanking up/down
+  //2191: Up; 2193: Down
+  var taskName = {taskA: "inner", taskB: "outer"}
+  var stimElem = ["\u2191", "\u2193"];
+  
+  // [Center, Flanker]
+  var stimSet = {
+    UUUU: [stimElem[0], stimElem[0]], 
+    DUUD: [stimElem[0], stimElem[1]], 
+    UDDU: [stimElem[1], stimElem[0]],
+    DDDD: [stimElem[1], stimElem[1]]
+  };
+  
+  // ----- Task Paramenters (CHANGE ME) ----- //
+  taskMap = randIntFromInterval(1,2);
+  var respUp = (taskMap == 1) ? respL : respR;
+  var respDown = (taskMap == 1) ? respR : respL;
+  
+  //Set up target-resp mappings
+  //Each respMap element must have same length as stimSet
+  var respMap = {
+    taskA : {UUUU: respUp, DUUD: respUp, UDDU: respDown, DDDD: respDown},
+    taskB : {UUUU: respUp, DUUD: respDown, UDDU: respUp, DDDD: respDown}
+  };
 
-// ----- Task Paramenters (CHANGE ME) ----- //
-let taskMap = randIntFromInterval(1,2);
-let respL = 'z', respR = 'm';
-let respUp = (taskMap == 1) ? respL : respR;
-let respDown = (taskMap == 1) ? respR : respL;
-
-//Set up target-resp mappings
-//Each respMap element must have same length as stimSet
-var respMap = {
-  taskA : {UUUU: respUp, DUUD: respUp, UDDU: respDown, DDDD: respDown},
-  taskB : {UUUU: respUp, DUUD: respDown, UDDU: respUp, DDDD: respDown}
-};
+} else if (stimType === "sandwich") {
+  //Sandwich task:
+  //Task A: Middle L/R
+  //Task B: Flanking L/R
+  //2190: Left; 2192: Right
+  var taskName = {taskA: "inner", taskB: "outer"}
+  var stimElem = ["\u2190", "\u2192"];
+  
+  // [Center, Flanker]
+  var stimSet = {
+    LLLL: [stimElem[0], stimElem[0]], 
+    RLLR: [stimElem[0], stimElem[1]], 
+    LRRL: [stimElem[1], stimElem[0]],
+    RRRR: [stimElem[1], stimElem[1]]
+  };
+  
+  // ----- Task Paramenters (CHANGE ME) ----- //  
+  //Set up target-resp mappings
+  //Each respMap element must have same length as stimSet
+  var respMap = {
+    taskA : {LLLL: respL, RLLR: respL, LRRL: respR, RRRR: respR},
+    taskB : {LLLL: respL, RLLR: respR, LRRL: respL, RRRR: respR}
+  };
+} 
 
 var pracOrder = shuffle(["taskA", "taskB"]);
 
@@ -196,57 +223,57 @@ $(document).ready(function(){
       data.push([expStage, sectionType, block, blockType, 
         NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN,
         sectionStart, sectionEnd, sectionEnd - sectionStart]);
-      console.log(data);
+        console.log(data);
         // reset expStage and start task
-      expType = 0;
-      runTasks();
+        expType = 0;
+        runTasks();
         
-    } else if (expType == 9) { // 9: "press button to start next section"
-      // log how much time was spent in this section
-      sectionEnd = new Date().getTime() - runStart;
-      data.push([expStage, sectionType, block, blockType, 
-        NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, 
-        sectionStart, sectionEnd, sectionEnd - sectionStart]);
-      console.log(data);
-      // reset expStage and proceed to next section
-      expType = 0;
-      navigateInstructionPath(repeatNecessary);
+      } else if (expType == 9) { // 9: "press button to start next section"
+        // log how much time was spent in this section
+        sectionEnd = new Date().getTime() - runStart;
+        data.push([expStage, sectionType, block, blockType, 
+          NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, 
+          sectionStart, sectionEnd, sectionEnd - sectionStart]);
+          console.log(data);
+          // reset expStage and proceed to next section
+          expType = 0;
+          navigateInstructionPath(repeatNecessary);
+          
+        } else if (expType == 11) { // repeat instructions
+          // log how much time was spent in this section
+          sectionEnd = new Date().getTime() - runStart;
+          data.push([expStage, sectionType, block, blockType, 
+            NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, 
+            sectionStart, sectionEnd, sectionEnd - sectionStart]);
+            console.log(data);
+            // iterate block and go back to instructions
+            expType = 0;
+            
+            if (repeatNecessary) {
+              block++;
+            } else {
+              block = 1;
+            }
+            navigateInstructionPath(repeatNecessary);
+          }
+        });
+        
+        // see if menu.html is still open
+        if (openerNeeded == true && opener == null) {
+          promptMenuClosed();
+        } else {
+          // start experiment
+          runStart = new Date().getTime();
+          runInstructions();
+        }
+      });
       
-    } else if (expType == 11) { // repeat instructions
-      // log how much time was spent in this section
-      sectionEnd = new Date().getTime() - runStart;
-      data.push([expStage, sectionType, block, blockType, 
-        NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, 
-        sectionStart, sectionEnd, sectionEnd - sectionStart]);
-      console.log(data);
-      // iterate block and go back to instructions
-      expType = 0;
-      
-      if (repeatNecessary) {
-        block++;
-      } else {
-        block = 1;
+      // ------- Misc Experiment Functions ------- //
+      function randIntFromInterval(min, max) { // min and max included
+        return Math.floor(Math.random() * (max - min + 1) + min);
       }
-      navigateInstructionPath(repeatNecessary);
-    }
-  });
-    
-    // see if menu.html is still open
-    if (openerNeeded == true && opener == null) {
-      promptMenuClosed();
-    } else {
-      // start experiment
-      runStart = new Date().getTime();
-      runInstructions();
-    }
-  });
-  
-  // ------- Misc Experiment Functions ------- //
-  function randIntFromInterval(min, max) { // min and max included
-    return Math.floor(Math.random() * (max - min + 1) + min);
-  }
-  
-  function promptMenuClosed(){
-    $('.MenuClosedPrompt').show();
-  }
-  
+      
+      function promptMenuClosed(){
+        $('.MenuClosedPrompt').show();
+      }
+      

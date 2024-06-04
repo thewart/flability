@@ -29,7 +29,7 @@ function runTasks(){
     // --- PRACTICE 3 --- //
   } else if (expStage.indexOf("prac3") != -1) {
     
-    runPractice(numPracticeTrials * 2);
+    runPractice(numPracticeTrials * 2, '', 0.8);
 
   } else if (expStage.indexOf("prac4") != -1) {
     
@@ -196,22 +196,25 @@ function stimScreen(){
     // set color, unless rectangular cue is needed.
     switch (cueType) {
       case "rect":
-      drawRect();
+      drawRect(opts, ctx);
       break;
-      
       case "circle":
       propRed = taskColor[taskArr[trialCount]] == "red" ? cueArr[trialCount] : 1-cueArr[trialCount];
-      drawCircle(propRed, cueOpts);
+      drawCircle(propRed, ctx, cueOpts);
+      break;
     }
     
     //reset all response variables and await response (expType = 1)
     expType = 1; acc = NaN, respTime = NaN, partResp = NaN, respOnset = NaN;
     // display stimulus
-    switch (stimType) {
-      case "flanker":
+    if (stimType === "flanker") {
       let middle = stimSet[stimArr[trialCount]][0];
       let flanker = stimSet[stimArr[trialCount]][1];
-      drawFlanker(middle, flanker, stimOpts);
+      drawFlanker(middle, flanker, ctx, stimOpts);
+    } else if (stimType === "sandwich") {
+      let middle = stimSet[stimArr[trialCount]][0];
+      let flanker = stimSet[stimArr[trialCount]][1];
+      drawSandwich(middle, flanker, ctx, stimOpts);
     }
     // proceed to ITI screen after timeout
     stimTimeout = setTimeout(itiScreen, stimInterval);
@@ -226,7 +229,7 @@ function earlyTaskCue(){
   } else {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     // if preceded by early flanker
-    drawRect();
+    drawRect(opts, ctx);
     // continue to stimulus after early cue delay
     stimTimeout = setTimeout(stimScreen,earlyCueInterval);
   }

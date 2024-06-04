@@ -1,4 +1,4 @@
-function drawRect(opts){
+function drawRect(opts, ctx){
     // set size of rectangle
     let frameWidth = opts.width;
     let frameHeight = opts.width;
@@ -9,13 +9,15 @@ function drawRect(opts){
     ctx.lineWidth = opts.lineWidth;
     // ctx.strokeStyle = (taskArr[trialCount] == "m") ? magnitudeColor : parityColor;
     ctx.strokeStyle = colorValues[thisTaskColor];
-    ctx.rect((canvas.width/2) - (frameWidth/2), (canvas.height/2) - (frameHeight/2) - 5, frameWidth, frameHeight);
+    ctx.rect((ctx.canvas.width/2) - (frameWidth/2), (ctx.canvas.height/2) - (frameHeight/2) - 5, frameWidth, frameHeight);
     ctx.stroke();
 }
 
-function drawCircle(propRed, opts) {
-    var centerX = canvas.width / 2;
-    var centerY = canvas.height / 2;
+function drawCircle(propRed, ctx, opts) {
+    offsetX = (opts.offsetX === undefined) ? 0 : opts.offsetX;
+    offsetY = (opts.offsetY === undefined) ? 0 : opts.offsetY;
+    var centerX = ctx.canvas.width / 2 + offsetX;
+    var centerY = ctx.canvas.height / 2 + offsetY; 
     var startAngle = 2 * Math.PI * Math.random();
     var partLen = 2 * Math.PI / opts.numSegments;
     ctx.lineWidth = opts.lineWidth;    
@@ -39,7 +41,7 @@ function drawCircle(propRed, opts) {
     }
 }
 
-function drawFlanker(middle, flanker, opts) {
+function drawFlanker(middle, flanker, ctx, opts) {
     // var flank = "\u2191"
     // var center = "\u2193"
     // var opts.gapPerFnt = 0.4;
@@ -50,13 +52,13 @@ function drawFlanker(middle, flanker, opts) {
     ctx.font = opts.fontSize + "px Arial";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText(flanker, canvas.width/2 + opts.gap * 1.5, canvas.height/2);
-    ctx.fillText(middle, canvas.width/2 + opts.gap * 0.5, canvas.height/2);
-    ctx.fillText(middle, canvas.width/2 - opts.gap * 0.5, canvas.height/2);
-    ctx.fillText(flanker, canvas.width/2 - opts.gap * 1.5, canvas.height/2);
+    ctx.fillText(flanker, ctx.canvas.width/2 + opts.gap * 1.5, ctx.canvas.height/2);
+    ctx.fillText(middle, ctx.canvas.width/2 + opts.gap * 0.5, ctx.canvas.height/2);
+    ctx.fillText(middle, ctx.canvas.width/2 - opts.gap * 0.5, ctx.canvas.height/2);
+    ctx.fillText(flanker, ctx.canvas.width/2 - opts.gap * 1.5, ctx.canvas.height/2);
   }
 
-  function drawSandwich(middle, flanker, opts) {
+  function drawSandwich(middle, flanker, ctx, opts) {
     // var flank = "\u2190"
     // var central = "\u2192"
     
@@ -64,17 +66,17 @@ function drawFlanker(middle, flanker, opts) {
     ctx.font = opts.fontSize + "px Arial";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText(flanker, canvas.width/2, canvas.height/2 + opts.gap * 1.5);
-    ctx.fillText(middle, canvas.width/2, canvas.height/2 + opts.gap * 0.5);
-    ctx.fillText(middle, canvas.width/2, canvas.height/2 - opts.gap * 0.5);
-    ctx.fillText(flanker, canvas.width/2, canvas.height/2 - opts.gap * 1.5);
+    ctx.fillText(flanker, ctx.canvas.width/2, ctx.canvas.height/2 + opts.gap * 1.5);
+    ctx.fillText(middle, ctx.canvas.width/2, ctx.canvas.height/2 + opts.gap * 0.5);
+    ctx.fillText(middle, ctx.canvas.width/2, ctx.canvas.height/2 - opts.gap * 0.5);
+    ctx.fillText(flanker, ctx.canvas.width/2, ctx.canvas.height/2 - opts.gap * 1.5);
   }
 
 
-function drawDotRing(probRed, opts) {
+function drawDotRing(probRed, ctx, opts) {
     // Set the center of the canvas
-    var centerX = canvas.width / 2;
-    var centerY = canvas.height / 2;
+    var centerX = ctx.canvas.width / 2;
+    var centerY = ctx.canvas.height / 2;
     
     // Calculate the number of dots
     var numDots = opts.densDots * opts.radius/100;
@@ -121,6 +123,6 @@ function drawStimulus(){
     ctx.font = "bold 100px Arial";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText(number,canvas.width/2,canvas.height/2);
+    ctx.fillText(number, ctx.canvas.width/2, ctx.canvas.height/2);
   }
   
