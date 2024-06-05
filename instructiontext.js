@@ -16,7 +16,6 @@ function getInstructionText(){
 
   var instructionText = {
     'prac1-1': [
-      "<p style='font-size:50px;'>" + stimElem[0] + '\n' + stimElem[1] + '\n' + stimElem[1] + '\n' + stimElem[0] + "</p>" +
       "<p>In this task, you will see a a set of four arrows, such as those above, in the middle of the screen." + "\n" + 
       "You will need to identify the arrows as either pointing " + dirL + " or as pointing " + dirR + " .</p>",
       
@@ -99,10 +98,9 @@ function getInstructionText(){
 }
 
 function instructionCode(expStage) {
-  let canvas = document.getElementById('myCanvas');
-  ctx = canvas.getContext('2d');
+  let ctx = instrCanvas.getContext('2d');
   
   if (expStage === "prac1") {
     drawSandwich(stimElem[0], stimElem[1], {fontSize: 50, gap: 0.4*50});
-  } else if ((expStage === "prac1")){}
+  }
 }

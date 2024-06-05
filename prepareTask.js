@@ -11,6 +11,7 @@ function createPracticeArrays(nTrials, task, cueDiff){
   }
   respArr = createRespArray(stimArr, taskArr, respMap);
   cueArr = createCueArray(nTrials, cueDiff);
+  console.log(cueArr)
 }
 
 function createArrays(blockOrder, trialsPerBlock){

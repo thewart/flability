@@ -53,7 +53,7 @@ if (stimType === "flanker") {
     taskA : {UUUU: respUp, DUUD: respUp, UDDU: respDown, DDDD: respDown},
     taskB : {UUUU: respUp, DUUD: respDown, UDDU: respUp, DDDD: respDown}
   };
-
+  
 } else if (stimType === "sandwich") {
   //Sandwich task:
   //Task A: Middle L/R
@@ -106,7 +106,7 @@ let taskAccCutoff = (testMode == true) ? 0 : 85; // 75 acc%
 
 //initialize global task variables
 let stimArr, taskArr, respArr, switchArr, incArr, cueArr; // global vars for task arrays
-let canvas, ctx; // global canvas variable
+let canvas, ctx, instrCanvas; // global canvas variable
 let expStage = (skipPractice == true) ? "main1" : "prac1-1";
 // vars for tasks (iterator, accuracy) and reaction times:
 let trialCount, blockTrialCount, acc, accCount, stimOnset, respOnset, respTime, block = 1, partResp, runStart, blockType = NaN;
@@ -174,6 +174,8 @@ $(document).ready(function(){
   ctx.textBaseline= "middle";
   ctx.textAlign="center";
   
+  instrCanvas = document.getElementById('instruction-canvas');
+  
   // create key press listener
   $("body").keypress(function(event){
     if (expType == 0) {
@@ -190,7 +192,7 @@ $(document).ready(function(){
   })
   
   // create key release listener
-  $("body").keyup(function(event){
+  $("body").keyup( function(event) {
     if (expType == 2){
       expType = 0;
       clearTimeout(stimTimeout);
@@ -204,13 +206,7 @@ $(document).ready(function(){
       clearInterval(sectionTimer);
       
       // 7: block feedback - press button to start next block
-      sectionEnd = new Date().getTime() - runStart;
-      data.push(["feedback", sectionType, block, blockType, 
-      NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, 
-      sectionStart, sectionEnd, sectionEnd - sectionStart]);
-      console.log(data);
-      expType = 0;
-      
+      logData(data, 'feedback');      
       // increment block information before beginning next block
       block++; blockIndexer++;
       blockTrialCount = 0;
@@ -218,62 +214,55 @@ $(document).ready(function(){
       
       countDown(3);
     } else if (expType == 8) { // 8: "press button to start task"
-      // log how much time was spent in this section
-      sectionEnd = new Date().getTime() - runStart;
-      data.push([expStage, sectionType, block, blockType, 
-        NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN,
-        sectionStart, sectionEnd, sectionEnd - sectionStart]);
-        console.log(data);
-        // reset expStage and start task
-        expType = 0;
-        runTasks();
-        
-      } else if (expType == 9) { // 9: "press button to start next section"
-        // log how much time was spent in this section
-        sectionEnd = new Date().getTime() - runStart;
-        data.push([expStage, sectionType, block, blockType, 
-          NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, 
-          sectionStart, sectionEnd, sectionEnd - sectionStart]);
-          console.log(data);
-          // reset expStage and proceed to next section
-          expType = 0;
-          navigateInstructionPath(repeatNecessary);
-          
-        } else if (expType == 11) { // repeat instructions
-          // log how much time was spent in this section
-          sectionEnd = new Date().getTime() - runStart;
-          data.push([expStage, sectionType, block, blockType, 
-            NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, 
-            sectionStart, sectionEnd, sectionEnd - sectionStart]);
-            console.log(data);
-            // iterate block and go back to instructions
-            expType = 0;
-            
-            if (repeatNecessary) {
-              block++;
-            } else {
-              block = 1;
-            }
-            navigateInstructionPath(repeatNecessary);
-          }
-        });
-        
-        // see if menu.html is still open
-        if (openerNeeded == true && opener == null) {
-          promptMenuClosed();
-        } else {
-          // start experiment
-          runStart = new Date().getTime();
-          runInstructions();
-        }
-      });
-      
-      // ------- Misc Experiment Functions ------- //
-      function randIntFromInterval(min, max) { // min and max included
-        return Math.floor(Math.random() * (max - min + 1) + min);
+      logData(data, expStage);
+      // reset expStage and start task
+      expType = 0;
+      runTasks();
+
+    } else if (expType == 9) { // 9: "press button to start next section"
+      logData(data, expStage);
+      // reset expStage and proceed to next section
+      expType = 0;
+      navigateInstructionPath(repeatNecessary);
+
+    } else if (expType == 11) { // repeat instructions
+      logData(data, expStage);
+      // iterate block and go back to instructions
+      expType = 0;
+      if (repeatNecessary) {
+        block++;
+      } else {
+        block = 1;
       }
-      
-      function promptMenuClosed(){
-        $('.MenuClosedPrompt').show();
-      }
-      
+
+      navigateInstructionPath(repeatNecessary);
+    }
+  })
+  
+  // see if menu.html is still open
+  if (openerNeeded == true && opener == null) {
+    promptMenuClosed();
+  } else {
+    // start experiment
+    runStart = new Date().getTime();
+    runInstructions();
+  }
+});
+
+// ------- Misc Experiment Functions ------- //
+function randIntFromInterval(min, max) { // min and max included
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function promptMenuClosed(){
+  $('.MenuClosedPrompt').show();
+}
+
+function logData(data, stage) {
+  sectionEnd = new Date().getTime() - runStart;
+  data.push([stage, sectionType, block, blockType, 
+    NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN,
+    sectionStart, sectionEnd, sectionEnd - sectionStart]
+  );
+  console.log(data);
+}

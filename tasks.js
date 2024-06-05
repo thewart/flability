@@ -29,7 +29,7 @@ function runTasks(){
     // --- PRACTICE 3 --- //
   } else if (expStage.indexOf("prac3") != -1) {
     
-    runPractice(numPracticeTrials * 2, '', 75.8);
+    runPractice(numPracticeTrials * 2, '', 0.8);
 
   } else if (expStage.indexOf("prac4") != -1) {
     
