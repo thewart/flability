@@ -1,4 +1,4 @@
-function drawRect(opts, ctx){
+function drawRect(opts){
     // set size of rectangle
     let frameWidth = opts.width;
     let frameHeight = opts.width;
@@ -13,7 +13,7 @@ function drawRect(opts, ctx){
     ctx.stroke();
 }
 
-function drawCircle(propRed, ctx, opts) {
+function drawCircle(propRed, opts) {
     offsetX = (opts.offsetX === undefined) ? 0 : opts.offsetX;
     offsetY = (opts.offsetY === undefined) ? 0 : opts.offsetY;
     var centerX = ctx.canvas.width / 2 + offsetX;
@@ -41,7 +41,7 @@ function drawCircle(propRed, ctx, opts) {
     }
 }
 
-function drawFlanker(middle, flanker, ctx, opts) {
+function drawFlanker(middle, flanker, opts) {
     // var flank = "\u2191"
     // var center = "\u2193"
     // var opts.gapPerFnt = 0.4;
@@ -58,7 +58,7 @@ function drawFlanker(middle, flanker, ctx, opts) {
     ctx.fillText(flanker, ctx.canvas.width/2 - opts.gap * 1.5, ctx.canvas.height/2);
   }
 
-  function drawSandwich(middle, flanker, ctx, opts) {
+  function drawSandwich(middle, flanker, opts) {
     // var flank = "\u2190"
     // var central = "\u2192"
     
@@ -73,7 +73,7 @@ function drawFlanker(middle, flanker, ctx, opts) {
   }
 
 
-function drawDotRing(probRed, ctx, opts) {
+function drawDotRing(probRed, opts) {
     // Set the center of the canvas
     var centerX = ctx.canvas.width / 2;
     var centerY = ctx.canvas.height / 2;

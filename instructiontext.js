@@ -97,66 +97,12 @@ function getInstructionText(){
 
   return instructionText;
 }
-//     case "prac3":
-//     switch (slideNum){
-//       case 1:
-//       return ;
-//       case 2:
-//       return 
-//       case 3:
-//       return  ;
-//       case 3:
-//       return  ;
-//       case 4:
-//       return ;
-//       case 5:
-//       iterateAgain = true;
-//       return ;              
-//     }
-//     case "main1":
-//     switch (slideNum){
-//       case 1:
-//       return ;
-//       // case 2:
-//       // return ";
-//       case 2:
-//         var canv = document.createElement('canvas'); // creates new canvas element
-//         canv.id = 'canvasdummy'; // gives canvas id
-//         canv.height = 200; //get original canvas height
-//         canv.width = 200; // get original canvas width
-//         canv.style = 'border:1px solid grey';
-        
-//         document.getElementsByClassName('instruction-body')[0].appendChild(canv)
-//         var d = canv.getContext("2d");
-//         d.fillRect(20, 20, 150, 100);
 
-//         // document.body.appendChild(canv); // adds the canvas to the body element
-//       return "<p>is there a canvas above me?";
-
-//       // drawCircle(0.8, document.getElementById('main1-3').getContext('2d'), {lineWidth: 8, numSegments: 10, radius: 75});
-//       // return "
-//       // case 5: 
-//       // return "<p>In another block, the colors might be more evenly balanced, as in the example below:</p>"
-//       // case 6:
-//       // return ;
-//       // case 7:
-//       // return "<p>Please try to maintain at least 75% accuracy throughout the task. We will let you know how you are doing at each break.</p>";
-//     }
-//     case "main2":
-//     switch (slideNum){
-//       case 1:
-//       $( getImageText(instructionImages[get_task_image(1)]) ).insertBefore( "#instructions" + slideNum);
-//       return "Remember, if the rectangle is " + colorFirstTask() + ", indicate if the number is " + first_task() + " using the 'Z' and 'M' keys, respectively." ;
-//       case 2:
-//       $( getImageText(instructionImages[get_task_image(2)]) ).insertBefore( "#instructions" + slideNum);
-//       return "If the rectangle is " + colorSecondTask() + ", indicate if the number is " + second_task() + " using the 'Z' and 'M' keys, respectively." ;
-//       case 3:
-//       iterateAgain = true;
-//       $( getImageText(instructionImages[1])).insertAfter( "#instructions" + slideNum);
-//       return "Please place your hands on the 'Z' and 'M' keys as shown.";
-//       case 4:
-//       changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-//       return "Press any button to begin.";
-//     }
-//   }
-// };
+function instructionCode(expStage) {
+  let canvas = document.getElementById('myCanvas');
+  ctx = canvas.getContext('2d');
+  
+  if (expStage === "prac1") {
+    drawSandwich(stimElem[0], stimElem[1], {fontSize: 50, gap: 0.4*50});
+  } else if ((expStage === "prac1")){}
+}
