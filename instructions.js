@@ -17,7 +17,8 @@ let instructions = {
     "main1": 'buttonPressStartTask',
   }
 };
-let iterateAgain = false, task;
+
+// let iterateAgain = false, task;
 let instructionText = getInstructionText();
 
 function navigateInstructionPath(repeat = false){
@@ -32,17 +33,21 @@ function navigateInstructionPath(repeat = false){
   runInstructions();
 }
 
-function runInstructions(){
+function runInstructions(){ 
   // main instruction function (come here at start of instruction block)
   sectionStart = new Date().getTime() - runStart;
   sectionType = "instructions";
+
+  // draw on instruction canvas
+  ctx = instrCanvas.getContext('2d');
   
   // hide/clear everything, just in case
   hideInstructions();
+  $('#myCanvas').hide();
   
-  // hide canvas if visible
-  canvas.style.display = "none";
-  
+  // execute code for this instruction stage (usually drawing on canvas)
+  instructionCode(expStage);
+
   // if need to repeat instructions (e.g., participant failed to meet accuracy requirement), then reshow all instructions
   if (instructions["iterator"][expStage] >= instructionText[expStage].length) {
     
@@ -50,10 +55,7 @@ function runInstructions(){
     for (var i = 0; i < instructionText[expStage].length; i++) {
       $('#instruction-body').append(instructionText[expStage][i]);
     }
-    
-    // reset iterateAgain incase looping turned it on by accident
-    iterateAgain = false;
-    
+        
     // display instructions and prepare exit response mapping
     $('.instructions').show();
     exitResponse();

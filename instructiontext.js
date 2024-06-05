@@ -10,7 +10,7 @@ function getInstructionText(){
     var dirL = "left";
     var dirR = "right";
   }
-  var blockTime = Math.ceil(trialsPerBlock * (fixInterval + stimInterval + ITIInterval) / (1000 * 60));
+  var blockTime = Math.ceil(trialsPerBlock * (fixInterval + stimInterval + 0.5*(itiMax + itiMin)) / (1000 * 60));
   var beginText = " Please place your hands on the '" + respL + "' and '" + respR + "' keys as shown.</p>" +
    "<img src=images/handsOnKeyboard6.png>" +  "<p><b>Press any button to begin</b>.</p>";
 
@@ -58,17 +58,17 @@ function getInstructionText(){
 
     'prac3': [
       "<p>In this last practice task, you will either respond to the <b>" + task1 + "</b> or <b>" + task2 +
-      "</b> arrows, depending on the color of the circle surrounding them.</p>",
+      "</b> arrows, \n depending on the color of the circle surrounding them.</p>",
 
       "<p>However, the circle will contain segments of both " + color1 + " and " + color2 +
-      ". Choose your response based on which color the circle contains more of.",
+      ".\n Choose your response based on which color the circle contains more of.",
 
       "<p>If the circle is more " + color1 + ", indicate the direction of the <b>" + task1 + "</b> arrows.</p>",
 
       "<p>If the circle is more " + color2 + ", indicate the direction of the <b>" + task2 + "</b> arrows.</p>",
 
-      "<p>As before, press '" + respL + "' if the relevant arrows are pointing " + dirL + " and " + respR +
-      ", and '" + respR + "' if the relevant arrows are pointing " + dirR + ".</p>",
+      "<p>As before, press '" + respL + "' if the relevant arrows are pointing " + dirL + ", and \n press '" + respR +
+      "' if the relevant arrows are pointing " + dirR + ".</p>",
 
       "<p>This block contains " + (numPracticeTrials * 2) + " trials." + beginText
     ], 
@@ -98,9 +98,40 @@ function getInstructionText(){
 }
 
 function instructionCode(expStage) {
-  let ctx = instrCanvas.getContext('2d');
-  
-  if (expStage === "prac1") {
-    drawSandwich(stimElem[0], stimElem[1], {fontSize: 50, gap: 0.4*50});
+  var task1 = taskName[pracOrder[0]];
+  var task2 = taskName[pracOrder[1]];
+  var color1 = taskColor[Object.keys(taskName).find(key => taskName[key] === task1)];
+  var color2 = taskColor[Object.keys(taskName).find(key => taskName[key] === task2)];
+
+  ctx.clearRect(0, 0, instrCanvas.width, instrCanvas.height);
+  var stimOpts = {fontSize: 50, gap: 0.4*50};
+  var cueOpts = {lineWidth: 7, numSegments: 6, radius: 75};
+
+  if (expStage === "prac1-1") {
+    drawSandwich(stimElem[0], stimElem[1], stimOpts);
+    drawCircle((color1 === 'red') ? 1 : 0, cueOpts);
+
+  } else if (expStage === "prac1-2") {
+    let inColor = (task1 === 'inner') ? 'black' : 'gray';
+    let outColor = (task1 === 'inner') ? 'gray' : 'black';
+    drawSandwich(stimElem[0], stimElem[1], stimOpts, inColor, outColor);
+    drawCircle((color1 === 'red') ? 1 : 0, cueOpts);
+
+  } else if (expStage === 'prac2') {
+    let inColor = (task2 === 'inner') ? 'black' : 'gray';
+    let outColor = (task2 === 'inner') ? 'gray' : 'black';
+    drawSandwich(stimElem[0], stimElem[1], stimOpts, inColor, outColor);
+    drawCircle((color2 === 'red') ? 1 : 0, cueOpts);
+
+  } else if (expStage === 'prac3') {
+    let inColor = (task1 === 'inner') ? 'black' : 'gray';
+    let outColor = (task1 === 'inner') ? 'gray' : 'black';
+    drawSandwich(stimElem[0], stimElem[1], Object.assign(stimOpts, {offsetX: -100}), inColor, outColor);
+    drawCircle((color1 === 'red') ? 0.75 : 0.25, Object.assign(cueOpts, {offsetX: -100}));
+
+    inColor = (task2 === 'inner') ? 'black' : 'gray';
+    outColor = (task2 === 'inner') ? 'gray' : 'black';
+    drawSandwich(stimElem[0], stimElem[1], Object.assign(stimOpts, {offsetX: 100}), inColor, outColor);
+    drawCircle((color2 === 'red') ? 0.75 : 0.25, Object.assign(cueOpts, {offsetX: 100}));
   }
 }

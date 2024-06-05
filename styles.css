@@ -26,7 +26,7 @@ table{
 	vertical-align:middle;
 }
 
-canvas {
+#myCanvas {
   /* centers horizontally but not vertically */
   /* padding-left: 0;
   padding-right: 0;

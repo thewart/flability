@@ -6,6 +6,7 @@ let screenSizePromptCount = 0, numScreenSizeWarnings = 2;
 function runTasks(){
   //clear any instructions and show canvas
   hideInstructions();
+  ctx = canvas.getContext('2d');
   canvas.style.display = "block";
   
   // clear any instruction button press listeners

@@ -9,7 +9,7 @@ let skipPractice = false; // turn practice blocks on or off
 let openerNeeded = false; //true
 
 // ----- Block Paramenters (CHANGE ME) ----- //
-let cueDiffByBlock = {A: 0.6, B: 0.7, C: 0.8};
+let cueDiffByBlock = {A: 0.55, B: 0.65, C: 0.75};
 let switchPropByBlock = {A: 0.5, B: 0.5, C: 0.5};
 let incPropByBlock = {A: 0.5, B: 0.5, C: 0.5};
 
@@ -88,7 +88,9 @@ for (var stim in stimSet) respMap.taskA[stim] == respMap.taskB[stim] ? conStim.p
 // ----- Structural Paramenters (CHANGE ME) ----- //
 let stimInterval = (speed == "fast") ? 10 : 1500; //2000 stimulus interval
 let fixInterval = (speed == "fast") ? 10 : 500; //500 ms intertrial interval
-let ITIInterval = 1200;
+let itiMin = (speed == "fast") ? 20 : 1000; //1200
+let itiMax = (speed == "fast") ? 20 : 1200; //1400
+
 let earlyCueInterval = 0; //100; early cue (relative to target presentation), 0 makes cue concurrant with target presentation. only valid with rectangle cue
 let numBlocks = 3, trialsPerBlock = 30;
 let numPracticeTrials = 10;
@@ -96,17 +98,15 @@ let miniBlockLength = 0; //doesn't need to be multiple of 24. 0 to turn off
 let practiceAccCutoff = (testMode == true) ? 0 : 85; // 75 acc%
 let taskAccCutoff = (testMode == true) ? 0 : 85; // 75 acc%
 
-// function ITIInterval(){
-//   let itiMin = (speed == "fast") ? 20 : 1200; //1200
-//   let itiMax = (speed == "fast") ? 20 : 1400; //1400
-//   let itiStep = 50; //step size
-//   // random number between itiMin and Max by step size
-//   return itiMin + (Math.floor( Math.random() * ( Math.floor( (itiMax - itiMin) / itiStep ) + 1 ) ) * itiStep);
-// }
+function ITIInterval(){
+  let itiStep = 50; //step size
+  // random number between itiMin and Max by step size
+  return itiMin + (Math.floor( Math.random() * ( Math.floor( (itiMax - itiMin) / itiStep ) + 1 ) ) * itiStep);
+}
 
 //initialize global task variables
 let stimArr, taskArr, respArr, switchArr, incArr, cueArr; // global vars for task arrays
-let canvas, ctx, instrCanvas; // global canvas variable
+let canvas, ctx, instrCanvas, itx; // global canvas variable
 let expStage = (skipPractice == true) ? "main1" : "prac1-1";
 // vars for tasks (iterator, accuracy) and reaction times:
 let trialCount, blockTrialCount, acc, accCount, stimOnset, respOnset, respTime, block = 1, partResp, runStart, blockType = NaN;
@@ -168,13 +168,12 @@ let blockOrder = getBlockOrder(numBlocks);
 // ------ EXPERIMENT STARTS HERE ------ //
 $(document).ready(function(){
   // prepare task canvas
+  instrCanvas = document.getElementById('instruction-canvas');
   canvas = document.getElementById('myCanvas');
   ctx = canvas.getContext('2d');
   ctx.font = "bold 60px Arial";
   ctx.textBaseline= "middle";
   ctx.textAlign="center";
-  
-  instrCanvas = document.getElementById('instruction-canvas');
   
   // create key press listener
   $("body").keypress(function(event){

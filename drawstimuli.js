@@ -41,7 +41,7 @@ function drawCircle(propRed, opts) {
     }
 }
 
-function drawFlanker(middle, flanker, opts) {
+function drawFlanker(inner, outer, opts, inColor="black", outColor="black") {
     // var flank = "\u2191"
     // var center = "\u2193"
     // var opts.gapPerFnt = 0.4;
@@ -52,24 +52,36 @@ function drawFlanker(middle, flanker, opts) {
     ctx.font = opts.fontSize + "px Arial";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText(flanker, ctx.canvas.width/2 + opts.gap * 1.5, ctx.canvas.height/2);
-    ctx.fillText(middle, ctx.canvas.width/2 + opts.gap * 0.5, ctx.canvas.height/2);
-    ctx.fillText(middle, ctx.canvas.width/2 - opts.gap * 0.5, ctx.canvas.height/2);
-    ctx.fillText(flanker, ctx.canvas.width/2 - opts.gap * 1.5, ctx.canvas.height/2);
+
+    ctx.fillStyle = outColor;
+    ctx.fillText(outer, ctx.canvas.width/2 + opts.gap * 1.5, ctx.canvas.height/2);
+    ctx.fillText(outer, ctx.canvas.width/2 - opts.gap * 1.5, ctx.canvas.height/2);
+
+    ctx.fillStyle = inColor;
+    ctx.fillText(inner, ctx.canvas.width/2 + opts.gap * 0.5, ctx.canvas.height/2);
+    ctx.fillText(inner, ctx.canvas.width/2 - opts.gap * 0.5, ctx.canvas.height/2);
   }
 
-  function drawSandwich(middle, flanker, opts) {
+  function drawSandwich(inner, outer, opts, inColor="black", outColor="black") {
     // var flank = "\u2190"
     // var central = "\u2192"
-    
-    // draw number on canvas
+
+    let offsetX = (opts.offsetX === undefined) ? 0 : opts.offsetX;
+    let offsetY = (opts.offsetY === undefined) ? 0 : opts.offsetY;
+    let centerX = ctx.canvas.width / 2 + offsetX;
+    let centerY = ctx.canvas.height / 2 + offsetY; 
+
     ctx.font = opts.fontSize + "px Arial";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText(flanker, ctx.canvas.width/2, ctx.canvas.height/2 + opts.gap * 1.5);
-    ctx.fillText(middle, ctx.canvas.width/2, ctx.canvas.height/2 + opts.gap * 0.5);
-    ctx.fillText(middle, ctx.canvas.width/2, ctx.canvas.height/2 - opts.gap * 0.5);
-    ctx.fillText(flanker, ctx.canvas.width/2, ctx.canvas.height/2 - opts.gap * 1.5);
+
+    ctx.fillStyle = outColor;
+    ctx.fillText(outer, centerX, centerY + opts.gap * 1.5);
+    ctx.fillText(outer, centerX, centerY - opts.gap * 1.5);
+    
+    ctx.fillStyle = inColor;
+    ctx.fillText(inner, centerX, centerY + opts.gap * 0.5);
+    ctx.fillText(inner, centerX, centerY - opts.gap * 0.5);
   }
 
 
