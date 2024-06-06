@@ -77,16 +77,23 @@ function getInstructionText(){
       "<p>Great job! You are now ready to begin the main experiment.</p>",
 
       "<p>This experiment consists of " + numBlocks +" blocks, with each block lasting about " 
-      + blockTime + "minutes.</p>",
+      + blockTime + " minutes.</p>",
 
       "<p>Each block will be similar to the practice task you just completed. " + 
       "\n However, in each block the balance of colors in the circle will be different.",
 
-      "For example, in one block the circle might be nearly all one color, " + 
-      "while in another block \n the amounts of " + color1 + " and " + color2 + " might be more balanced.</p>",
+      "<p>For example, in one block the circle might be nearly all one color, as in the example on the left." + 
+      "\n In another block the amounts of " + color1 + " and " + color2 + " might be more balanced," + 
+      " as in the example on the right.</p>",
 
-      "As before, respond to the <b>" + task1 + "</b> arrows if the the circle is more " + color1 +
-      ",\n and to the <b>" + task2 + "</b> arrows if the circle is more " + color2 + ".",
+      "<p>In these examples, the circle on the right is mostly " + color1 + ", so you would respond to the <b>"
+      + task1 + "</b> arrows.</p>",
+
+      "<p>The circle on the left is mostly " + color2 + ", so you would respond to the <b>" 
+      + task2 + "</b> arrows.</p>",
+
+      // "As before, respond to the <b>" + task1 + "</b> arrows if the the circle is more " + color1 +
+      // ",\n and to the <b>" + task2 + "</b> arrows if the circle is more " + color2 + ".",
 
       "<p>Try to respond as quickly and as accuractely as possible on each trial," + 
       "and to maintain at least 75% accuracy throughout the task." + '\n' +
@@ -133,5 +140,16 @@ function instructionCode(expStage) {
     outColor = (task2 === 'inner') ? 'gray' : 'black';
     drawSandwich(stimElem[0], stimElem[1], Object.assign(stimOpts, {offsetX: 100}), inColor, outColor);
     drawCircle((color2 === 'red') ? 0.75 : 0.25, Object.assign(cueOpts, {offsetX: 100}));
+
+  } else if (expStage === 'main1') {
+    let inColor = (task1 === 'inner') ? 'black' : 'gray';
+    let outColor = (task1 === 'inner') ? 'gray' : 'black';
+    drawSandwich(stimElem[0], stimElem[1], Object.assign(stimOpts, {offsetX: -100}), inColor, outColor);
+    drawCircle((color1 === 'red') ? 0.9 : 0.1, Object.assign(cueOpts, {offsetX: -100}));
+
+    inColor = (task2 === 'inner') ? 'black' : 'gray';
+    outColor = (task2 === 'inner') ? 'gray' : 'black';
+    drawSandwich(stimElem[0], stimElem[1], Object.assign(stimOpts, {offsetX: 100}), inColor, outColor);
+    drawCircle((color2 === 'red') ? 0.6 : 0.4, Object.assign(cueOpts, {offsetX: 100}));
   }
 }
