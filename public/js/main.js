@@ -205,7 +205,7 @@ $(document).ready(function(){
       clearInterval(sectionTimer);
       
       // 7: block feedback - press button to start next block
-      logData(data, 'feedback');      
+      // logData(data, 'feedback');      
       // increment block information before beginning next block
       block++; blockIndexer++;
       blockTrialCount = 0;
@@ -213,19 +213,19 @@ $(document).ready(function(){
       
       countDown(3);
     } else if (expType == 8) { // 8: "press button to start task"
-      logData(data, expStage);
+      // logData(data, expStage);
       // reset expStage and start task
       expType = 0;
       runTasks();
       
     } else if (expType == 9) { // 9: "press button to start next section"
-      logData(data, expStage);
+      // logData(data, expStage);
       // reset expStage and proceed to next section
       expType = 0;
       navigateInstructionPath(repeatNecessary);
       
     } else if (expType == 11) { // repeat instructions
-      logData(data, expStage);
+      // logData(data, expStage);
       // iterate block and go back to instructions
       expType = 0;
       if (repeatNecessary) {

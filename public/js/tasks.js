@@ -247,10 +247,9 @@ function itiScreen(){
   // let stim = stimArr[trialCount];
   
   // log data
-  data.push(["task", sectionType, block, blockType,
+  data.push([sectionType, block, blockType,
   trialCount + 1, blockTrialCount + 1, getAccuracy(acc), respTime, stimArr[trialCount], cueArr[trialCount],
-  incArr[trialCount], taskArr[trialCount], partResp, stimOnset, respOnset, respArr[trialCount][1],
-  NaN, NaN, NaN]);
+  incArr[trialCount], taskArr[trialCount], partResp, stimOnset, respOnset, respArr[trialCount][1]]);
   console.log(data);
   
   // prepare ITI canvas
