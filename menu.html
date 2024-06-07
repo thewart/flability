@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<script type="text/javascript" src="jquery-3.4.1.js"></script>
-	<script type="text/javascript" src ="menu.js"></script>
-	<link rel="stylesheet" href="styles.css">
+	<script type="text/javascript" src="/js/jquery-3.4.1.js"></script>
+	<script type="text/javascript" src ="/js/menu.js"></script>
+	<link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
 	<table>
@@ -12,9 +12,7 @@
 				<p id="instruction" style="font-family: arial; font-size: 40px;"></p>
 				<p id="NoGo" style="font-family: arial; color: black; font-size: 40px;"></p>
 				<button id="myButton"> Continue </button>
-				<form id="mturk_form" method="POST" action="https://dibs-web01.vm.duke.edu/AMTSubmit/dataHandler.php">
-					<!-- <form id="mturk_form" method="POST" action="https://workersandbox.mturk.com/mturk/externalSubmit"> -->
-					<!-- <form id="mturk_form" method="POST" action="https://wwww.mturk.com/mturk/externalSubmit"> -->
+				<form id="mainForm" method="post" action="/submit">
 					<input type="hidden" id="studyID" name="studyID" value="">
 					<input type="hidden" id="workerID" name="workerID" value="">
 					<input type="hidden" id="sessionID" name="sessionID" value="">
@@ -22,18 +20,29 @@
 					<input type="hidden" id="demographics" name="demographics" value="FlabilityPilot">
 					<input type="hidden" id="ExpName" name="ExpName" value="FlabilityPilot">
 					<p style="font-size:22px; margin-left: 50px; margin-right:50px;">
-						Thank you for participating in this study. In this particular experiment, we were looking to see how the interference caused by switching between tasks was influenced by overlapping keys being used for both task simultaneously. By isolating these independent effects, future experiments will allow us to manipulate them in a variety of interesting ways that will help us better understand attention and cognition.
+						Thank you for participating in this study. In this particular experiment, we were
+						 looking to see how the interference caused by switching between tasks was influenced 
+						 by overlapping keys being used for both task simultaneously. By isolating these 
+						 independent effects, future experiments will allow us to manipulate them in a 
+						 variety of interesting ways that will help us better understand attention and cognition.
 					</p>
 					<p style="font-size:22px; margin-left: 50px; margin-right:50px;">
 						If you would like to know more about or have any other questions about this experiment or your data, please feel free to contact me at rmg55@duke.edu or the principal investigator Tobias Egner at tobias.egner@duke.edu. Thank you so much for your participation!
 					</p>
 					<p style="font-size:24px">
-						Please click the "Submit" button to upload your data.
+						Please click the "Submit" button to upload your data and recieve your completion code.
 					</p>
-					<input id="submitButton" type="submit" name="Finish" value="Submit">
+					<input id="submitButton" type="submit" name="Finish" onclick="showCode()">
 				</form>
 			</td>
 		</tr>
 	</table>
+	<script>
+		function showCode() {
+			$('#submitButton').hide();
+			$('#mainForm').append("<p>Thank you for participating." +
+				"This is where the completion link will show up for people who are getting paid.</p>")
+		}
+	</script>
 </body>
 </html>

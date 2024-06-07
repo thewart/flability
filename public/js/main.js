@@ -5,7 +5,7 @@
 let testMode = true;
 let speed = "fast"; //fast, normal
 // speed = (testMode == true) ? "fast" : speed; //testMode defaults to "fast"
-let skipPractice = false; // turn practice blocks on or off
+let skipPractice = true; // turn practice blocks on or off
 let openerNeeded = true; //true
 
 // ----- Block Paramenters (CHANGE ME) ----- //
@@ -92,7 +92,7 @@ let itiMin = (speed == "fast") ? 20 : 1000; //1200
 let itiMax = (speed == "fast") ? 20 : 1200; //1400
 
 let earlyCueInterval = 0; //100; early cue (relative to target presentation), 0 makes cue concurrant with target presentation. only valid with rectangle cue
-let numBlocks = 3, trialsPerBlock = 10;
+let numBlocks = 1, trialsPerBlock = 3;
 let numPracticeTrials = 5;
 let miniBlockLength = 0; //doesn't need to be multiple of 24. 0 to turn off
 let practiceAccCutoff = (testMode == true) ? 0 : 85; // 75 acc%
@@ -217,13 +217,13 @@ $(document).ready(function(){
       // reset expStage and start task
       expType = 0;
       runTasks();
-
+      
     } else if (expType == 9) { // 9: "press button to start next section"
       logData(data, expStage);
       // reset expStage and proceed to next section
       expType = 0;
       navigateInstructionPath(repeatNecessary);
-
+      
     } else if (expType == 11) { // repeat instructions
       logData(data, expStage);
       // iterate block and go back to instructions
@@ -233,7 +233,7 @@ $(document).ready(function(){
       } else {
         block = 1;
       }
-
+      
       navigateInstructionPath(repeatNecessary);
     }
   })

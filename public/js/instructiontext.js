@@ -12,7 +12,7 @@ function getInstructionText(){
   }
   var blockTime = Math.ceil(trialsPerBlock * (fixInterval + stimInterval + 0.5*(itiMax + itiMin)) / (1000 * 60));
   var beginText = " Please place your hands on the '" + respL + "' and '" + respR + "' keys as shown.</p>" +
-   "<img src=images/handsOnKeyboard6.png>" +  "<p><b>Press any button to begin</b>.</p>";
+   "<img src=/images/handsOnKeyboard6.png>" +  "<p><b>Press any button to begin</b>.</p>";
 
   var instructionText = {
     'prac1-1': [
@@ -95,9 +95,11 @@ function getInstructionText(){
       // "As before, respond to the <b>" + task1 + "</b> arrows if the the circle is more " + color1 +
       // ",\n and to the <b>" + task2 + "</b> arrows if the circle is more " + color2 + ".",
 
-      "<p>Try to respond as quickly and as accuractely as possible on each trial," + 
-      "and to maintain at least 75% accuracy throughout the task." + '\n' +
-      "We will let you know how you are doing at each break.</p>"
+      "<p>Try to respond as quickly and as accuractely as possible on each trial, and to\n" + 
+      " maintain at least 75% accuracy throughout the task.</p>" +
+      "<p>We will let you know how you are doing at each break.</p>",
+
+      beginText
     ]
   };
 
