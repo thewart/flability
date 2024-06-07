@@ -1,0 +1,14 @@
+{
+  "name": "flability",
+  "version": "1.0.0",
+  "description": "Combines task switching with cross task congruency (overlapping response keys). 4 blocks, independently varying high (75%) vs low (25%) switch rate to assess adjustments in flexibility (the proportion switch effect) and high (75%) vs low (25%) congruency rate to assess adjustments in stability (the proportion congruency effect).",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
