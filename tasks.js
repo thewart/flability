@@ -31,7 +31,7 @@ function runTasks(){
   } else if (expStage.indexOf("prac3") != -1) {
     
     runPractice(numPracticeTrials * 2, '', 0.8);
-
+    
   } else if (expStage.indexOf("prac4") != -1) {
     
     runPractice(numPracticeTrials * 2, 0.75);
@@ -247,9 +247,10 @@ function itiScreen(){
   // let stim = stimArr[trialCount];
   
   // log data
-  data.push(["task", sectionType, block, blockType, trialCount + 1,
-  blockTrialCount + 1, getAccuracy(acc), respTime, stimArr[trialCount],
-  incArr[trialCount], taskArr[trialCount], partResp, stimOnset, respOnset, respArr[trialCount][1], NaN, NaN, NaN]);
+  data.push(["task", sectionType, block, blockType,
+  trialCount + 1, blockTrialCount + 1, getAccuracy(acc), respTime, stimArr[trialCount], cueArr[trialCount],
+  incArr[trialCount], taskArr[trialCount], partResp, stimOnset, respOnset, respArr[trialCount][1],
+  NaN, NaN, NaN]);
   console.log(data);
   
   // prepare ITI canvas
