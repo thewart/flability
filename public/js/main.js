@@ -3,15 +3,20 @@
 
 // for testing
 let testMode = true;
-let speed = "fast"; //fast, normal
+let speed = "normal"; //fast, normal
 // speed = (testMode == true) ? "fast" : speed; //testMode defaults to "fast"
-let skipPractice = true; // turn practice blocks on or off
-let openerNeeded = true; //true
+let skipPractice = false; // turn practice blocks on or off
+let openerNeeded = false; //true
 
 // ----- Block Paramenters (CHANGE ME) ----- //
-let cueDiffByBlock = {A: 0.55, B: 0.65, C: 0.75};
-let switchPropByBlock = {A: 0.5, B: 0.5, C: 0.5};
-let incPropByBlock = {A: 0.5, B: 0.5, C: 0.5};
+let cueDiffByBlock = {A: 0.55, B: 0.6, C: 0.65, D: 0.7, E: 0.75, F: 0.8, G: 0.9, H:1.0};
+let switchPropByBlock = 0.5;
+let incPropByBlock = 0.5;
+
+let blockNames = Object.keys(cueDiffByBlock);
+let numBlockReps = 1, trialsPerBlock = 30;
+let numBlocks = blockNames.length * numBlockReps;
+let blockOrder = getBlockOrder(blockNames, numBlockReps); //1st arg is array of block names
 
 // ----- Cue Paramenters (CHANGE ME) ----- //
 
@@ -78,12 +83,11 @@ if (stimType === "flanker") {
     taskB : {LLLL: respL, RLLR: respR, LRRL: respL, RRRR: respR}
   };
 } 
-
-var pracOrder = shuffle(["taskA", "taskB"]);
-
-//get indicies of congruent/incongruent stimuli from response match/mismatch
+//construct arrays of congruent/incongruent stimuli from response match/mismatch
 let conStim = [], incStim = [];
 for (var stim in stimSet) respMap.taskA[stim] == respMap.taskB[stim] ? conStim.push(stim) : incStim.push(stim);
+
+var pracOrder = shuffle(["taskA", "taskB"]);
 
 // ----- Structural Paramenters (CHANGE ME) ----- //
 let stimInterval = (speed == "fast") ? 10 : 1500; //2000 stimulus interval
@@ -92,8 +96,8 @@ let itiMin = (speed == "fast") ? 20 : 1000; //1200
 let itiMax = (speed == "fast") ? 20 : 1200; //1400
 
 let earlyCueInterval = 0; //100; early cue (relative to target presentation), 0 makes cue concurrant with target presentation. only valid with rectangle cue
-let numBlocks = 1, trialsPerBlock = 3;
-let numPracticeTrials = 5;
+let numPracticeTrials = 8;
+let numPracticeReps =  Math.ceil(numPracticeTrials / Object.keys(stimSet).length);
 let miniBlockLength = 0; //doesn't need to be multiple of 24. 0 to turn off
 let practiceAccCutoff = (testMode == true) ? 0 : 85; // 75 acc%
 let taskAccCutoff = (testMode == true) ? 0 : 85; // 75 acc%
@@ -127,18 +131,6 @@ let expType = 0; // see below
 10: Screen Size too small, "press any button to continue"
 */
 
-
-// let pracOrder = randIntFromInterval(1,2);
-// console.log("pracOrder", pracOrder);
-// case 1: practice task A first
-// case 2: practice task B first
-
-// console.log("taskMap", taskMap);
-// case 1: odd/even: "z" and "m", greater/less: "z" and "m"
-// case 2: odd/even: "z" and "m", greater/less: "m" and "z"
-// case 3: odd/even: "m" and "z", greater/less: "z" and "m"
-// case 4: odd/even: "m" and "z", greater/less: "m" and "z"
-
 // color-task mapping
 // case 1: taskA = Red, taskB = Blue
 // case 2: taskA = Blue, taskB = Red
@@ -146,24 +138,6 @@ let colorMapping = randIntFromInterval(1,2);
 let colorA = (colorMapping == 1) ? "red" : "blue";
 let colorB = (colorMapping == 1) ? "blue" : "red";
 let taskColor = {taskA: colorA, taskB: colorB};
-
-// instrction variables based on mappings
-
-// let parity_z = (taskMap == 1 || taskMap == 2) ? "odd" : "even";
-// let parity_m = (parity_z == "odd") ? "even" : "odd";
-// let magnitude_z = (taskMap == 1 || taskMap == 3) ? "greater than 5" : "less than 5";
-// let magnitude_m = (magnitude_z == "greater than 5") ? "less than 5" : "greater than 5";
-
-let blockOrder = getBlockOrder(numBlocks);
-// Latin square counterbalancing
-// 1:   A   B   D   C
-// 2:   B   C   A   D
-// 3:   C   D   B   A
-// 4:   D   A   C   B
-//
-// Congruency manipulations
-// A: H Fl L TS, B: H FL H TS, C: L Fl L TS, D: L Fl L TS
-// high 75% (H), low 25% (L), Flanker Inc (Fl), Task Switch (TS)
 
 // ------ EXPERIMENT STARTS HERE ------ //
 $(document).ready(function(){

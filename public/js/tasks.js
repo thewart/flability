@@ -20,21 +20,21 @@ function runTasks(){
   // --- PRACTICE 1 --- //
   if (expStage.indexOf("prac1") != -1){
     
-    runPractice(numPracticeTrials, pracOrder[0]);
+    runPractice(numPracticeReps, pracOrder[0]);
     
     // --- PRACTICE 2 --- //
   } else if (expStage.indexOf("prac2") != -1){
     
-    runPractice(numPracticeTrials, pracOrder[1]);
+    runPractice(numPracticeReps, pracOrder[1]);
     
     // --- PRACTICE 3 --- //
   } else if (expStage.indexOf("prac3") != -1) {
     
-    runPractice(numPracticeTrials * 2, '', 0.8);
+    runPractice(numPracticeReps * 2, '', 0.75);
     
   } else if (expStage.indexOf("prac4") != -1) {
     
-    runPractice(numPracticeTrials * 2, 0.75);
+    runPractice(numPracticeReps * 2, 0.75);
     
     // --- MAIN TASK --- //
   } else if (expStage.indexOf("main") != -1) {
@@ -54,14 +54,14 @@ function runTasks(){
   }
 }
 
-function runPractice(numPracticeTrials, task = "", cueDiff=1.0){
+function runPractice(numPracticeReps, task = "", cueDiff=1.0){
   trialCount = 0;
   if (repeatNecessary != true){
     block = 1;
   }
   
   // create task array for practice block
-  createPracticeArrays(numPracticeTrials, task, cueDiff);
+  createPracticeArrays(numPracticeReps, task, cueDiff);
   
   // start countdown into practice block
   countDown(3);
@@ -249,7 +249,7 @@ function itiScreen(){
   // log data
   data.push([sectionType, block, blockType,
   trialCount + 1, blockTrialCount + 1, getAccuracy(acc), respTime, stimArr[trialCount], cueArr[trialCount],
-  incArr[trialCount], taskArr[trialCount], partResp, stimOnset, respOnset, respArr[trialCount][1]]);
+  incArr[trialCount], taskName[taskArr[trialCount]], partResp, stimOnset, respOnset, respArr[trialCount]]);
   console.log(data);
   
   // prepare ITI canvas

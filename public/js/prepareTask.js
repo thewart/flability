@@ -1,7 +1,12 @@
-function createPracticeArrays(nTrials, task, cueDiff){
-  // let stimPairs = createPracticeStimPairs(nTrials, task);
-  incArr = createBinaryArray(nTrials, 0.5, ["i", "c"]);
-  stimArr = createStimArray(incArr, conStim, incStim);
+function createPracticeArrays(nReps, task, cueDiff){
+  // incArr = createBinaryArray(nTrials, 0.5, ["i", "c"]);
+  // stimArr = createStimArray(incArr, conStim, incStim);
+  var nTrials = Object.keys(stimSet).length * nReps;
+
+  stimArr = shuffle(repeat(Object.keys(stimSet), nReps));
+  incArr = [];
+  for (var s in stimArr) incArr.push(conStim.includes(s) ? 'c' : 'i'); 
+
   if (task == "") {
     switchArr = createBinaryArray(nTrials-1, 0.5, ["s", "r"])
     switchArr.unshift(null);

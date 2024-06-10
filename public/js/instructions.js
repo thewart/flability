@@ -4,9 +4,9 @@
 let instructions = {
   // contains the iterator for each instruction block
   iterator: {
-    "prac1-1": 0, "prac1-2": 0, "prac2": 0, "prac3": 0, "main1": 0
+    "prac1-1": 0, "prac1-2": 0, "prac2": 0, "prac3": 0, "main1": 0, 'main2': 0,
   },
-  order: ["prac1-1", "prac1-2", "prac2", "prac3", "main1"],
+  order: ["prac1-1", "prac1-2", "prac2", "prac3", "main1", "main2"],
   // what does instruction section end with?
   // #nextSectionButton, #startExpButton, buttonPressNextSection, buttonPressStartTask
   exitResponse: {
@@ -14,7 +14,8 @@ let instructions = {
     "prac1-2": 'buttonPressStartTask',
     "prac2": 'buttonPressStartTask',
     "prac3": 'buttonPressStartTask',
-    "main1": 'buttonPressStartTask',
+    "main1": '#nextSectionButton',
+    "main2": 'buttonPressStartTask'
   }
 };
 
@@ -95,12 +96,6 @@ function runInstructions(){
     
     console.log("button click");
     // log data for time spent on this section
-    sectionEnd = new Date().getTime() - runStart;
-    data.push([expStage, sectionType, block, blockType, 
-      NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, 
-      sectionStart, sectionEnd, sectionEnd - sectionStart]
-    );
-    console.log(data);
     
     // clear all button press listeners
     $(document).off("click","#nextInstrButton");
@@ -112,10 +107,6 @@ function runInstructions(){
   $(document).on('click', '#nextSectionButton', function(){
     // log data for time spent on this section
     sectionEnd = new Date().getTime() - runStart;
-    data.push([expStage, sectionType, block, blockType, 
-      NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, 
-      sectionStart, sectionEnd, sectionEnd - sectionStart]
-    );
     console.log(data);
     
     // clear all button press listeners

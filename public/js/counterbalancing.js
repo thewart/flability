@@ -1,22 +1,10 @@
-function getBlockOrder(numBlocks){
-  // switch (blockOrderNum) {
-  //   case 1:
-  //     return ["A", "B", "D", "C"];
-  //   case 2:
-  //     return ["B", "C", "A", "D"];
-  //   case 3:
-  //     return ["C", "D", "B", "A"];
-  //   case 4:
-  //     return ["D", "A", "C", "B"];
-  // }
-  return shuffle(["A", "B", "C"]).slice(0, numBlocks);
-}
+const getBlockOrder = (blockNames, blockReps) => shuffle(repeat(blockNames, blockReps));
 
 function getBlockParameters(blockLetter) {
   var thisBlock = {
-    switchProp: switchPropByBlock[blockLetter],
-    incProp: incPropByBlock[blockLetter],
-    cueDiff: cueDiffByBlock[blockLetter]
+    switchProp: (typeof(switchPropByBlock) === 'number') ? switchPropByBlock : switchPropByBlock[blockLetter],
+    incProp: (typeof(incPropByBlock) === 'number') ? incPropByBlock : incPropByBlock[blockLetter],
+    cueDiff: (typeof(cueDiffByBlock) === 'number') ? cueDiffByBlock : cueDiffByBlock[blockLetter]
   };
   
   return thisBlock;

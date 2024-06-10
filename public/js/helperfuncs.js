@@ -10,3 +10,5 @@ function shuffle(array){
   
   var getKeyByValue = (obj, value) => 
           Object.keys(obj).find(key => obj[key] === value);
+
+  const repeat = (arr, n) => arr.flatMap(item => Array(n).fill(item));

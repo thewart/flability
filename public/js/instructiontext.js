@@ -10,6 +10,7 @@ function getInstructionText(){
     var dirL = "left";
     var dirR = "right";
   }
+  var realPracTrials = Object.keys(stimSet).length * numPracticeReps;
   var blockTime = Math.ceil(trialsPerBlock * (fixInterval + stimInterval + 0.5*(itiMax + itiMin)) / (1000 * 60));
   var beginText = " Please place your hands on the '" + respL + "' and '" + respR + "' keys as shown.</p>" +
    "<img src=/images/handsOnKeyboard6.png>" +  "<p><b>Press any button to begin</b>.</p>";
@@ -40,7 +41,7 @@ function getInstructionText(){
       "<p>Press '" + respR + "' with your right hand index finger if the <b>" + task1 + 
       "</b> arrows are pointing " + dirR + ". </p>",
 
-      "<p>This block contains " + numPracticeTrials + " trials." + beginText
+      "<p>This block contains " + realPracTrials + " trials." + beginText
     ],
 
     'prac2': [
@@ -53,7 +54,7 @@ function getInstructionText(){
       "<p>Press '" + respR + "' with your right hand index finger if the <b>" + task2 +
       "</b> arrows are pointing " + dirR + ". </p>",
 
-      "<p>This block contains " + numPracticeTrials + " trials." + beginText
+      "<p>This block contains " + realPracTrials + " trials." + beginText
     ],
 
     'prac3': [
@@ -70,7 +71,7 @@ function getInstructionText(){
       "<p>As before, press '" + respL + "' if the relevant arrows are pointing " + dirL + ", and \n press '" + respR +
       "' if the relevant arrows are pointing " + dirR + ".</p>",
 
-      "<p>This block contains " + (numPracticeTrials * 2) + " trials." + beginText
+      "<p>This block contains " + (realPracTrials * 2) + " trials." + beginText
     ], 
 
     'main1': [
@@ -90,16 +91,14 @@ function getInstructionText(){
       + task1 + "</b> arrows.</p>",
 
       "<p>The circle on the left is mostly " + color2 + ", so you would respond to the <b>" 
-      + task2 + "</b> arrows.</p>",
+      + task2 + "</b> arrows.</p>"
+    ],
 
-      // "As before, respond to the <b>" + task1 + "</b> arrows if the the circle is more " + color1 +
-      // ",\n and to the <b>" + task2 + "</b> arrows if the circle is more " + color2 + ".",
-
+    'main2': [
       "<p>Try to respond as quickly and as accuractely as possible on each trial, and to\n" + 
-      " maintain at least 75% accuracy throughout the task.</p>" +
-      "<p>We will let you know how you are doing at each break.</p>",
+      " maintain at least 75% accuracy throughout the task.</p>",
 
-      beginText
+      "<p>We will let you know how you are doing at each break.</p>" + beginText
     ]
   };
 
@@ -143,7 +142,7 @@ function instructionCode(expStage) {
     drawSandwich(stimElem[0], stimElem[1], Object.assign(stimOpts, {offsetX: 100}), inColor, outColor);
     drawCircle((color2 === 'red') ? 0.75 : 0.25, Object.assign(cueOpts, {offsetX: 100}));
 
-  } else if (expStage === 'main1') {
+  } else if (expStage === 'main1' || expStage === 'main2') {
     let inColor = (task1 === 'inner') ? 'black' : 'gray';
     let outColor = (task1 === 'inner') ? 'gray' : 'black';
     drawSandwich(stimElem[0], stimElem[1], Object.assign(stimOpts, {offsetX: -100}), inColor, outColor);
