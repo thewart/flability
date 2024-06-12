@@ -2,19 +2,19 @@
 "use strict";
 
 // for testing
-let testMode = true;
+let testMode = false;
 let speed = "normal"; //fast, normal
 // speed = (testMode == true) ? "fast" : speed; //testMode defaults to "fast"
 let skipPractice = false; // turn practice blocks on or off
-let openerNeeded = false; //true
+let openerNeeded = true; //true
 
 // ----- Block Paramenters (CHANGE ME) ----- //
-let cueDiffByBlock = {A: 0.55, B: 0.6, C: 0.65, D: 0.7, E: 0.75, F: 0.8, G: 0.9, H:1.0};
+let cueDiffByBlock = {A: 0.55, B: 0.6, C: 0.65, D: 0.7, E: 0.75, F: 0.8};
 let switchPropByBlock = 0.5;
 let incPropByBlock = 0.5;
 
 let blockNames = Object.keys(cueDiffByBlock);
-let numBlockReps = 1, trialsPerBlock = 30;
+let numBlockReps = 1, trialsPerBlock = 40;
 let numBlocks = blockNames.length * numBlockReps;
 let blockOrder = getBlockOrder(blockNames, numBlockReps); //1st arg is array of block names
 

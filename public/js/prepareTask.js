@@ -1,6 +1,4 @@
 function createPracticeArrays(nReps, task, cueDiff){
-  // incArr = createBinaryArray(nTrials, 0.5, ["i", "c"]);
-  // stimArr = createStimArray(incArr, conStim, incStim);
   var nTrials = Object.keys(stimSet).length * nReps;
 
   stimArr = shuffle(repeat(Object.keys(stimSet), nReps));
@@ -8,58 +6,55 @@ function createPracticeArrays(nReps, task, cueDiff){
   for (var s in stimArr) incArr.push(conStim.includes(s) ? 'c' : 'i'); 
 
   if (task == "") {
-    switchArr = createBinaryArray(nTrials-1, 0.5, ["s", "r"])
-    switchArr.unshift(null);
+    switchArr = createBinaryArray(nTrials, 0.5, ['s', 'r'])
+    switchArr[0] = null;
     taskArr = createTaskArray(switchArr);
   } else {
     taskArr = Array(nTrials).fill(task);
   }
-  respArr = createRespArray(stimArr, taskArr, respMap);
-  cueArr = createCueArray(nTrials, cueDiff);
-  console.log(cueArr)
+  respArr = createRespFromStim(stimArr, taskArr, respMap);
+  cueArr = createCueArray(cueDiff, taskArr);
 }
 
 function createArrays(blockOrder, trialsPerBlock){
   let blockParams;
-  
   // write over practice block
-  stimArr = []; taskArr = []; switchArr = []; incArr = [], cueArr = [];
+  stimArr = []; taskArr = []; switchArr = []; incArr = [], cueArr = []; respArr = [];
 
   blockOrder.forEach( blockLetter => {
     blockParams = getBlockParameters(blockLetter);
     // create arrays for target and task based on congruencies
-    let incBlock = createBinaryArray(trialsPerBlock, blockParams.incProp, ["i", "c"]);
-    let switchBlock = createBinaryArray(trialsPerBlock-1, blockParams.switchProp, ["s", "r"]);
-    switchBlock.unshift(null);
+    let incBlock = createBinaryArray(trialsPerBlock, blockParams.incProp, ['i', 'c']);
+    let switchBlock = createBinaryArray(trialsPerBlock, blockParams.switchProp, ['s', 'r']);
+    switchBlock[0] = null;
+    let taskBlock = createTaskArray(switchBlock);
+    // let respBlock = createBinaryArray(trialsPerBlock, 0.5, labels=[respL, respR]);
 
-    taskArr = taskArr.concat(createTaskArray(switchBlock));
-    cueArr = cueArr.concat(createCueArray(trialsPerBlock, blockParams.cueDiff));
+    taskArr = taskArr.concat(taskBlock);
+    cueArr = cueArr.concat(createCueArray(blockParams.cueDiff, taskBlock));
     switchArr = switchArr.concat(switchBlock);
     incArr = incArr.concat(incBlock);
+    // respArr = respArr.concat(respBlock);
   });
 
-  stimArr = createStimArray(incArr, conStim, incStim);
-  respArr = createRespArray(stimArr, taskArr, respMap);
+  stimArr = createStimArray(incArr);
+  respArr = createRespFromStim(stimArr, taskArr, respMap);
 }
 
 function createBinaryArray(batchSize, prop, labels){
-  // calc how mnay congruent/incongruent trials are needed
-  
-  let arr = [];
-  let i = 0;
-  while (i < batchSize) {
-    i++;
-    thisTrial = Math.random() < prop ? labels[0] : labels[1];
-    arr.push(thisTrial);
-  }
+  //fixed proportions, randomized orders
+  let prop0 = Math.ceil(batchSize * prop);
+  let prop1 = Math.floor(batchSize * (1-prop));
+  let arr = Array(prop0).fill(labels[0]).concat(Array(prop1).fill(labels[1]));
 
-  return arr;
+  return shuffle(arr);
 }
+
 
 // creates task array
 function createTaskArray(switchArr){
   let nTrials = switchArr.length;
-  let taskA = "taskA", taskB = "taskB"; // in case we want to use more informative task names
+  let taskA = 'taskA', taskB = 'taskB'; // in case we want to use more informative task names
   let taskArr = [];
   let thisTask, prevTask;
 
@@ -67,12 +62,12 @@ function createTaskArray(switchArr){
   taskArr.push(prevTask);
   let i = 1;
   while (i < nTrials) {
-    isSwitch = switchArr[i];
-    if (isSwitch) {
-      thisTask = (prevTask==taskA) ? taskB : taskA;
+    if (switchArr[i] === 's') {
+      thisTask = (prevTask===taskA) ? taskB : taskA;
     } else {
       thisTask = prevTask;
     }
+
     taskArr.push(thisTask);
     prevTask = thisTask;
     
@@ -82,22 +77,42 @@ function createTaskArray(switchArr){
   return taskArr;
 }
 
-function createCueArray(nTrials, cueDiff) {
-  return Array(nTrials).fill(cueDiff);
+function createCueArray(cueDiff, taskArr) {
+  let cueArr = [];
+  taskArr.forEach(task => 
+    cueArr.push(taskColor[task] == "red" ? cueDiff : 1-cueDiff)
+  );
+  
+  return cueArr;
 }
 
-// creates array of stimulus indecies (vis-a-vis stimArr and respMap)
-function createStimArray(incArr, conStim, incStim){
+function createStimArray(incArr){
   let targetsArr = [];
-  incArr.forEach(conStatus => {
-    targetsArr.push((conStatus == "c") ? _.sample(conStim) : _.sample(incStim));
+  incArr.forEach(conStatus => 
+    targetsArr.push((conStatus == "c") ? _.sample(conStim) : _.sample(incStim))
+  );
+
+  return targetsArr;
+}
+
+//untested!
+function createStimFromResp(incArr, taskArr, respArr){
+  let targetsArr = [];
+  
+  incArr.forEach( (conStatus, index) => {
+    let stimByCon = (conStatus == 'c') ? conStim : incStim;
+    let thisMap = respMap[taskArr[index]];
+    let stimByResp = getAllKeysByValue(thisMap, respArr[index]);
+    let stimChoices = stimByCon.filter(s => stimByResp.includes(s));
+    
+    targetsArr.push(_.sample(stimChoices));
   })
 
   return targetsArr;
 }
 
-// creates array of correct responses
-function createRespArray(stimArr, taskArr, respMap){
+// creates array of correct responses; unused
+function createRespFromStim(stimArr, taskArr, respMap){
   // for each stimulus and associated task, identify required action for correct response
   let respArr = [];
   stimArr.forEach((stim, index) => {

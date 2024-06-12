@@ -157,7 +157,7 @@ function endOfExperiment(){
   // end of experiment stuff
   try {
     // upload data to menu.html's DOM element
-    $("#RTs", opener.window.document).val(data.join(";"));
+    $("#RTs", opener.window.document).val(data.join("\n"));
     
     // call menu debriefing script
     opener.updateMainMenu(2);
@@ -200,8 +200,7 @@ function stimScreen(){
       drawRect(opts);
       break;
       case "circle":
-      propRed = taskColor[taskArr[trialCount]] == "red" ? cueArr[trialCount] : 1-cueArr[trialCount];
-      drawCircle(propRed, cueOpts);
+      drawCircle(cueArr[trialCount], cueOpts);
       break;
     }
     
@@ -250,7 +249,6 @@ function itiScreen(){
   data.push([sectionType, block, blockType,
   trialCount + 1, blockTrialCount + 1, getAccuracy(acc), respTime, stimArr[trialCount], cueArr[trialCount],
   incArr[trialCount], taskName[taskArr[trialCount]], partResp, stimOnset, respOnset, respArr[trialCount]]);
-  console.log(data);
   
   // prepare ITI canvas
   ctx.fillStyle = accFeedbackColor();

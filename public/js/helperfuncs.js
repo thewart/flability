@@ -1,14 +1,18 @@
 // Fisher-Yates shuffle
 function shuffle(array){
-    for(let j, x, i = array.length; i; j = Math.floor(Math.random() * i), x = array[--i], array[i] = array[j], array[j] = x);
-    return array;
-  }
-  
-  function getRandomInt(max){
-    return Math.floor(Math.random() * Math.floor(max));
-  }
-  
-  var getKeyByValue = (obj, value) => 
-          Object.keys(obj).find(key => obj[key] === value);
+  for(let j, x, i = array.length; i; j = Math.floor(Math.random() * i), x = array[--i], array[i] = array[j], array[j] = x);
+  return array;
+}
 
-  const repeat = (arr, n) => arr.flatMap(item => Array(n).fill(item));
+function getRandomInt(max){
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
+const getKeyByValue = (obj, value) => Object.keys(obj).find(key => obj[key] === value);
+const getAllKeysByValue = (obj, value) => Object.keys(obj).filter(key => obj[key] === value);
+
+const repeat = (arr, n) => arr.flatMap(item => Array(n).fill(item));
+
+function zipArrays(arr1, arr2) {
+  return arr1.map((element, index) => [element, arr2[index]]);
+}

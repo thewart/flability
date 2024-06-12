@@ -22,11 +22,12 @@ app.post('/submit', function(req, resp) {
     // Generate Data
     var data = req.body;
     var filePath = dataDir + '/' + data.sessionID + '_' + data.workerID;
+
     var demoData = [data.studyID, data.workerID, data.sessionID, data.demographics].join(',');
     
     // Name  for data file
-    fs.writeFileSync(filePath + '.txt', demoData);
-    fs.writeFileSync(filePath + '.log', data.RTs);    
+    fs.writeFileSync(filePath + '.log', demoData);
+    fs.writeFileSync(filePath + '.csv', data.RTs);    
 })
 
 
