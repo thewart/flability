@@ -248,7 +248,8 @@ function itiScreen(){
   // log data
   data.push([sectionType, block, blockType,
   trialCount + 1, blockTrialCount + 1, getAccuracy(acc), respTime, stimArr[trialCount], cueArr[trialCount],
-  incArr[trialCount], taskName[taskArr[trialCount]], partResp, stimOnset, respOnset, respArr[trialCount]]);
+  incArr[trialCount], switchArr[trialCount], taskName[taskArr[trialCount]], partResp, stimOnset, respOnset,
+  respArr[trialCount]]);
   
   // prepare ITI canvas
   ctx.fillStyle = accFeedbackColor();
