@@ -87,10 +87,10 @@ function getInstructionText(){
       "\n In another block the amounts of " + color1 + " and " + color2 + " might be more balanced," + 
       " as in the example on the right.</p>",
 
-      "<p>In these examples, the circle on the right is mostly " + color1 + ", so you would respond to the <b>"
+      "<p>In these examples, the circle on the left is mostly " + color1 + ", so you would respond to the <b>"
       + task1 + "</b> arrows.</p>",
 
-      "<p>The circle on the left is mostly " + color2 + ", so you would respond to the <b>" 
+      "<p>The circle on the right is mostly " + color2 + ", so you would respond to the <b>" 
       + task2 + "</b> arrows.</p>"
     ],
 
