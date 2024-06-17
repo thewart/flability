@@ -10,6 +10,8 @@ function createPracticeArrays(nReps, task, cueDiff){
     switchArr[0] = null;
     taskArr = createTaskArray(switchArr);
   } else {
+    switchArr = Array(nTrials).fill('r');
+    switchArr[0] = null;
     taskArr = Array(nTrials).fill(task);
   }
   respArr = createRespFromStim(stimArr, taskArr, respMap);
