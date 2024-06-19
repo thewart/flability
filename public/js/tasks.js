@@ -321,7 +321,7 @@ function bigBlockScreen(){
   sectionType = "blockBreak";
   sectionStart = new Date().getTime() - runStart;
   expType = 0; //else expType stays = 1 till below runs
-  // setTimeout(function(){expType = 7},2000);
+  setTimeout(function(){expType = 7},2000);
   
   // display break screen (With timer)
   drawBreakScreen(minutesBreak);
