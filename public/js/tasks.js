@@ -321,34 +321,34 @@ function bigBlockScreen(){
   sectionType = "blockBreak";
   sectionStart = new Date().getTime() - runStart;
   expType = 0; //else expType stays = 1 till below runs
-  setTimeout(function(){expType = 7},2000);
+  // setTimeout(function(){expType = 7},2000);
   
   // display break screen (With timer)
-  drawBreakScreen("0" + minutesBreak,"00", minutesBreak);
-  blockBreakFunction(minutesBreak, 0, minutesBreak);
+  drawBreakScreen(minutesBreak);
+  // blockBreakFunction(minutesBreak, 0, minutesBreak);
   
-  function blockBreakFunction(minutes, seconds, max){
-    let time = minutes*60 + seconds;
-    ctx.fillStyle = "black";
-    sectionTimer = setInterval(function(){
-      if (time < 0) {return}
-      ctx.fillStyle = (time <= 60) ? "red" : "black";
-      let minutes = Math.floor(time / 60);
-      if (minutes < 10) minutes = "0" + minutes;
-      let seconds = Math.floor(time % 60);
-      if (seconds < 10) seconds = "0" + seconds;
-      drawBreakScreen(minutes, seconds, max);
-      time--;
-    }, 1000);
-  }
+  // function blockBreakFunction(minutes, seconds, max){
+  //   let time = minutes*60 + seconds;
+  //   ctx.fillStyle = "black";
+  //   sectionTimer = setInterval(function(){
+  //     if (time < 0) {return}
+  //     ctx.fillStyle = (time <= 60) ? "red" : "black";
+  //     let minutes = Math.floor(time / 60);
+  //     if (minutes < 10) minutes = "0" + minutes;
+  //     let seconds = Math.floor(time % 60);
+  //     if (seconds < 10) seconds = "0" + seconds;
+  //     drawBreakScreen(minutes, seconds, max);
+  //     time--;
+  //   }, 1000);
+  // }
 }
 
-function drawBreakScreen(minutes, seconds, max){
+function drawBreakScreen(max){
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   
   // draw timer (with color from previous function)
-  ctx.font = "bold 45px Arial";
-  ctx.fillText(minutes + ":" + seconds,canvas.width/2,canvas.height/2 - 100);
+  // ctx.font = "bold 45px Arial";
+  // ctx.fillText(minutes + ":" + seconds,canvas.width/2,canvas.height/2 - 100);
   
   // display miniblock text
   ctx.fillStyle = "black";
