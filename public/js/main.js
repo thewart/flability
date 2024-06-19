@@ -90,7 +90,7 @@ for (var stim in stimSet) respMap.taskA[stim] == respMap.taskB[stim] ? conStim.p
 var pracOrder = shuffle(["taskA", "taskB"]);
 
 // ----- Structural Paramenters (CHANGE ME) ----- //
-let stimInterval = (speed == "fast") ? 10 : 1500; //2000 stimulus interval
+let stimInterval = (speed == "fast") ? 10 : 3000; //2000 stimulus interval
 let fixInterval = (speed == "fast") ? 10 : 500; //500 ms intertrial interval
 let itiMin = (speed == "fast") ? 20 : 1000; //1200
 let itiMax = (speed == "fast") ? 20 : 1200; //1400
@@ -156,7 +156,7 @@ $(document).ready(function(){
     } else if (expType == 1){
       expType = 2; //prevent additional responses during this trial (i.e. holding down key)
       partResp = event.key;
-      acc = respArr[trialCount] == event.key;
+      acc = respArr[trialCount] == event.key.toLowerCase();
       // if (acc == 1){accCount++;}
       accCount += acc;
       respOnset = new Date().getTime() - runStart;

@@ -325,7 +325,7 @@ function bigBlockScreen(){
   
   // display break screen (With timer)
   drawBreakScreen("0" + minutesBreak,"00", minutesBreak);
-  blockBreakFunction(minutesBreak,0,minutesBreak);
+  blockBreakFunction(minutesBreak, 0, minutesBreak);
   
   function blockBreakFunction(minutes, seconds, max){
     let time = minutes*60 + seconds;
