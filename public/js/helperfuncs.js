@@ -12,6 +12,7 @@ const getKeyByValue = (obj, value) => Object.keys(obj).find(key => obj[key] === 
 const getAllKeysByValue = (obj, value) => Object.keys(obj).filter(key => obj[key] === value);
 
 const repeat = (arr, n) => arr.flatMap(item => Array(n).fill(item));
+var repeatEach = (arr, n) => arr.flatMap((item, index) => Array(n[index]).fill(item));
 
 function zipArrays(arr1, arr2) {
   return arr1.map((element, index) => [element, arr2[index]]);

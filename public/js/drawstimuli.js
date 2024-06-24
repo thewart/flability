@@ -138,3 +138,29 @@ function drawStimulus(){
     ctx.fillText(number, ctx.canvas.width/2, ctx.canvas.height/2);
   }
   
+  function drawColoredShapeGrid(stims, stimCounts) {
+    //stim = [shape, color]
+    // Grid configuration
+    const cellSize = canvas.width / gridSize;
+    stimGrid = shuffle(repeatEach(stims, stimCounts));
+    gridSize = Math.sqrt(stimGrid.length);
+
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = opts.fontSize + "px Arial";
+        
+    // Draw grid and letters
+    for (let row = 0; row < gridSize; row++) {
+      for (let col = 0; col < gridSize; col++) {
+        const x = col * cellSize;
+        const y = row * cellSize;
+                
+        // Draw letter
+        const index = row * gridSize + col;
+        const shape = stimGrid[index][0];
+        const color = stimGrid[index][1];
+        
+        ctx.fillText(shape, x + cellSize / 2, y + cellSize / 2);
+      }
+    }
+  }
