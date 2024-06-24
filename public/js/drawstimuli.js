@@ -157,8 +157,8 @@ function drawStimulus(){
                 
         // Draw letter
         const index = row * gridSize + col;
-        const shape = stimGrid[index][0];
-        const color = stimGrid[index][1];
+        // const shape = stimGrid[index][0];
+        // const color = stimGrid[index][1];
         
         ctx.fillText(shape, x + cellSize / 2, y + cellSize / 2);
       }

@@ -82,7 +82,51 @@ if (stimType === "flanker") {
     taskA : {LLLL: respL, RLLR: respL, LRRL: respR, RRRR: respR},
     taskB : {LLLL: respL, RLLR: respR, LRRL: respL, RRRR: respR}
   };
-} 
+  
+} else if (stimType === "barGrid") {
+  
+  function drawElementType(elemType, x, y) {
+    ctx.beginPath();
+    if (elemType === 'VF') {
+      // ctx.lineWidth = stimOpts.lineWidth;
+      ctx.rect(x-stimOpts.short/2, y-stimOpts.long/2, stimOpts.short, stimOpts.long);
+      ctx.fillStyle = stimOpts.fillStyle;
+      ctx.fill();
+    } else if (elemType === 'VE') {
+      ctx.lineWidth = stimOpts.lineWidth;
+      ctx.rect(x-stimOpts.short/2, y-stimOpts.long/2, stimOpts.short, stimOpts.long);
+      ctx.stroke();
+    } else if (elemType === 'HF') {
+      ctx.beginPath();
+      ctx.rect(x-stimOpts.long/2, y-stimOpts.short/2, stimOpts.long, stimOpts.short);
+      ctx.fillStyle = stimOpts.fillStyle;
+      ctx.fill();
+    } else if (elemType === 'VE') {
+      ctx.beginPath();
+      ctx.lineWidth = stimOpts.lineWidth;
+      ctx.rect(x-stimOpts.long/2, y-stimOpts.short/2, stimOpts.long, stimOpts.short);
+      ctx.stroke();
+    }
+  }
+  
+  function elementCounts(stimType, ADiff, BDiff) {
+    
+  }
+  
+  aMap = randIntFromInterval(1,2);
+  var respH = (aMap == 1) ? respL : respR;
+  var respV = (aMap == 1) ? respR : respL;
+  
+  bMap = randIntFromInterval(1,2);
+  var respF = (bMap == 1) ? respL : respR;
+  var respE = (bMap == 1) ? respR : respL;
+  
+  var respMap = {
+    taskA : {VF: respV, VE: respV, HF: respH, HE: respH},
+    taskB : {VF: respF, VE: respE, HF: respF, HE: respE}
+  };
+  
+}
 //construct arrays of congruent/incongruent stimuli from response match/mismatch
 let conStim = [], incStim = [];
 for (var stim in stimSet) respMap.taskA[stim] == respMap.taskB[stim] ? conStim.push(stim) : incStim.push(stim);
