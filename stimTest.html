@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="public/css/styles.css">
+    <script type="text/javascript" scr="public/js/helperfuncs.js"></script>
+    <script>  //put drawing functions here
+        function drawElementGrid(elements, opts) {
+            const cellSize = opts.gridSize / elements.length;
+            // stimGrid = shuffle(repeatEach(stims, stimCounts));
+            
+            var x0 = (canvas.width - opts.gridSize)/2;
+            var y0 = (canvas.height - opts.gridSize)/2;
+
+            // Draw grid and letters
+            for (let row = 0; row < opts.nRow; row++) {
+                for (let col = 0; col < opts.nCol; col++) {
+                    const x = x0 + (col + 0.5) * cellSize;
+                    const y = y0 + (row + 0.5) * cellSize;
+                    
+                    // Draw letter
+                    const index = row * nRow + col;
+                    drawElement(elements[index], x, y, opts.element);
+                }
+            }
+        }
+        
+        function drawElement(element, x, y, opts) {
+            ctx.beginPath();
+            if (element === 'VF') {
+                // ctx.lineWidth = stimOpts.lineWidth;
+                ctx.rect(x-opts.short/2, y-opts.long/2, opts.short, opts.long);
+                ctx.fillStyle = opts.fillStyle;
+                ctx.fill();
+            } else if (element === 'VE') {
+                ctx.lineWidth = opts.lineWidth;
+                ctx.rect(x-opts.short/2, y-opts.long/2, opts.short, opts.long);
+                ctx.stroke();
+            } else if (element === 'HF') {
+                ctx.beginPath();
+                ctx.rect(x-opts.long/2, y-opts.short/2, opts.long, opts.short);
+                ctx.fillStyle = opts.fillStyle;
+                ctx.fill();
+            } else if (element === 'VE') {
+                ctx.beginPath();
+                ctx.lineWidth = opts.lineWidth;
+                ctx.rect(x-opts.long/2, y-opts.short/2, opts.long, opts.short);
+                ctx.stroke();
+            }
+        }
+
+    </script>
+    <title>Stim Test</title>
+</head>
+<body>
+    <canvas id="myCanvas" width="800" height="600"></canvas>
+    
+    <script>
+        // Get the canvas element
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+
+        var gridSize = 180;
+        var dimLen = 3;
+        var elemOpts = {long: gridSize/dimLen * 0.8, short: gridSize/dimLen * 0.4, fillStyle: "black", lineWidth: 4};
+        var stimOpts = {nRow: dimLen, nCol: dimLen, element: elemOpts};
+
+        elements = shufle(repeat(['VF', 'VE', 'HF', 'HE'], 3));
+
+        drawElementGrid(elements, opts);
+        
+    </script>
+</body>
+</html>

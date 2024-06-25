@@ -85,23 +85,23 @@ if (stimType === "flanker") {
   
 } else if (stimType === "barGrid") {
   
-  function drawElementType(elemType, x, y) {
+  function drawElement(element, x, y) {
     ctx.beginPath();
-    if (elemType === 'VF') {
+    if (element === 'VF') {
       // ctx.lineWidth = stimOpts.lineWidth;
       ctx.rect(x-stimOpts.short/2, y-stimOpts.long/2, stimOpts.short, stimOpts.long);
       ctx.fillStyle = stimOpts.fillStyle;
       ctx.fill();
-    } else if (elemType === 'VE') {
+    } else if (element === 'VE') {
       ctx.lineWidth = stimOpts.lineWidth;
       ctx.rect(x-stimOpts.short/2, y-stimOpts.long/2, stimOpts.short, stimOpts.long);
       ctx.stroke();
-    } else if (elemType === 'HF') {
+    } else if (element === 'HF') {
       ctx.beginPath();
       ctx.rect(x-stimOpts.long/2, y-stimOpts.short/2, stimOpts.long, stimOpts.short);
       ctx.fillStyle = stimOpts.fillStyle;
       ctx.fill();
-    } else if (elemType === 'VE') {
+    } else if (element === 'VE') {
       ctx.beginPath();
       ctx.lineWidth = stimOpts.lineWidth;
       ctx.rect(x-stimOpts.long/2, y-stimOpts.short/2, stimOpts.long, stimOpts.short);

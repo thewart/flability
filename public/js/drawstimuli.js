@@ -138,12 +138,10 @@ function drawStimulus(){
     ctx.fillText(number, ctx.canvas.width/2, ctx.canvas.height/2);
   }
   
-  function drawColoredShapeGrid(stims, stimCounts) {
-    //stim = [shape, color]
-    // Grid configuration
+  function drawElementGrid(elements) {
     const cellSize = canvas.width / gridSize;
-    stimGrid = shuffle(repeatEach(stims, stimCounts));
-    gridSize = Math.sqrt(stimGrid.length);
+    // stimGrid = shuffle(repeatEach(stims, stimCounts));
+    gridSize = Math.sqrt(elements.length);
 
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
@@ -157,10 +155,11 @@ function drawStimulus(){
                 
         // Draw letter
         const index = row * gridSize + col;
+        drawElement(elements[index], x + cellSize / 2, y + cellSize / 2);
         // const shape = stimGrid[index][0];
         // const color = stimGrid[index][1];
         
-        ctx.fillText(shape, x + cellSize / 2, y + cellSize / 2);
+        // ctx.fillText(element, x + cellSize / 2, y + cellSize / 2);
       }
     }
   }
