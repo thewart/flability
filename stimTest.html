@@ -1,24 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="public/css/styles.css">
-    <script type="text/javascript" scr="public/js/helperfuncs.js"></script>
     <script>  //put drawing functions here
         function drawElementGrid(elements, opts) {
-            const cellSize = opts.gridSize / elements.length;
+            const cellSize = opts.gridSize / opts.nRow;
             // stimGrid = shuffle(repeatEach(stims, stimCounts));
             
             var x0 = (canvas.width - opts.gridSize)/2;
             var y0 = (canvas.height - opts.gridSize)/2;
-
+            
             // Draw grid and letters
             for (let row = 0; row < opts.nRow; row++) {
                 for (let col = 0; col < opts.nCol; col++) {
                     const x = x0 + (col + 0.5) * cellSize;
                     const y = y0 + (row + 0.5) * cellSize;
                     
+                    console.log(x, y)
                     // Draw letter
-                    const index = row * nRow + col;
+                    const index = row * opts.nRow + col;
                     drawElement(elements[index], x, y, opts.element);
                 }
             }
@@ -26,28 +25,38 @@
         
         function drawElement(element, x, y, opts) {
             ctx.beginPath();
-            if (element === 'VF') {
-                // ctx.lineWidth = stimOpts.lineWidth;
+            
+            switch (element.at(0)) {
+                case 'V':
                 ctx.rect(x-opts.short/2, y-opts.long/2, opts.short, opts.long);
+                break;
+                
+                case 'H':
+                ctx.rect(x-opts.long/2, y-opts.short/2, opts.long, opts.short); 
+                break;
+            }
+            
+            switch (element.at(1)) {
+                case 'F':
                 ctx.fillStyle = opts.fillStyle;
                 ctx.fill();
-            } else if (element === 'VE') {
+                break;
+
+                case 'E':
                 ctx.lineWidth = opts.lineWidth;
-                ctx.rect(x-opts.short/2, y-opts.long/2, opts.short, opts.long);
                 ctx.stroke();
-            } else if (element === 'HF') {
-                ctx.beginPath();
-                ctx.rect(x-opts.long/2, y-opts.short/2, opts.long, opts.short);
-                ctx.fillStyle = opts.fillStyle;
-                ctx.fill();
-            } else if (element === 'VE') {
-                ctx.beginPath();
-                ctx.lineWidth = opts.lineWidth;
-                ctx.rect(x-opts.long/2, y-opts.short/2, opts.long, opts.short);
-                ctx.stroke();
+                break;
             }
         }
-
+        
+        function shuffle(array){
+            for(let j, x, i = array.length; i; j = Math.floor(Math.random() * i), x = array[--i], array[i] = array[j], array[j] = x);
+            return array;
+        }
+        
+        var repeatEach = (arr, n) => arr.flatMap((item, index) => Array(n[index]).fill(item));
+        const repeat = (arr, n) => arr.flatMap(item => Array(n).fill(item));
+        
     </script>
     <title>Stim Test</title>
 </head>
@@ -58,15 +67,16 @@
         // Get the canvas element
         var canvas = document.getElementById("myCanvas");
         var ctx = canvas.getContext("2d");
-
-        var gridSize = 180;
-        var dimLen = 3;
-        var elemOpts = {long: gridSize/dimLen * 0.8, short: gridSize/dimLen * 0.4, fillStyle: "black", lineWidth: 4};
-        var stimOpts = {nRow: dimLen, nCol: dimLen, element: elemOpts};
-
-        elements = shufle(repeat(['VF', 'VE', 'HF', 'HE'], 3));
-
-        drawElementGrid(elements, opts);
+        
+        var gridSize = 150;
+        var dimLen = 5;
+        var elemOpts = {long: gridSize/dimLen * 0.6, short: gridSize/dimLen * 0.3, fillStyle: "black", lineWidth: 2};
+        var stimOpts = {nRow: dimLen, nCol: dimLen, gridSize: gridSize, element: elemOpts};
+        
+        
+        elements = shuffle(repeatEach(['VF', 'VE', 'HF', 'HE'], [12, 8, 3, 2]));
+        
+        drawElementGrid(elements, stimOpts);
         
     </script>
 </body>

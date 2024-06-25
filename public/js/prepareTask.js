@@ -123,3 +123,12 @@ function createRespFromStim(stimArr, taskArr, respMap){
   });
   return respArr;
 }
+
+function makeRespMap(stimSet, respMapA, respMapB) {
+  respMap = {taskA: {}, taskB: {}};
+  sA = stimSet.map(s => {return s.at(0)});
+  respMap.taskA = sA.map(s => {return respMapA[s]});
+  sB = stimSet.map(s => {return s.at(1)});
+  respMap.taskB = sB.map(s => {return respMapB[s]});
+  return respMap;
+}

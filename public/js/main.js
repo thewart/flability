@@ -10,6 +10,7 @@ let openerNeeded = true; //true
 
 // ----- Block Paramenters (CHANGE ME) ----- //
 let cueDiffByBlock = {A: 0.55, B: 0.6, C: 0.65, D: 0.7, E: 0.75, F: 0.8};
+let stimDiffByBlock = {A: 0.75, B: 0.75, C: 0.75, D: 0.75, E: 0.75, F: 0.75};
 let switchPropByBlock = 0.5;
 let incPropByBlock = 0.5;
 
@@ -24,109 +25,73 @@ let colorValues = {red: "#ff3503", blue: "#0381ff"};
 let cueType = "circle"; // {rect, circle, squircle}
 let stimType = "sandwich"
 let cueOpts = {lineWidth: 10, numSegments: 10, radius: 125};
-let stimOpts = {fontSize: 75, gapProp: 0.4}
-stimOpts.gap = stimOpts.fontSize * stimOpts.gapProp;
+// stimOpts.gap = stimOpts.fontSize * stimOpts.gapProp;
 let taskMap;
 // ----- Stimulus Paramenters (CHANGE ME) ----- //
 
 var respL = 'z', respR = 'm';
 
-if (stimType === "flanker") {
-  //Flanker task:
-  //Task A: Middle up/down
-  //Task B: Flanking up/down
-  //2191: Up; 2193: Down
-  var taskName = {taskA: "inner", taskB: "outer"}
-  var stimElem = ["\u2191", "\u2193"];
+
+if (stimType === "barGrid") {
   
-  // [Center, Flanker]
-  var stimSet = {
-    UUUU: [stimElem[0], stimElem[0]], 
-    DUUD: [stimElem[0], stimElem[1]], 
-    UDDU: [stimElem[1], stimElem[0]],
-    DDDD: [stimElem[1], stimElem[1]]
-  };
+  var gridSize = 150;
+  var dimLen = 5;
+  var elemOpts = {long: gridSize/dimLen * 0.6, short: gridSize/dimLen * 0.3, fillStyle: "black", lineWidth: 2};
+  var stimOpts = {nRow: dimLen, nCol: dimLen, gridSize: gridSize, element: elemOpts};
   
-  // ----- Task Paramenters (CHANGE ME) ----- //
-  taskMap = randIntFromInterval(1,2);
-  var respUp = (taskMap == 1) ? respL : respR;
-  var respDown = (taskMap == 1) ? respR : respL;
-  
-  //Set up target-resp mappings
-  //Each respMap element must have same length as stimSet
-  var respMap = {
-    taskA : {UUUU: respUp, DUUD: respUp, UDDU: respDown, DDDD: respDown},
-    taskB : {UUUU: respUp, DUUD: respDown, UDDU: respUp, DDDD: respDown}
-  };
-  
-} else if (stimType === "sandwich") {
-  //Sandwich task:
-  //Task A: Middle L/R
-  //Task B: Flanking L/R
-  //2190: Left; 2192: Right
-  var taskName = {taskA: "inner", taskB: "outer"}
-  var stimElem = ["\u2190", "\u2192"];
-  
-  // [Center, Flanker]
-  var stimSet = {
-    LLLL: [stimElem[0], stimElem[0]], 
-    RLLR: [stimElem[0], stimElem[1]], 
-    LRRL: [stimElem[1], stimElem[0]],
-    RRRR: [stimElem[1], stimElem[1]]
-  };
-  
-  // ----- Task Paramenters (CHANGE ME) ----- //  
-  //Set up target-resp mappings
-  //Each respMap element must have same length as stimSet
-  var respMap = {
-    taskA : {LLLL: respL, RLLR: respL, LRRL: respR, RRRR: respR},
-    taskB : {LLLL: respL, RLLR: respR, LRRL: respL, RRRR: respR}
-  };
-  
-} else if (stimType === "barGrid") {
-  
-  function drawElement(element, x, y) {
+  function drawElement(element, x, y, opts) {
     ctx.beginPath();
-    if (element === 'VF') {
-      // ctx.lineWidth = stimOpts.lineWidth;
-      ctx.rect(x-stimOpts.short/2, y-stimOpts.long/2, stimOpts.short, stimOpts.long);
-      ctx.fillStyle = stimOpts.fillStyle;
-      ctx.fill();
-    } else if (element === 'VE') {
-      ctx.lineWidth = stimOpts.lineWidth;
-      ctx.rect(x-stimOpts.short/2, y-stimOpts.long/2, stimOpts.short, stimOpts.long);
-      ctx.stroke();
-    } else if (element === 'HF') {
-      ctx.beginPath();
-      ctx.rect(x-stimOpts.long/2, y-stimOpts.short/2, stimOpts.long, stimOpts.short);
-      ctx.fillStyle = stimOpts.fillStyle;
-      ctx.fill();
-    } else if (element === 'VE') {
-      ctx.beginPath();
-      ctx.lineWidth = stimOpts.lineWidth;
-      ctx.rect(x-stimOpts.long/2, y-stimOpts.short/2, stimOpts.long, stimOpts.short);
-      ctx.stroke();
+    ctx.lineWidth = opts.lineWidth;
+    
+    switch (element.at(0)) {
+      case 'V':
+      ctx.rect(x-opts.short/2, y-opts.long/2, opts.short, opts.long);
+      break;
+      case 'H':
+      ctx.rect(x-opts.long/2, y-opts.short/2, opts.long, opts.short); 
+      break;
     }
+    
+    switch (element.at(1)) {
+      case 'F':
+      ctx.fillStyle = opts.fillStyle;
+      ctx.fill();
+      break;
+      case 'E':
+      break;
+    }
+    ctx.stroke();
   }
   
-  function elementCounts(stimType, ADiff, BDiff) {
+  function stimConstructor(stimType, propA, propB) {
+    function getElemCount(s) {
+      var prop = (s.at(0) == stimType.at(0) ? propA : 1-propA) * (s.at(1) === stimType.at(1) ? propB : 1-propB);
+      return Math.round(prop * stimOpts.nRow * stimOpts.nCol);
+    }
     
-  }
+    let elementCounts = stimSet.map(getElemCount);
+    console.log(elementCounts)
+    let elementSet = repeatEach(stimSet, elementCounts);
+    return shuffle(elementSet).slice(0, stimOpts.nRow * stimOpts.nCol);
+  }  
+  
+  var stimSet = ['VF', 'VE', 'HF', 'HE'];
   
   aMap = randIntFromInterval(1,2);
-  var respH = (aMap == 1) ? respL : respR;
-  var respV = (aMap == 1) ? respR : respL;
-  
   bMap = randIntFromInterval(1,2);
-  var respF = (bMap == 1) ? respL : respR;
-  var respE = (bMap == 1) ? respR : respL;
   
-  var respMap = {
-    taskA : {VF: respV, VE: respV, HF: respH, HE: respH},
-    taskB : {VF: respF, VE: respE, HF: respF, HE: respE}
+  respMapA = {
+    H: (aMap == 1) ? respL : respR,
+    V: (aMap == 1) ? respR : respL
   };
-  
+  respMapB = {
+    F: (bMap == 1) ? respL : respR,
+    E: (bMap == 1) ? respR : respL
+  };
 }
+
+respMap = makeRespMap(stimSet, respMapA, respMapB);
+
 //construct arrays of congruent/incongruent stimuli from response match/mismatch
 let conStim = [], incStim = [];
 for (var stim in stimSet) respMap.taskA[stim] == respMap.taskB[stim] ? conStim.push(stim) : incStim.push(stim);
@@ -267,9 +232,6 @@ $(document).ready(function(){
 });
 
 // ------- Misc Experiment Functions ------- //
-function randIntFromInterval(min, max) { // min and max included
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
 
 function promptMenuClosed(){
   $('.MenuClosedPrompt').show();

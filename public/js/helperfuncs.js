@@ -17,3 +17,7 @@ var repeatEach = (arr, n) => arr.flatMap((item, index) => Array(n[index]).fill(i
 function zipArrays(arr1, arr2) {
   return arr1.map((element, index) => [element, arr2[index]]);
 }
+
+function randIntFromInterval(min, max) { // min and max included
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
