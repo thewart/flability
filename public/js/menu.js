@@ -1,5 +1,6 @@
 // create global curStage variable
-let curStage = 0;
+let curStage = 1;
+console.log(curStage)
 
 // creates popup window
 function basicPopup(url) {
@@ -86,7 +87,7 @@ $(document).ready(function(){
 
 function prepareMenu(){
   // update menu to first value
-  updateMainMenu(0);
+  updateMainMenu(curStage);
 
   // create button press code for switching between sections
   $("#myButton").click(function(){

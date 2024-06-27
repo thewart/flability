@@ -2,15 +2,15 @@
 "use strict";
 
 // for testing
-let testMode = false;
+let testMode = true;
 let speed = "normal"; //fast, normal
 // speed = (testMode == true) ? "fast" : speed; //testMode defaults to "fast"
-let skipPractice = false; // turn practice blocks on or off
-let openerNeeded = true; //true
+let skipPractice = true; // turn practice blocks on or off
+let openerNeeded = false; //true
 
 // ----- Block Paramenters (CHANGE ME) ----- //
 let cueDiffByBlock = {A: 0.55, B: 0.6, C: 0.65, D: 0.7, E: 0.75, F: 0.8};
-let stimDiffByBlock = {A: 0.75, B: 0.75, C: 0.75, D: 0.75, E: 0.75, F: 0.75};
+let stimDiffByBlock = 0.75;
 let switchPropByBlock = 0.5;
 let incPropByBlock = 0.5;
 
@@ -23,25 +23,24 @@ let blockOrder = getBlockOrder(blockNames, numBlockReps); //1st arg is array of 
 
 let colorValues = {red: "#ff3503", blue: "#0381ff"};
 let cueType = "circle"; // {rect, circle, squircle}
-let stimType = "sandwich"
+let stimType = "barGrid";
 let cueOpts = {lineWidth: 10, numSegments: 10, radius: 125};
 // stimOpts.gap = stimOpts.fontSize * stimOpts.gapProp;
 let taskMap;
 // ----- Stimulus Paramenters (CHANGE ME) ----- //
-
 var respL = 'z', respR = 'm';
-
 
 if (stimType === "barGrid") {
   
   var gridSize = 150;
-  var dimLen = 5;
-  var elemOpts = {long: gridSize/dimLen * 0.6, short: gridSize/dimLen * 0.3, fillStyle: "black", lineWidth: 2};
+  var dimLen = 4;
+  var elemOpts = {long: gridSize/dimLen * 0.8, short: gridSize/dimLen * 0.4, fillStyle: "black", lineWidth: 2};
   var stimOpts = {nRow: dimLen, nCol: dimLen, gridSize: gridSize, element: elemOpts};
   
-  function drawElement(element, x, y, opts) {
+  var drawElement = function (element, x, y, opts) {
     ctx.beginPath();
     ctx.lineWidth = opts.lineWidth;
+    ctx.strokeStyle = 'black';
     
     switch (element.at(0)) {
       case 'V':
@@ -63,38 +62,39 @@ if (stimType === "barGrid") {
     ctx.stroke();
   }
   
-  function stimConstructor(stimType, propA, propB) {
+  var stimConstructor = function (stimType, propA, propB) {
     function getElemCount(s) {
       var prop = (s.at(0) == stimType.at(0) ? propA : 1-propA) * (s.at(1) === stimType.at(1) ? propB : 1-propB);
       return Math.round(prop * stimOpts.nRow * stimOpts.nCol);
     }
     
     let elementCounts = stimSet.map(getElemCount);
-    console.log(elementCounts)
     let elementSet = repeatEach(stimSet, elementCounts);
     return shuffle(elementSet).slice(0, stimOpts.nRow * stimOpts.nCol);
   }  
   
   var stimSet = ['VF', 'VE', 'HF', 'HE'];
   
-  aMap = randIntFromInterval(1,2);
-  bMap = randIntFromInterval(1,2);
+  var aMap = randIntFromInterval(1,2);
+  var bMap = randIntFromInterval(1,2);
   
-  respMapA = {
+  var respMapA = {
     H: (aMap == 1) ? respL : respR,
     V: (aMap == 1) ? respR : respL
   };
-  respMapB = {
+  var respMapB = {
     F: (bMap == 1) ? respL : respR,
     E: (bMap == 1) ? respR : respL
   };
+
+  var taskName = {taskA: 'shape', taskB: 'color'};
 }
 
-respMap = makeRespMap(stimSet, respMapA, respMapB);
+let respMap = makeRespMap(stimSet, respMapA, respMapB);
 
 //construct arrays of congruent/incongruent stimuli from response match/mismatch
 let conStim = [], incStim = [];
-for (var stim in stimSet) respMap.taskA[stim] == respMap.taskB[stim] ? conStim.push(stim) : incStim.push(stim);
+stimSet.forEach(s => respMap.taskA[s] == respMap.taskB[s] ? conStim.push(s) : incStim.push(s));
 
 var pracOrder = shuffle(["taskA", "taskB"]);
 
@@ -118,7 +118,7 @@ function ITIInterval(){
 }
 
 //initialize global task variables
-let stimArr, taskArr, respArr, switchArr, incArr, cueArr; // global vars for task arrays
+let stimArr, taskArr, respArr, switchArr, incArr, cueArr, stimDiff; // global vars for task arrays
 let canvas, ctx, instrCanvas, itx; // global canvas variable
 let expStage = (skipPractice == true) ? "main1" : "prac1-1";
 // vars for tasks (iterator, accuracy) and reaction times:

@@ -4,7 +4,8 @@ function getBlockParameters(blockLetter) {
   var thisBlock = {
     switchProp: (typeof(switchPropByBlock) === 'number') ? switchPropByBlock : switchPropByBlock[blockLetter],
     incProp: (typeof(incPropByBlock) === 'number') ? incPropByBlock : incPropByBlock[blockLetter],
-    cueDiff: (typeof(cueDiffByBlock) === 'number') ? cueDiffByBlock : cueDiffByBlock[blockLetter]
+    cueDiff: (typeof(cueDiffByBlock) === 'number') ? cueDiffByBlock : cueDiffByBlock[blockLetter],
+    stimDiff: (typeof(stimDiffByBlock) === 'number') ? stimDiffByBlock : stimDiffByBlock[blockLetter],
   };
   
   return thisBlock;

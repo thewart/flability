@@ -21,7 +21,7 @@ function createPracticeArrays(nReps, task, cueDiff){
 function createArrays(blockOrder, trialsPerBlock){
   let blockParams;
   // write over practice block
-  stimArr = []; taskArr = []; switchArr = []; incArr = [], cueArr = []; respArr = [];
+  stimArr = []; taskArr = []; switchArr = []; incArr = [], cueArr = []; respArr = []; stimDiff = [];
 
   blockOrder.forEach( blockLetter => {
     blockParams = getBlockParameters(blockLetter);
@@ -37,6 +37,7 @@ function createArrays(blockOrder, trialsPerBlock){
     switchArr = switchArr.concat(switchBlock);
     incArr = incArr.concat(incBlock);
     // respArr = respArr.concat(respBlock);
+    stimDiff.push(blockParams.stimDiff);
   });
 
   stimArr = createStimArray(incArr);
@@ -125,10 +126,8 @@ function createRespFromStim(stimArr, taskArr, respMap){
 }
 
 function makeRespMap(stimSet, respMapA, respMapB) {
-  respMap = {taskA: {}, taskB: {}};
-  sA = stimSet.map(s => {return s.at(0)});
-  respMap.taskA = sA.map(s => {return respMapA[s]});
-  sB = stimSet.map(s => {return s.at(1)});
-  respMap.taskB = sB.map(s => {return respMapB[s]});
+  let respMap = {taskA: {}, taskB: {}};
+  stimSet.forEach(s => respMap.taskA[s] = respMapA[s.at(0)]);
+  stimSet.forEach(s => respMap.taskB[s] = respMapB[s.at(1)]);
   return respMap;
 }

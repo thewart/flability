@@ -207,15 +207,21 @@ function stimScreen(){
     //reset all response variables and await response (expType = 1)
     expType = 1; acc = NaN, respTime = NaN, partResp = NaN, respOnset = NaN;
     // display stimulus
-    if (stimType === "flanker") {
-      let middle = stimSet[stimArr[trialCount]][0];
-      let flanker = stimSet[stimArr[trialCount]][1];
-      drawFlanker(middle, flanker, stimOpts);
-    } else if (stimType === "sandwich") {
-      let middle = stimSet[stimArr[trialCount]][0];
-      let flanker = stimSet[stimArr[trialCount]][1];
-      drawSandwich(middle, flanker, stimOpts);
+    // if (stimType === "flanker") {
+    //   let middle = stimSet[stimArr[trialCount]][0];
+    //   let flanker = stimSet[stimArr[trialCount]][1];
+    //   drawFlanker(middle, flanker, stimOpts);
+    // } else if (stimType === "sandwich") {
+    //   let middle = stimSet[stimArr[trialCount]][0];
+    //   let flanker = stimSet[stimArr[trialCount]][1];
+    //   drawSandwich(middle, flanker, stimOpts);
+    // }
+
+    if (stimType === "barGrid") {
+      let thisStim = stimConstructor(stimArr[trialCount], stimDiff[block-1], stimDiff[block-1]);
+      drawElementGrid(thisStim, stimOpts);
     }
+  
     // proceed to ITI screen after timeout
     stimTimeout = setTimeout(itiScreen, stimInterval);
   }
