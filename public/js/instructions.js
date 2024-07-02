@@ -107,7 +107,6 @@ function runInstructions(){
   $(document).on('click', '#nextSectionButton', function(){
     // log data for time spent on this section
     sectionEnd = new Date().getTime() - runStart;
-    console.log(data);
     
     // clear all button press listeners
     $(document).off("click","#nextInstrButton");

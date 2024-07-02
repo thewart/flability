@@ -5,12 +5,12 @@
 let testMode = true;
 let speed = "normal"; //fast, normal
 // speed = (testMode == true) ? "fast" : speed; //testMode defaults to "fast"
-let skipPractice = true; // turn practice blocks on or off
+let skipPractice = false; // turn practice blocks on or off
 let openerNeeded = false; //true
 
 // ----- Block Paramenters (CHANGE ME) ----- //
 let cueDiffByBlock = {A: 0.55, B: 0.6, C: 0.65, D: 0.7, E: 0.75, F: 0.8};
-let stimDiffByBlock = 0.75;
+let stimDiffByBlock = 7/9;
 let switchPropByBlock = 0.5;
 let incPropByBlock = 0.5;
 
@@ -23,19 +23,20 @@ let blockOrder = getBlockOrder(blockNames, numBlockReps); //1st arg is array of 
 
 let colorValues = {red: "#ff3503", blue: "#0381ff"};
 let cueType = "circle"; // {rect, circle, squircle}
-let stimType = "barGrid";
+let stimType = "cvt";
 let cueOpts = {lineWidth: 10, numSegments: 10, radius: 125};
 // stimOpts.gap = stimOpts.fontSize * stimOpts.gapProp;
 let taskMap;
 // ----- Stimulus Paramenters (CHANGE ME) ----- //
-var respL = 'z', respR = 'm';
+let respL = 'z', respR = 'm';
 
-if (stimType === "barGrid") {
+let gridSize = 120;
+let dimLen = 3;
+let stimOpts = {nRow: dimLen, nCol: dimLen, gridSize: gridSize, element: {}}
+
+if (stimType === "orientedBars") {
   
-  var gridSize = 150;
-  var dimLen = 4;
-  var elemOpts = {long: gridSize/dimLen * 0.8, short: gridSize/dimLen * 0.4, fillStyle: "black", lineWidth: 2};
-  var stimOpts = {nRow: dimLen, nCol: dimLen, gridSize: gridSize, element: elemOpts};
+  stimOpts.element = {long: gridSize/dimLen * 0.8, short: gridSize/dimLen * 0.4, fillStyle: "black", lineWidth: 2};
   
   var drawElement = function (element, x, y, opts) {
     ctx.beginPath();
@@ -46,6 +47,7 @@ if (stimType === "barGrid") {
       case 'V':
       ctx.rect(x-opts.short/2, y-opts.long/2, opts.short, opts.long);
       break;
+      
       case 'H':
       ctx.rect(x-opts.long/2, y-opts.short/2, opts.long, opts.short); 
       break;
@@ -56,47 +58,94 @@ if (stimType === "barGrid") {
       ctx.fillStyle = opts.fillStyle;
       ctx.fill();
       break;
+      
       case 'E':
+      ctx.stroke();
       break;
     }
-    ctx.stroke();
   }
-  
-  var stimConstructor = function (stimType, propA, propB) {
-    function getElemCount(s) {
-      var prop = (s.at(0) == stimType.at(0) ? propA : 1-propA) * (s.at(1) === stimType.at(1) ? propB : 1-propB);
-      return Math.round(prop * stimOpts.nRow * stimOpts.nCol);
-    }
-    
-    let elementCounts = stimSet.map(getElemCount);
-    let elementSet = repeatEach(stimSet, elementCounts);
-    return shuffle(elementSet).slice(0, stimOpts.nRow * stimOpts.nCol);
-  }  
   
   var stimSet = ['VF', 'VE', 'HF', 'HE'];
   
-  var aMap = randIntFromInterval(1,2);
-  var bMap = randIntFromInterval(1,2);
+  // var aMap = randIntFromInterval(1,2);
+  // var bMap = randIntFromInterval(1,2);
+  let aMap = 1;
+  let bMap = 1;
   
-  var respMapA = {
-    H: (aMap == 1) ? respL : respR,
-    V: (aMap == 1) ? respR : respL
+  var singleTaskMap = {
+    taskA: {
+      H: (aMap == 1) ? respL : respR,
+      V: (aMap == 1) ? respR : respL
+    },
+    taskB: {
+      F: (bMap == 1) ? respL : respR,
+      E: (bMap == 1) ? respR : respL
+    }
   };
-  var respMapB = {
-    F: (bMap == 1) ? respL : respR,
-    E: (bMap == 1) ? respR : respL
+  
+  var taskName = {taskA: 'orientation', taskB: 'fill'};
+  
+} else if (stimType === "cvt") {
+  
+  let cellArea = (gridSize * gridSize) / (dimLen * dimLen);
+  stimOpts.element = {area: cellArea*0.2, fillStyle: "black", lineWidth: 2};
+  
+  var drawElement = function (element, x, y, opts) {
+    ctx.beginPath();
+    
+    switch (element.at(0)) {
+      case 'C':
+      drawCircle(x, y, opts.area, false, false);
+      break;
+      
+      case 'T':
+      drawTriangle(x, y, opts.area, false, false); 
+      break;
+    }
+    
+    switch (element.at(1)) {
+      case 'F':
+      ctx.fillStyle = opts.fillStyle;
+      ctx.fill();
+      break;
+      
+      case 'E':
+      ctx.lineWidth = opts.lineWidth;
+      ctx.strokeStyle = 'black';    
+      ctx.stroke();
+      break;
+    }
+  }
+  
+  var stimSet = ['CF', 'CE', 'TF', 'TE'];
+  
+  // var aMap = randIntFromInterval(1,2);
+  // var bMap = randIntFromInterval(1,2);
+  let aMap = 1;
+  let bMap = 1;
+  
+  var singleTaskMap = {
+    taskA: {
+      C: (aMap == 1) ? respL : respR,
+      T: (aMap == 1) ? respR : respL
+    },
+    taskB: {
+      F: (bMap == 1) ? respL : respR,
+      E: (bMap == 1) ? respR : respL
+    }
   };
-
-  var taskName = {taskA: 'shape', taskB: 'color'};
+  
+  var taskName = {taskA: 'type', taskB: 'fill'};
+  var elemNames = {taskA: {C: 'circles', T: 'triangles'}, taskB: {F: 'filled', E: 'empty'}};
 }
 
-let respMap = makeRespMap(stimSet, respMapA, respMapB);
+let respMap = makeRespMap(stimSet, singleTaskMap);
 
 //construct arrays of congruent/incongruent stimuli from response match/mismatch
 let conStim = [], incStim = [];
 stimSet.forEach(s => respMap.taskA[s] == respMap.taskB[s] ? conStim.push(s) : incStim.push(s));
 
-var pracOrder = shuffle(["taskA", "taskB"]);
+let pracOrder = shuffle(["taskA", "taskB"]);
 
 // ----- Structural Paramenters (CHANGE ME) ----- //
 let stimInterval = (speed == "fast") ? 10 : 3000; //2000 stimulus interval

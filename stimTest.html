@@ -25,28 +25,66 @@
         
         function drawElement(element, x, y, opts) {
             ctx.beginPath();
-            
             switch (element.at(0)) {
                 case 'V':
-                ctx.rect(x-opts.short/2, y-opts.long/2, opts.short, opts.long);
+                // ctx.rect(x-opts.short/2, y-opts.long/2, opts.short, opts.long);
+                drawTriangle(x, y, opts.area);
                 break;
-                
                 case 'H':
-                ctx.rect(x-opts.long/2, y-opts.short/2, opts.long, opts.short); 
+                    // ctx.rect(x-opts.long/2, y-opts.short/2, opts.long, opts.short); 
+                drawCircle(x, y, opts.area)
                 break;
             }
-            
             switch (element.at(1)) {
                 case 'F':
                 ctx.fillStyle = opts.fillStyle;
                 ctx.fill();
                 break;
-
+                
                 case 'E':
                 ctx.lineWidth = opts.lineWidth;
                 ctx.stroke();
                 break;
             }
+        }
+        
+        function drawTriangle(centerX, centerY, area, stroke=true, fill=false) {
+            // Calculate the side length of an equilateral triangle
+            const sideLength = Math.sqrt((4 * area) / Math.sqrt(3));
+            
+            // Calculate the height of the triangle
+            const height = (Math.sqrt(3) / 2) * sideLength;
+            
+            // Calculate the coordinates of the three vertices
+            const topX = centerX;
+            const topY = centerY - height / 2;
+            const leftX = centerX - sideLength / 2;
+            const leftY = centerY + height / 2;
+            const rightX = centerX + sideLength / 2;
+            const rightY = centerY + height / 2;
+            
+            // Draw the triangle
+            ctx.beginPath();
+            ctx.moveTo(topX, topY);
+            ctx.lineTo(leftX, leftY);
+            ctx.lineTo(rightX, rightY);
+            ctx.closePath();
+            
+            // Fill the triangle
+            if (stroke) ctx.stroke();
+            if (fill) ctx.fill();
+        }
+        
+        function drawCircle(centerX, centerY, area, stroke=true, fill=false) {
+            // Calculate the radius from the area
+            const radius = Math.sqrt(area / Math.PI);
+            
+            // Draw the circle
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+
+            if (stroke) ctx.stroke();
+            if (fill) ctx.fill();
         }
         
         function shuffle(array){
@@ -68,13 +106,14 @@
         var canvas = document.getElementById("myCanvas");
         var ctx = canvas.getContext("2d");
         
-        var gridSize = 150;
-        var dimLen = 5;
-        var elemOpts = {long: gridSize/dimLen * 0.6, short: gridSize/dimLen * 0.3, fillStyle: "black", lineWidth: 2};
+        var gridSize = 120;
+        var dimLen = 4;
+        var cellArea = (gridSize * gridSize) / (dimLen * dimLen);
+        var elemOpts = {area: cellArea * 0.2, long: gridSize/dimLen * 0.6, short: gridSize/dimLen * 0.3, fillStyle: "black", lineWidth: 2};
         var stimOpts = {nRow: dimLen, nCol: dimLen, gridSize: gridSize, element: elemOpts};
         
         
-        elements = shuffle(repeatEach(['VF', 'VE', 'HF', 'HE'], [12, 8, 3, 2]));
+        elements = shuffle(repeatEach(['VF', 'VE', 'HF', 'HE'], [3, 1, 9, 3]));
         
         drawElementGrid(elements, stimOpts);
         

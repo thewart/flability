@@ -200,7 +200,7 @@ function stimScreen(){
       drawRect(opts);
       break;
       case "circle":
-      drawCircle(cueArr[trialCount], cueOpts);
+      drawCircleCue(cueArr[trialCount], cueOpts);
       break;
     }
     
@@ -217,10 +217,8 @@ function stimScreen(){
     //   drawSandwich(middle, flanker, stimOpts);
     // }
 
-    if (stimType === "barGrid") {
-      let thisStim = stimConstructor(stimArr[trialCount], stimDiff[block-1], stimDiff[block-1]);
-      drawElementGrid(thisStim, stimOpts);
-    }
+    let thisStim = stimConstructor(stimArr[trialCount], stimDiff[block-1], stimDiff[block-1]);
+    drawElementGrid(thisStim, stimOpts);
   
     // proceed to ITI screen after timeout
     stimTimeout = setTimeout(itiScreen, stimInterval);

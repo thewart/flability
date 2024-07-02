@@ -1,9 +1,11 @@
 function createPracticeArrays(nReps, task, cueDiff){
   var nTrials = Object.keys(stimSet).length * nReps;
 
-  stimArr = shuffle(repeat(Object.keys(stimSet), nReps));
+  // stimArr = shuffle(repeat(Object.keys(stimSet), nReps));
+  stimArr = shuffle(repeat(stimSet, nReps));
   incArr = [];
   for (var s in stimArr) incArr.push(conStim.includes(s) ? 'c' : 'i'); 
+  stimDiff = [1.0];
 
   if (task == "") {
     switchArr = createBinaryArray(nTrials, 0.5, ['s', 'r'])
@@ -125,9 +127,9 @@ function createRespFromStim(stimArr, taskArr, respMap){
   return respArr;
 }
 
-function makeRespMap(stimSet, respMapA, respMapB) {
+function makeRespMap(stimSet, singleTaskMap) {
   let respMap = {taskA: {}, taskB: {}};
-  stimSet.forEach(s => respMap.taskA[s] = respMapA[s.at(0)]);
-  stimSet.forEach(s => respMap.taskB[s] = respMapB[s.at(1)]);
+  stimSet.forEach(s => respMap.taskA[s] = singleTaskMap.taskA[s.at(0)]);
+  stimSet.forEach(s => respMap.taskB[s] = singleTaskMap.taskB[s.at(1)]);
   return respMap;
 }

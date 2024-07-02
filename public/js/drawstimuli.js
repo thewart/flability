@@ -1,19 +1,4 @@
-function drawRect(opts){
-  // set size of rectangle
-  let frameWidth = opts.width;
-  let frameHeight = opts.width;
-  let thisTaskColor = colorValues.taskColor[taskArr[trialCount]];
-  
-  // draw box
-  ctx.beginPath();
-  ctx.lineWidth = opts.lineWidth;
-  // ctx.strokeStyle = (taskArr[trialCount] == "m") ? magnitudeColor : parityColor;
-  ctx.strokeStyle = colorValues[thisTaskColor];
-  ctx.rect((ctx.canvas.width/2) - (frameWidth/2), (ctx.canvas.height/2) - (frameHeight/2) - 5, frameWidth, frameHeight);
-  ctx.stroke();
-}
-
-function drawCircle(propRed, opts) {
+function drawCircleCue(propRed, opts) {
   offsetX = (opts.offsetX === undefined) ? 0 : opts.offsetX;
   offsetY = (opts.offsetY === undefined) ? 0 : opts.offsetY;
   var centerX = ctx.canvas.width / 2 + offsetX;
@@ -38,85 +23,6 @@ function drawCircle(propRed, opts) {
     ctx.arc(centerX, centerY, opts.radius, startAngle, endAngle);
     ctx.stroke();
     startAngle = endAngle;
-  }
-}
-
-function drawFlanker(inner, outer, opts, inColor="black", outColor="black") {
-  // var flank = "\u2191"
-  // var center = "\u2193"
-  // var opts.gapPerFnt = 0.4;
-  // var opts.fnt = 100;
-  // var gap = fnt * gapPerFnt;
-  
-  // draw number on canvas
-  ctx.font = opts.fontSize + "px Arial";
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  
-  ctx.fillStyle = outColor;
-  ctx.fillText(outer, ctx.canvas.width/2 + opts.gap * 1.5, ctx.canvas.height/2);
-  ctx.fillText(outer, ctx.canvas.width/2 - opts.gap * 1.5, ctx.canvas.height/2);
-  
-  ctx.fillStyle = inColor;
-  ctx.fillText(inner, ctx.canvas.width/2 + opts.gap * 0.5, ctx.canvas.height/2);
-  ctx.fillText(inner, ctx.canvas.width/2 - opts.gap * 0.5, ctx.canvas.height/2);
-}
-
-function drawSandwich(inner, outer, opts, inColor="black", outColor="black") {
-  // var flank = "\u2190"
-  // var central = "\u2192"
-  
-  let offsetX = (opts.offsetX === undefined) ? 0 : opts.offsetX;
-  let offsetY = (opts.offsetY === undefined) ? 0 : opts.offsetY;
-  let centerX = ctx.canvas.width / 2 + offsetX;
-  let centerY = ctx.canvas.height / 2 + offsetY; 
-  
-  ctx.font = opts.fontSize + "px Arial";
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  
-  ctx.fillStyle = outColor;
-  ctx.fillText(outer, centerX, centerY + opts.gap * 1.5);
-  ctx.fillText(outer, centerX, centerY - opts.gap * 1.5);
-  
-  ctx.fillStyle = inColor;
-  ctx.fillText(inner, centerX, centerY + opts.gap * 0.5);
-  ctx.fillText(inner, centerX, centerY - opts.gap * 0.5);
-}
-
-
-function drawDotRing(probRed, opts) {
-  // Set the center of the canvas
-  var centerX = ctx.canvas.width / 2;
-  var centerY = ctx.canvas.height / 2;
-  
-  // Calculate the number of dots
-  var numDots = opts.densDots * opts.radius/100;
-  var dotsLeft = numDots;
-  
-  // Determine the number of red dots
-  var numRedDots = Math.round(numDots * probRed);
-  var redDotsLeft = numRedDots;
-  
-  // Draw the dots
-  for (var i = 0; i < numDots; i++) {
-    var angle = (i / numDots) * 2 * Math.PI;
-    var x = centerX + opts.radius * Math.cos(angle);
-    var y = centerY + opts.radius * Math.sin(angle);
-    ctx.beginPath();
-    ctx.arc(x, y, opts.dotSize, 0, 2 * Math.PI);
-    
-    // Randomly choose the color of the dot
-    if (Math.random() < redDotsLeft/dotsLeft) {
-      ctx.fillStyle = colorValues.red;
-      redDotsLeft--;
-      dotsLeft--;
-    } else {
-      ctx.fillStyle = colorValues.blue;
-      dotsLeft--;
-    }
-    
-    ctx.fill();
   }
 }
 
@@ -156,4 +62,43 @@ function drawElementGrid(elements, opts) {
       drawElement(elements[index], x, y, opts.element);
     }
   }
+}
+
+function drawTriangle(centerX, centerY, area, stroke=true, fill=false) {
+  // Calculate the side length of an equilateral triangle
+  const sideLength = Math.sqrt((4 * area) / Math.sqrt(3));
+  
+  // Calculate the height of the triangle
+  const height = (Math.sqrt(3) / 2) * sideLength;
+  
+  // Calculate the coordinates of the three vertices
+  const topX = centerX;
+  const topY = centerY - height / 2;
+  const leftX = centerX - sideLength / 2;
+  const leftY = centerY + height / 2;
+  const rightX = centerX + sideLength / 2;
+  const rightY = centerY + height / 2;
+  
+  // Draw the triangle
+  ctx.beginPath();
+  ctx.moveTo(topX, topY);
+  ctx.lineTo(leftX, leftY);
+  ctx.lineTo(rightX, rightY);
+  ctx.closePath();
+  
+  // Fill the triangle
+  if (stroke) ctx.stroke();
+  if (fill) ctx.fill();
+}
+
+function drawCircle(centerX, centerY, area, stroke=true, fill=false) {
+  // Calculate the radius from the area
+  const radius = Math.sqrt(area / Math.PI);
+  
+  // Draw the circle
+  ctx.beginPath();
+  ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+
+  if (stroke) ctx.stroke();
+  if (fill) ctx.fill();
 }
