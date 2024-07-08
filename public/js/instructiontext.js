@@ -1,19 +1,14 @@
 function getInstructionText(){
   let task1 = taskName[pracOrder[0]];
   let task2 = taskName[pracOrder[1]];
-  // let color1 = taskColor[Object.keys(taskName).find(key => taskName[key] === task1)];
-  // let color2 = taskColor[Object.keys(taskName).find(key => taskName[key] === task2)];
   let color1 = taskColor[pracOrder[0]];
   let color2 = taskColor[pracOrder[0]];
 
   let eN1 = elemNames[pracOrder[0]];
   let eN2 = elemNames[pracOrder[1]];
-  // let eL1 = Object.keys(eN1);
-  // let eL2 = Object.keys(eN2);
 
   let rM1 = singleTaskMap[pracOrder[0]];
   let rM2 = singleTaskMap[pracOrder[1]];
-  console.log(rM1)
 
   let eR1 = getKeyByValue(rM1, respR);
   let eL1 = getKeyByValue(rM1, respL);
@@ -130,20 +125,40 @@ function getInstructionText(){
 }
 
 function instructionCode(expStage) {
-  // let task1 = taskName[pracOrder[0]];
-  // let task2 = taskName[pracOrder[1]];
-  // let color1 = taskColor[Object.keys(taskName).find(key => taskName[key] === task1)];
-  // let color2 = taskColor[Object.keys(taskName).find(key => taskName[key] === task2)];
+  let task1 = taskName[pracOrder[0]];
+  let task2 = taskName[pracOrder[1]];
+  let color1 = taskColor[pracOrder[0]];
+  let color2 = taskColor[pracOrder[0]];
+  let eN1 = elemNames[pracOrder[0]];
+  let eN2 = elemNames[pracOrder[1]];
+  let rM1 = singleTaskMap[pracOrder[0]];
+  let rM2 = singleTaskMap[pracOrder[1]];
+  let eR1 = getKeyByValue(rM1, respR);
+  let eL1 = getKeyByValue(rM1, respL);
+  let eR2 = getKeyByValue(rM2, respR);
+  let eL2 = getKeyByValue(rM2, respL);
+  let aIs1 = pracOrder[0] === 'taskA';
 
-  // ctx.clearRect(0, 0, instrCanvas.width, instrCanvas.height);
-  // let stimOpts = {fontSize: 50, gap: 0.4*50};
-  // let cueOpts = {lineWidth: 7, numSegments: 6, radius: 75};
+  ctx.clearRect(0, 0, instrCanvas.width, instrCanvas.height);
+  let gridSize = 60;
+  let dimLen = 3;
+  let stimOpts = {nRow: dimLen, nCol: dimLen, gridSize: gridSize, element: {}}
+  stimOpts.element = {long: gridSize/dimLen * 0.8, short: gridSize/dimLen * 0.4, fillStyle: "black", lineWidth: 2};
+  let cueOpts = {lineWidth: 7, numSegments: 6, radius: 75};
 
-  // if (expStage === "prac1-1") {
-  //   drawSandwich(stimElem[0], stimElem[1], stimOpts);
-  //   drawCircle((color1 === 'red') ? 1 : 0, cueOpts);
+  if (expStage === "prac1-1") {
+    let stimType = aIs1 ? eL1 + eL2: eL2 + eL1;
+    let stimL = stimConstructor(stimType, 1.0, 1.0);
+    console.log(stimL);
+    drawElementGrid(stimL, Object.assign(stimOpts, {offsetX: -100}));
+    drawCircleCue((color1 === 'red') ? 1 : 0, Object.assign(cueOpts, {offsetX: -100}));
 
-  // } else if (expStage === "prac1-2") {
+    stimType = aIs1 ? eR1 + eL2: eL2 + eR1;
+    let stimR = stimConstructor(stimType, 1, 1);
+    drawElementGrid(stimR, Object.assign(stimOpts, {offsetX: 100}));
+    drawCircleCue((color1 === 'red') ? 1 : 0, Object.assign(cueOpts, {offsetX: 100}));
+
+  } //else if (expStage === "prac1-2") {
   //   let inColor = (task1 === 'inner') ? 'black' : 'gray';
   //   let outColor = (task1 === 'inner') ? 'gray' : 'black';
   //   drawSandwich(stimElem[0], stimElem[1], stimOpts, inColor, outColor);

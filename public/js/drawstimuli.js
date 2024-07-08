@@ -46,10 +46,11 @@ function drawStimulus(){
 
 function drawElementGrid(elements, opts) {
   const cellSize = opts.gridSize / opts.nRow;
-  // stimGrid = shuffle(repeatEach(stims, stimCounts));
   
-  var x0 = (canvas.width - opts.gridSize)/2;
-  var y0 = (canvas.height - opts.gridSize)/2;
+  offsetX = (opts.offsetX === undefined) ? 0 : opts.offsetX;
+  offsetY = (opts.offsetY === undefined) ? 0 : opts.offsetY;
+  var x0 = (canvas.width - opts.gridSize)/2 + offsetX;
+  var y0 = (canvas.height - opts.gridSize)/2 + offsetY;
   
   // Draw grid and letters
   for (let row = 0; row < opts.nRow; row++) {
@@ -59,6 +60,7 @@ function drawElementGrid(elements, opts) {
       
       // Draw letter
       const index = row * opts.nRow + col;
+      
       drawElement(elements[index], x, y, opts.element);
     }
   }

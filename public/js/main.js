@@ -91,6 +91,7 @@ if (stimType === "orientedBars") {
   stimOpts.element = {area: cellArea*0.2, fillStyle: "black", lineWidth: 2};
   
   var drawElement = function (element, x, y, opts) {
+    console.log(element)
     ctx.beginPath();
     
     switch (element.at(0)) {
