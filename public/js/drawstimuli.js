@@ -49,8 +49,8 @@ function drawElementGrid(elements, opts) {
   
   offsetX = (opts.offsetX === undefined) ? 0 : opts.offsetX;
   offsetY = (opts.offsetY === undefined) ? 0 : opts.offsetY;
-  var x0 = (canvas.width - opts.gridSize)/2 + offsetX;
-  var y0 = (canvas.height - opts.gridSize)/2 + offsetY;
+  var x0 = (ctx.canvas.width - opts.gridSize)/2 + offsetX;
+  var y0 = (ctx.canvas.height - opts.gridSize)/2 + offsetY;
   
   // Draw grid and letters
   for (let row = 0; row < opts.nRow; row++) {

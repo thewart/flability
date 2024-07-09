@@ -2,7 +2,7 @@ function getInstructionText(){
   let task1 = taskName[pracOrder[0]];
   let task2 = taskName[pracOrder[1]];
   let color1 = taskColor[pracOrder[0]];
-  let color2 = taskColor[pracOrder[0]];
+  let color2 = taskColor[pracOrder[1]];
 
   let eN1 = elemNames[pracOrder[0]];
   let eN2 = elemNames[pracOrder[1]];
@@ -30,7 +30,7 @@ function getInstructionText(){
   let realPracTrials = Object.keys(stimSet).length * numPracticeReps;
   let blockTime = Math.ceil(trialsPerBlock * (fixInterval + stimInterval + 0.5*(itiMax + itiMin)) / (1000 * 60));
   let beginText = " Please place your hands on the '" + respL + "' and '" + respR + "' keys as shown.</p>" +
-   "<img src=/images/handsOnKeyboard6.png>" +  "<p><b>Press any button to begin</b>.</p>";
+   "<img src=/images/handsOnKeyboard6.png height=200>" +  "<p><b>Press any button to begin</b>.</p>";
 
   let instructionText = {
     'prac1-1': [
@@ -77,40 +77,42 @@ function getInstructionText(){
     ],
 
     'prac3': [
-      // "<p>In this last practice task, you will either indicate to the <b>" + task1 + "</b> or <b>" + task2 +
-      // "</b> arrows, \n depending on the color of the circle surrounding them.</p>",
+      "<p>In this last practice task, you will either indicate to the the " + task1 + " or the " + task2 + 
+      " of the " + elemType + ", depending on the color of the circle surrounding them.</p>",
 
-      // "<p>However, the circle will contain segments of both " + color1 + " and " + color2 +
-      // ".\n Choose your response based on which color the circle contains more of.",
+      "<p>However, the circle will contain segments of both " + color1 + " and " + color2 +
+      ".\n Choose your response based on which color the circle contains more of.",
 
-      // "<p>If the circle is more " + color1 + ", indicate the direction of the <b>" + task1 + "</b> arrows.</p>",
+      "<p>If the circle is more " + color1 + ", respond based on the " + task1 + 
+      " (" + eN1[eL1] + " or " + eN1[eR1] + ") of the " + elemType + ".</p>",
 
-      // "<p>If the circle is more " + color2 + ", indicate the direction of the <b>" + task2 + "</b> arrows.</p>",
+      "<p>If instead the circle is more " + color2 + ", respond based on the " + task2 + 
+      " (" + eN2[eL2] + " or " + eN2[eR2] + ") of the " + elemType + ".</p>",
 
       // "<p>As before, press '" + respL + "' if the relevant arrows are pointing " + dirL + ", and \n press '" + respR +
       // "' if the relevant arrows are pointing " + dirR + ".</p>",
 
-      // "<p>This block contains " + (realPracTrials * 2) + " trials." + beginText
+      "<p>This block contains " + (realPracTrials * 2) + " trials." + beginText
     ], 
 
     'main1': [
-    //   "<p>Great job! You are now ready to begin the main experiment.</p>",
+      "<p>Great job! You are now ready to begin the main experiment.</p>",
 
-    //   "<p>This experiment consists of " + numBlocks +" blocks, with each block lasting about " 
-    //   + blockTime + " minutes.</p>",
+      "<p>This experiment consists of " + numBlocks +" blocks, with each block lasting about " 
+      + blockTime + " minutes.</p>",
 
-    //   "<p>Each block will be similar to the practice task you just completed. " + 
-    //   "\n However, in each block the balance of colors in the circle will be different.",
+      "<p>Each block will be similar to the practice task you just completed. " + 
+      "\n However, in each block the balance of colors in the circle will be different.",
 
-    //   "<p>For example, in one block the circle might be nearly all one color, as in the example on the left." + 
-    //   "\n In another block the amounts of " + color1 + " and " + color2 + " might be more balanced," + 
-    //   " as in the example on the right.</p>",
+      "<p>For example, in one block the circle might be nearly all one color, as in the example on the left." + 
+      "\n In another block the amounts of " + color1 + " and " + color2 + " might be more balanced," + 
+      " as in the example on the right.</p>",
 
-    //   "<p>In these examples, the circle on the left is mostly " + color1 + ", so you would respond to the <b>"
-    //   + task1 + "</b> arrows.</p>",
+      "<p>In these examples, the circle on the left is mostly " + color1 + ", so you would respond based on the "
+      + task1 + " (" + eN1[eL1] + " or " + eN1[eR1] + ") of the " + elemType + ".</p>",
 
-    //   "<p>The circle on the right is mostly " + color2 + ", so you would respond to the <b>" 
-    //   + task2 + "</b> arrows.</p>"
+      "<p>The circle on the right is mostly " + color2 + ", so you would respond based on the " + task2 + 
+      " (" + eN2[eL2] + " or " + eN2[eR2] + ") of the " + elemType + ".</p>"
     ],
 
     'main2': [
@@ -140,56 +142,101 @@ function instructionCode(expStage) {
   let aIs1 = pracOrder[0] === 'taskA';
 
   ctx.clearRect(0, 0, instrCanvas.width, instrCanvas.height);
-  let gridSize = 60;
+  let gridSize = 75;
   let dimLen = 3;
-  let stimOpts = {nRow: dimLen, nCol: dimLen, gridSize: gridSize, element: {}}
-  stimOpts.element = {long: gridSize/dimLen * 0.8, short: gridSize/dimLen * 0.4, fillStyle: "black", lineWidth: 2};
-  let cueOpts = {lineWidth: 7, numSegments: 6, radius: 75};
+  let cellArea = (gridSize * gridSize) / (dimLen * dimLen);
+  let stimOpts = {nRow: dimLen, nCol: dimLen, gridSize: gridSize, element: {}, offsetY:-40}
+  stimOpts.element = {area: cellArea*0.2, fillStyle: "black", lineWidth: 2};
+  let cueOpts = {lineWidth: 7, numSegments: 6, radius: 75, offsetY:-40};
+  ctx.fillStyle = "black";
+  ctx.font = "bold 20px Arial";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  let dd = 325;
+  let d = 150;
+  let x0 = ctx.canvas.width/2;
+  let y0 = ctx.canvas.height/2
+  let textd = 60;
+  let lined = 25;
 
   if (expStage === "prac1-1") {
     let stimType = aIs1 ? eL1 + eL2: eL2 + eL1;
     let stimL = stimConstructor(stimType, 1.0, 1.0);
-    console.log(stimL);
-    drawElementGrid(stimL, Object.assign(stimOpts, {offsetX: -100}));
     drawCircleCue((color1 === 'red') ? 1 : 0, Object.assign(cueOpts, {offsetX: -100}));
+    drawElementGrid(stimL, Object.assign(stimOpts, {offsetX: -100}));
+
+    stimType = aIs1 ? eR1 + eR2: eR2 + eR1;
+    let stimR = stimConstructor(stimType, 1, 1);
+    drawElementGrid(stimR, Object.assign(stimOpts, {offsetX: 100}));
+    drawCircleCue((color1 === 'red') ? 0 : 1, Object.assign(cueOpts, {offsetX: 100}));
+
+  } else if (expStage === "prac1-2") {
+    let stimType = aIs1 ? eL1 + eL2: eL2 + eL1;
+    let stimL = stimConstructor(stimType, 1.0, 1.0);
+    drawCircleCue((color1 === 'red') ? 1 : 0, Object.assign(cueOpts, {offsetX: -dd}));
+    drawElementGrid(stimL, Object.assign(stimOpts, {offsetX: -dd}));
+    stimType = aIs1 ? eL1 + eR2: eR2 + eL1;
+    stimL = stimConstructor(stimType, 1.0, 1.0);
+    drawCircleCue((color1 === 'red') ? 1 : 0, Object.assign(cueOpts, {offsetX: -d}));
+    drawElementGrid(stimL, Object.assign(stimOpts, {offsetX: -d}));
+    drawMultilineText("Press '" + respL + "'\nfor " + eN1[eL1], x0 - (dd+d)/2, y0 + textd, lined)
 
     stimType = aIs1 ? eR1 + eL2: eL2 + eR1;
     let stimR = stimConstructor(stimType, 1, 1);
-    drawElementGrid(stimR, Object.assign(stimOpts, {offsetX: 100}));
-    drawCircleCue((color1 === 'red') ? 1 : 0, Object.assign(cueOpts, {offsetX: 100}));
+    drawElementGrid(stimR, Object.assign(stimOpts, {offsetX: d}));
+    drawCircleCue((color1 === 'red') ? 1 : 0, Object.assign(cueOpts, {offsetX: d}));
+    stimType = aIs1 ? eR1 + eR2: eR2 + eR1;
+    stimR = stimConstructor(stimType, 1, 1);
+    drawElementGrid(stimR, Object.assign(stimOpts, {offsetX: dd}));
+    drawCircleCue((color1 === 'red') ? 1 : 0, Object.assign(cueOpts, {offsetX: dd}));
+    drawMultilineText("Press '" + respR + "'\nfor " + eN1[eR1], x0 + (dd+d)/2, y0 + textd, lined)
 
-  } //else if (expStage === "prac1-2") {
-  //   let inColor = (task1 === 'inner') ? 'black' : 'gray';
-  //   let outColor = (task1 === 'inner') ? 'gray' : 'black';
-  //   drawSandwich(stimElem[0], stimElem[1], stimOpts, inColor, outColor);
-  //   drawCircle((color1 === 'red') ? 1 : 0, cueOpts);
+  } else if (expStage === 'prac2') {
+    let stimType = aIs1 ? eL1 + eL2: eL2 + eL1;
+    let stimL = stimConstructor(stimType, 1.0, 1.0);
+    drawCircleCue((color1 === 'red') ? 1 : 0, Object.assign(cueOpts, {offsetX: -dd}));
+    drawElementGrid(stimL, Object.assign(stimOpts, {offsetX: -dd}));
+    stimType = aIs1 ? eL1 + eR2: eR2 + eL1;
+    stimL = stimConstructor(stimType, 1.0, 1.0);
+    drawCircleCue((color1 === 'red') ? 1 : 0, Object.assign(cueOpts, {offsetX: -d}));
+    drawElementGrid(stimL, Object.assign(stimOpts, {offsetX: -d}));
+    drawMultilineText("Press '" + respL + "'\nfor " + eN2[eL2], x0 - (dd+d)/2, y0 + textd, lined)
 
-  // } else if (expStage === 'prac2') {
-  //   let inColor = (task2 === 'inner') ? 'black' : 'gray';
-  //   let outColor = (task2 === 'inner') ? 'gray' : 'black';
-  //   drawSandwich(stimElem[0], stimElem[1], stimOpts, inColor, outColor);
-  //   drawCircle((color2 === 'red') ? 1 : 0, cueOpts);
+    stimType = aIs1 ? eR1 + eL2: eL2 + eR1;
+    let stimR = stimConstructor(stimType, 1, 1);
+    drawElementGrid(stimR, Object.assign(stimOpts, {offsetX: d}));
+    drawCircleCue((color1 === 'red') ? 1 : 0, Object.assign(cueOpts, {offsetX: d}));
+    stimType = aIs1 ? eR1 + eR2: eR2 + eR1;
+    stimR = stimConstructor(stimType, 1, 1);
+    drawElementGrid(stimR, Object.assign(stimOpts, {offsetX: dd}));
+    drawCircleCue((color1 === 'red') ? 1 : 0, Object.assign(cueOpts, {offsetX: dd}));
+    drawMultilineText("Press '" + respR + "'\nfor " + eN2[eR2], x0 + (dd+d)/2, y0 + textd, lined)
 
-  // } else if (expStage === 'prac3') {
-  //   let inColor = (task1 === 'inner') ? 'black' : 'gray';
-  //   let outColor = (task1 === 'inner') ? 'gray' : 'black';
-  //   drawSandwich(stimElem[0], stimElem[1], Object.assign(stimOpts, {offsetX: -100}), inColor, outColor);
-  //   drawCircle((color1 === 'red') ? 0.75 : 0.25, Object.assign(cueOpts, {offsetX: -100}));
+  } else if (expStage === 'prac3') {
+    let cueProp = 0.75;
+    let stimType = aIs1 ? eL1 + eR2: eR2 + eL1;
+    let stimL = stimConstructor(stimType, 1.0, 1.0);
+    drawCircleCue((color1 === 'red') ? cueProp : 1-cueProp, Object.assign(cueOpts, {offsetX: -dd}));
+    drawElementGrid(stimL, Object.assign(stimOpts, {offsetX: -dd}));
+    drawMultilineText("Press '" + respL + "'\n for " + eN1[eL1], x0 - dd, y0 + textd, lined)
 
-  //   inColor = (task2 === 'inner') ? 'black' : 'gray';
-  //   outColor = (task2 === 'inner') ? 'gray' : 'black';
-  //   drawSandwich(stimElem[0], stimElem[1], Object.assign(stimOpts, {offsetX: 100}), inColor, outColor);
-  //   drawCircle((color2 === 'red') ? 0.75 : 0.25, Object.assign(cueOpts, {offsetX: 100}));
-
-  // } else if (expStage === 'main1' || expStage === 'main2') {
-  //   let inColor = (task1 === 'inner') ? 'black' : 'gray';
-  //   let outColor = (task1 === 'inner') ? 'gray' : 'black';
-  //   drawSandwich(stimElem[0], stimElem[1], Object.assign(stimOpts, {offsetX: -100}), inColor, outColor);
-  //   drawCircle((color1 === 'red') ? 0.9 : 0.1, Object.assign(cueOpts, {offsetX: -100}));
-
-  //   inColor = (task2 === 'inner') ? 'black' : 'gray';
-  //   outColor = (task2 === 'inner') ? 'gray' : 'black';
-  //   drawSandwich(stimElem[0], stimElem[1], Object.assign(stimOpts, {offsetX: 100}), inColor, outColor);
-  //   drawCircle((color2 === 'red') ? 0.6 : 0.4, Object.assign(cueOpts, {offsetX: 100}));
-  // }
+    stimL = stimConstructor(stimType, 1.0, 1.0);
+    drawCircleCue((color1 === 'red') ? 1-cueProp : cueProp, Object.assign(cueOpts, {offsetX: -d}));
+    drawElementGrid(stimL, Object.assign(stimOpts, {offsetX: -d}));
+    drawMultilineText("Press '" + respR + "'\n for " + eN2[eR2], x0 - d, y0 + textd, lined)
+    
+    stimType = aIs1 ? eR1 + eL2 : eL2 + eR1;
+    let stimR = stimConstructor(stimType, 1, 1);
+    drawElementGrid(stimR, Object.assign(stimOpts, {offsetX: d}));
+    drawCircleCue((color1 === 'red') ? 1-cueProp : cueProp, Object.assign(cueOpts, {offsetX: d}));
+    drawMultilineText("Press '" + respL + "'\n for " + eN2[eL2], x0 + d, y0 + textd, lined)
+    
+    stimR = stimConstructor(stimType, 1, 1);
+    drawElementGrid(stimR, Object.assign(stimOpts, {offsetX: dd}));
+    drawCircleCue((color1 === 'red') ? cueProp : 1-cueProp, Object.assign(cueOpts, {offsetX: dd}));
+    drawMultilineText("Press '" + respR + "'\n for " + eN1[eR1], x0 + dd, y0 + textd, lined)
+    
+  } else if (expStage === 'main1' || expStage === 'main2') {
+  
+  }
 }

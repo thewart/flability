@@ -21,3 +21,11 @@ function zipArrays(arr1, arr2) {
 function randIntFromInterval(min, max) { // min and max included
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
+
+function drawMultilineText(text, x, y, lineHeight) {
+  const lines = text.split('\n');
+  
+  for (let i = 0; i < lines.length; i++) {
+    ctx.fillText(lines[i], x, y + (i * lineHeight));
+  }
+}

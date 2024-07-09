@@ -10,7 +10,7 @@ let openerNeeded = false; //true
 
 // ----- Block Paramenters (CHANGE ME) ----- //
 let cueDiffByBlock = {A: 0.55, B: 0.6, C: 0.65, D: 0.7, E: 0.75, F: 0.8};
-let stimDiffByBlock = 7/9;
+let stimDiffByBlock = 9/9;
 let switchPropByBlock = 0.5;
 let incPropByBlock = 0.5;
 
@@ -91,7 +91,6 @@ if (stimType === "orientedBars") {
   stimOpts.element = {area: cellArea*0.2, fillStyle: "black", lineWidth: 2};
   
   var drawElement = function (element, x, y, opts) {
-    console.log(element)
     ctx.beginPath();
     
     switch (element.at(0)) {
@@ -149,13 +148,13 @@ stimSet.forEach(s => respMap.taskA[s] == respMap.taskB[s] ? conStim.push(s) : in
 let pracOrder = shuffle(["taskA", "taskB"]);
 
 // ----- Structural Paramenters (CHANGE ME) ----- //
-let stimInterval = (speed == "fast") ? 10 : 3000; //2000 stimulus interval
+let stimInterval = (speed == "fast") ? 10 : 5000; //2000 stimulus interval
 let fixInterval = (speed == "fast") ? 10 : 500; //500 ms intertrial interval
 let itiMin = (speed == "fast") ? 20 : 1000; //1200
 let itiMax = (speed == "fast") ? 20 : 1200; //1400
 
 let earlyCueInterval = 0; //100; early cue (relative to target presentation), 0 makes cue concurrant with target presentation. only valid with rectangle cue
-let numPracticeTrials = 8;
+let numPracticeTrials = 16;
 let numPracticeReps =  Math.ceil(numPracticeTrials / Object.keys(stimSet).length);
 let miniBlockLength = 0; //doesn't need to be multiple of 24. 0 to turn off
 let practiceAccCutoff = (testMode == true) ? 0 : 85; // 75 acc%
