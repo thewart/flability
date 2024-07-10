@@ -1,6 +1,7 @@
 // see function navigateInstructionPath() in tasks.js for naviagtion code
 
 // global instruction iterator information. Change as needed
+let numPracticeReps =  Math.ceil(numPracticeTrials / Object.keys(stimSet).length);
 let instructions = {
   // contains the iterator for each instruction block
   iterator: {

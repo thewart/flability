@@ -5,7 +5,7 @@ function createPracticeArrays(nReps, task, cueDiff){
   stimArr = shuffle(repeat(stimSet, nReps));
   incArr = [];
   for (var s in stimArr) incArr.push(conStim.includes(s) ? 'c' : 'i'); 
-  stimDiff = [1.0];
+  stimDiff = repeat([1.0], block);
 
   if (task == "") {
     switchArr = createBinaryArray(nTrials, 0.5, ['s', 'r'])

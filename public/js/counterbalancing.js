@@ -129,7 +129,6 @@ function stimConstructor(stimType, propA, propB) {
   function getDimSets(s, sSet, majorProp) {
     let majorCount = Math.round(total * majorProp);
     let minorCount = total - majorCount;
-    
     return shuffle(sSet.flatMap(item => Array(item===s ? majorCount : minorCount).fill(item)));
   }
   

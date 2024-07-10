@@ -2,20 +2,22 @@
 "use strict";
 
 // for testing
-let testMode = true;
+let testMode = false;
 let speed = "normal"; //fast, normal
 // speed = (testMode == true) ? "fast" : speed; //testMode defaults to "fast"
 let skipPractice = false; // turn practice blocks on or off
 let openerNeeded = false; //true
+let fixedColor = true;
+let fixedTaskMap = true;
 
 // ----- Block Paramenters (CHANGE ME) ----- //
-let cueDiffByBlock = {A: 0.55, B: 0.6, C: 0.65, D: 0.7, E: 0.75, F: 0.8};
+let cueDiffByBlock = {A: 0.55, C: 0.65, D: 0.75, E: 0.85};
 let stimDiffByBlock = 9/9;
 let switchPropByBlock = 0.5;
 let incPropByBlock = 0.5;
 
 let blockNames = Object.keys(cueDiffByBlock);
-let numBlockReps = 1, trialsPerBlock = 40;
+let numBlockReps = 1, trialsPerBlock = 50;
 let numBlocks = blockNames.length * numBlockReps;
 let blockOrder = getBlockOrder(blockNames, numBlockReps); //1st arg is array of block names
 
@@ -29,6 +31,56 @@ let cueOpts = {lineWidth: 10, numSegments: 10, radius: 125};
 let taskMap;
 // ----- Stimulus Paramenters (CHANGE ME) ----- //
 let respL = 'z', respR = 'm';
+let pracOrder = shuffle(["taskA", "taskB"]);
+
+// ----- Structural Paramenters (CHANGE ME) ----- //
+let stimInterval = (speed == "fast") ? 10 : 4000; //2000 stimulus interval
+let fixInterval = (speed == "fast") ? 10 : 500; //500 ms intertrial interval
+let itiMin = (speed == "fast") ? 20 : 1000; //1200
+let itiMax = (speed == "fast") ? 20 : 1200; //1400
+
+let earlyCueInterval = 0; //100; early cue (relative to target presentation), 0 makes cue concurrant with target presentation. only valid with rectangle cue
+let numPracticeTrials = 12;
+let miniBlockLength = 0; //doesn't need to be multiple of 24. 0 to turn off
+let practiceAccCutoff = (testMode == true) ? 0 : 80; // 75 acc%
+let taskAccCutoff = (testMode == true) ? 0 : 80; // 75 acc%
+
+function ITIInterval(){
+  let itiStep = 50; //step size
+  // random number between itiMin and Max by step size
+  return itiMin + (Math.floor( Math.random() * ( Math.floor( (itiMax - itiMin) / itiStep ) + 1 ) ) * itiStep);
+}
+
+//initialize global task variables
+let stimArr, taskArr, respArr, switchArr, incArr, cueArr, stimDiff; // global vars for task arrays
+let canvas, ctx, instrCanvas, itx; // global canvas variable
+let expStage = (skipPractice == true) ? "main1" : "prac1-1";
+// vars for tasks (iterator, accuracy) and reaction times:
+let trialCount, blockTrialCount, acc, accCount, stimOnset, respOnset, respTime, block = 1, partResp, runStart, blockType = NaN;
+let stimTimeout, breakOn = false, repeatNecessary = false, data=[];
+let sectionStart, sectionEnd, sectionType, sectionTimer;
+let expType = 0; // see below
+/*  expType explanations:
+0: No key press expected/needed
+1: Key press expected (triggered by stimScreen() func that presents stimuli)
+2: Key press from 1 received. Awaiting keyup event, which resets to 0 and calls itiScreen() function immediately.
+3: Parcticipant still holding keypress from 1 during ITI. Awaitng keyup event, which resets to 0 but doesn't call itiScreen() function.
+4: Participant still holding keypress from 1 at start of next Trial. Call promptLetGo() func to get participant to let go. After keyup resume experiment and reset to 0.
+5: Key press from 0 still being held down. On keyup, reset to 0.
+6: Key press from 0 still being held down when stimScreen() func is called. Call promptLetGo() func. After keyup resume and reset to 0.
+7: mini block screen/feedback. Awaiting key press to continue, keyup resets to 0 and goes to next trial.
+8: instruction start task "press to continue"
+9: proceed to next instruction "press to continue"
+10: Screen Size too small, "press any button to continue"
+*/
+
+// color-task mapping
+// case 1: taskA = Red, taskB = Blue
+// case 2: taskA = Blue, taskB = Red
+let colorMapping = fixedColor ? 1 : randIntFromInterval(1,2);
+let colorA = (colorMapping == 1) ? "red" : "blue";
+let colorB = (colorMapping == 1) ? "blue" : "red";
+let taskColor = {taskA: colorA, taskB: colorB};
 
 let gridSize = 120;
 let dimLen = 3;
@@ -119,10 +171,8 @@ if (stimType === "orientedBars") {
   
   var stimSet = ['CF', 'CE', 'TF', 'TE'];
   
-  // var aMap = randIntFromInterval(1,2);
-  // var bMap = randIntFromInterval(1,2);
-  let aMap = 1;
-  let bMap = 1;
+  let aMap = fixedTaskMap ? 1 : randIntFromInterval(1,2);
+  let bMap = fixedTaskMap ? 1 : randIntFromInterval(1,2);
   
   var singleTaskMap = {
     taskA: {
@@ -144,58 +194,6 @@ let respMap = makeRespMap(stimSet, singleTaskMap);
 //construct arrays of congruent/incongruent stimuli from response match/mismatch
 let conStim = [], incStim = [];
 stimSet.forEach(s => respMap.taskA[s] == respMap.taskB[s] ? conStim.push(s) : incStim.push(s));
-
-let pracOrder = shuffle(["taskA", "taskB"]);
-
-// ----- Structural Paramenters (CHANGE ME) ----- //
-let stimInterval = (speed == "fast") ? 10 : 5000; //2000 stimulus interval
-let fixInterval = (speed == "fast") ? 10 : 500; //500 ms intertrial interval
-let itiMin = (speed == "fast") ? 20 : 1000; //1200
-let itiMax = (speed == "fast") ? 20 : 1200; //1400
-
-let earlyCueInterval = 0; //100; early cue (relative to target presentation), 0 makes cue concurrant with target presentation. only valid with rectangle cue
-let numPracticeTrials = 16;
-let numPracticeReps =  Math.ceil(numPracticeTrials / Object.keys(stimSet).length);
-let miniBlockLength = 0; //doesn't need to be multiple of 24. 0 to turn off
-let practiceAccCutoff = (testMode == true) ? 0 : 85; // 75 acc%
-let taskAccCutoff = (testMode == true) ? 0 : 85; // 75 acc%
-
-function ITIInterval(){
-  let itiStep = 50; //step size
-  // random number between itiMin and Max by step size
-  return itiMin + (Math.floor( Math.random() * ( Math.floor( (itiMax - itiMin) / itiStep ) + 1 ) ) * itiStep);
-}
-
-//initialize global task variables
-let stimArr, taskArr, respArr, switchArr, incArr, cueArr, stimDiff; // global vars for task arrays
-let canvas, ctx, instrCanvas, itx; // global canvas variable
-let expStage = (skipPractice == true) ? "main1" : "prac1-1";
-// vars for tasks (iterator, accuracy) and reaction times:
-let trialCount, blockTrialCount, acc, accCount, stimOnset, respOnset, respTime, block = 1, partResp, runStart, blockType = NaN;
-let stimTimeout, breakOn = false, repeatNecessary = false, data=[];
-let sectionStart, sectionEnd, sectionType, sectionTimer;
-let expType = 0; // see below
-/*  expType explanations:
-0: No key press expected/needed
-1: Key press expected (triggered by stimScreen() func that presents stimuli)
-2: Key press from 1 received. Awaiting keyup event, which resets to 0 and calls itiScreen() function immediately.
-3: Parcticipant still holding keypress from 1 during ITI. Awaitng keyup event, which resets to 0 but doesn't call itiScreen() function.
-4: Participant still holding keypress from 1 at start of next Trial. Call promptLetGo() func to get participant to let go. After keyup resume experiment and reset to 0.
-5: Key press from 0 still being held down. On keyup, reset to 0.
-6: Key press from 0 still being held down when stimScreen() func is called. Call promptLetGo() func. After keyup resume and reset to 0.
-7: mini block screen/feedback. Awaiting key press to continue, keyup resets to 0 and goes to next trial.
-8: instruction start task "press to continue"
-9: proceed to next instruction "press to continue"
-10: Screen Size too small, "press any button to continue"
-*/
-
-// color-task mapping
-// case 1: taskA = Red, taskB = Blue
-// case 2: taskA = Blue, taskB = Red
-let colorMapping = randIntFromInterval(1,2);
-let colorA = (colorMapping == 1) ? "red" : "blue";
-let colorB = (colorMapping == 1) ? "blue" : "red";
-let taskColor = {taskA: colorA, taskB: colorB};
 
 // ------ EXPERIMENT STARTS HERE ------ //
 $(document).ready(function(){

@@ -216,7 +216,7 @@ function stimScreen(){
     //   let flanker = stimSet[stimArr[trialCount]][1];
     //   drawSandwich(middle, flanker, stimOpts);
     // }
-
+    
     let thisStim = stimConstructor(stimArr[trialCount], stimDiff[block-1], stimDiff[block-1]);
     drawElementGrid(thisStim, stimOpts);
   
@@ -252,8 +252,8 @@ function itiScreen(){
   // log data
   data.push([sectionType, block, blockType,
   trialCount + 1, blockTrialCount + 1, getAccuracy(acc), respTime, stimArr[trialCount], cueArr[trialCount],
-  incArr[trialCount], switchArr[trialCount], taskName[taskArr[trialCount]], partResp, stimOnset, respOnset,
-  respArr[trialCount]]);
+  stimDiff[block-1], incArr[trialCount], switchArr[trialCount], taskName[taskArr[trialCount]], partResp, stimOnset,
+  respOnset, respArr[trialCount]]);
   
   // prepare ITI canvas
   ctx.fillStyle = accFeedbackColor();
