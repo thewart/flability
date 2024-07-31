@@ -34,7 +34,7 @@ let respL = 'z', respR = 'm';
 let pracOrder = shuffle(["taskA", "taskB"]);
 
 // ----- Structural Paramenters (CHANGE ME) ----- //
-let stimInterval = (speed == "fast") ? 10 : 4000; //2000 stimulus interval
+let stimInterval = (speed == "fast") ? 10 : 3000; //2000 stimulus interval
 let fixInterval = (speed == "fast") ? 10 : 500; //500 ms intertrial interval
 let itiMin = (speed == "fast") ? 20 : 1000; //1200
 let itiMax = (speed == "fast") ? 20 : 1200; //1400
