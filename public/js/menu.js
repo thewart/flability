@@ -1,5 +1,5 @@
 // create global curStage variable
-let curStage = 1;
+let curStage = 0;
 console.log(curStage)
 
 // creates popup window
@@ -9,11 +9,11 @@ function basicPopup(url) {
 }
 
 // this function allows Mturkers to get paid with their id
-function gup(name, tmpURL){
-  let regexS = "[\\?&]"+name+"=([^&#]*)";
-  let results = new RegExp(regexS).exec(tmpURL);
-  return (results == null) ? "" : results[1];
-}
+// function gup(name, tmpURL){
+//   let regexS = "[\\?&]"+name+"=([^&#]*)";
+//   let results = new RegExp(regexS).exec(tmpURL);
+//   return (results == null) ? "" : results[1];
+// }
 
 // // stop users from closing the menu.html window
 // window.onbeforeunload = function() {
@@ -33,18 +33,25 @@ function updateMainMenu(expStage){
 
   // display text based on experiment stage
   switch(expStage){
-    case 0: // demographics
+    case 0: //consent 
+    console.log('here I am')
       $("#myButton").show();
       $("#submit").hide();
+      $("#instruction").text("Click button to read the consent form. PLEASE DO NOT CLOSE THIS SCREEN.");
+      $("#instruction").show();
+      break;
+    case 1: // demographics
+      $("#myButton").show();
+      //$("#submit").hide();
       $("#instruction").text("Click button to fill out demographic survey. PLEASE DO NOT CLOSE THIS SCREEN.");
       $("#instruction").show();
       break;
-    case 1: //main task
+    case 2: //main task
       $("#myButton").show();
       $("#instruction").text("Click 'Continue' button to start the main task. PLEASE DO NOT CLOSE THIS SCREEN.");
       $("#instruction").show();
       break;
-    case 2: //debriefing
+    case 3: //debriefing
       // remove onbeforeunload listener
       window.onbeforeunload = function (){}
       $("#instruction").hide();
@@ -52,17 +59,23 @@ function updateMainMenu(expStage){
       $("#redo").hide();
       $("#mainForm").show();
       break;
+    case -1: //nonconsent
+      $("#myButton").hide();
+      $("#instruction").text("As you have indicated that you do not consent to participate in this study, '" + 
+        "please close this window and return this submission on Prolific by selecting the 'stop without completing' button.");
+      $("#instruction").show();
+
   }
 }
 
-// prevent duplicate workers from completing task
-let workerArr = [];
+// // prevent duplicate workers from completing task
+// let workerArr = [];
 
-// checks if workerID exists in workerID array
-function duplicateWorker(workedID){
-  workerID = gup('workerID', document.referrer);
-  return jQuery.inArray(workerID, workerArr)!=-1 && workerID != "";
-}
+// // checks if workerID exists in workerID array
+// function duplicateWorker(workedID){
+//   workerID = gup('workerID', document.referrer);
+//   return jQuery.inArray(workerID, workerArr)!=-1 && workerID != "";
+// }
 
 $(document).ready(function(){
   // initial hide all DOM elements
@@ -93,11 +106,13 @@ function prepareMenu(){
   $("#myButton").click(function(){
     switch(curStage){
       case 0:
-        basicPopup("/html/demographics.html");
+        basicPopup("html/consent.html")
         break;
       case 1:
-        basicPopup("/html/main.html");
+        basicPopup("/html/demographics.html");
         break;
+      case 2:
+        basicPopup("/html/main.html");
     }
   });
 }

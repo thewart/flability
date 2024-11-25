@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(() => { 
+            $("#consent").click(() => {
+                opener.updateMainMenu(1);
+                JavaScript:window.close();
+            })
+            $("#decline").click(() => {
+                opener.updateMainMenu(-1);
+                JavaScript:window.close();
+            })
+        })
+    </script>
+    <title>Informed Consent</title>
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/css/login.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container instructions">
+	    <h3 align="center">Consent Form to Participate in Research Study on Task Switching</h3>
+        
+        <h4>INFORMATION</h4>
+        <p>
+            This research study is conducted by Dr. Tobias Egner at the Center for Cognitive Neuroscience at Duke University. 
+            Its purpose is to examine the ease with which people switch between tasks and how they respond to varying task demands.
+        </p>
+        
+        <h4>PROCEDURE</h4>
+        <p>
+            In this experiment, you will be asked to categorize different visual stimuli according to one or more task rules. 
+            For example, you may be asked to categorize numbers as odd or even or as greater or less than 5. 
+            Sometimes, the task rule switches between trials, and sometimes it stays the same. 
+            You may also be asked to choose the task you want to perform. 
+            The entire experiment is expected to take 25 minutes.
+        </p>    
+        
+        <h4>RISKS & BENEFITS</h4>
+        <p>
+            We know of no risks or benefits to you for participating in this research study. 
+            The potential benefits of this research lie in the knowledge that will be acquired.
+        </p>
+        
+        <h4>CONFIDENTIALITY</h4>
+        <p>
+            This research is confidential. The recruitment platform will provide us, the researchers, only with your responses. 
+            We will not have access to your personal information. 
+            We will collect your user ID for reimbursement purposes, and your ID will be stored on our secure laboratory network, which can only be accessed by trained study personnel. 
+            All data will be kept for at least six years or as long as is required by Duke University or any journal that may publish these findings. 
+            If a report of this study is published, or the results are presented at a professional conference, only group results will be reported. 
+            Your data, with direct identifiers removed, may be used for future studies and/or shared with other researchers.
+        </p>
+        
+        <h4>COMPENSATION & PARTICIPATION</h4>
+        <p>
+            Your participation is voluntary. For participating in this study, you will recieve $5. 
+            We will screen your responses prior to compensation. If you do not complete the task, or we think that you completed it to an unsatisfactory standard (i.e. you do not follow the instructions), you will not be compensated. 
+            You will also need to achieve at least 75% accuracy to be compensated.
+        </p>
+        
+        <h4>CONTACT</h4>
+        <p>
+            If you have additional questions regarding this study or your data, you may contact Professor Tobias Egner at (+1) 919-684-1049 or tobias.egner@duke.edu. 
+            If you have any questions about your rights as a research subject, you may contact the Human Subjects Protection at campusirb@duke.edu. 
+            Please reference protocol ID# 2022-0079.
+        </p>
+        
+        <p>
+            Please click to indicate your consent to participate in the study.
+        </p>
+        <button id="consent" type="button">
+            I have read the above consent form <br> and agree to participate in the study.
+        </button>
+
+        <button id="decline" type="button">
+            I do not agree to participate in the study.
+        </button>
+        <p>&nbsp;</p></div>
+</body>
+</html>

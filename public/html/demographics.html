@@ -5,29 +5,24 @@
     <script type="text/javascript">
       $(document).ready(function(){
         // declare data variable
-      	let data = [[""]];
+      	let data = [];
 
         // code for clicking the submit button
       	$("#submitButton").click(function(){
-
-          // gender
-      		let e = document.getElementById("gender");
-      		data[0] = e.options[e.selectedIndex].value;
-
-          // age
-      		data[1] = document.getElementById("age").value;
-
-          // ethnicity
-      		e = document.getElementById("ethnicity");
-      		data[2] = e.options[e.selectedIndex].value;
-
-          // race
-      		e = document.getElementById("race");
-      		data[3] = e.options[e.selectedIndex].value;
+      		// let e = document.getElementById("gender");
+      		// data.push(e.options[e.selectedIndex].value);
+			data.push($('#gender').val());
+      		data.push($('#dob').val());
+			data.push($('#first').val());
+			data.push($('#middle').val());
+			data.push($('#last').val());
+			data.push($('#birthplace').val());
+      		data.push($('#ethnicity').val());
+      		data.push($('#race').val());
 
           // combine data and update menu.html code
       		$("#demographics", opener.window.document).val(data.join(","));
-      		opener.updateMainMenu(1);
+      		opener.updateMainMenu(2);
 
           // close window again
       		JavaScript:window.close();
@@ -40,16 +35,30 @@
   	<p> <b> Please take a few minutes to answer the demographic questions below:</b></p>
   	<p> <b> Gender: </b> </p>
   	<select id="gender">
+		<option hidden disabled selected value>  </option>
   		<option value="F">Female</option>
   		<option value="M">Male</option>
   		<option value="NA">Do not wish to respond</option>
   	</select>
 
-  	<p><b> Age: (leave blank if you do not wish to respond)</b></p>
-  	<input id="age" name="Age" value=""></input>
+  	<p><b> Date of birth: (leave blank if you do not wish to respond)</b></p>
+	<input type="date" id="dob" min="1900-01-01" max="2006-01-01"/>
+
+	<p><b> First name: (leave blank if you do not wish to respond)</b></p>
+  	<input id="first"></input>
+	
+	<p><b> Middle name: (leave blank if you do not wish to respond or do not have a middle name)</b></p>
+  	<input id="middle" value=""></input>
+
+	<p><b> Last name: (leave blank if you do not wish to respond)</b></p>
+  	<input id="last" value=""></input>
+
+	<p><b> City/Municipality of Birth: (leave blank if you do not wish to respond)</b></p>
+  	<input id="birthplace" value=""></input>
 
   	<p><b>Ethnicity:</b></p>
   	<select id="ethnicity">
+		<option hidden disabled selected value> </option>
   		<option value="HL">Hispanic/Latino</option>
   		<option value="NHL">Non-Hispanic/Latino</option>
   		<option value="NA">Do not wish to respond</option>
@@ -57,6 +66,7 @@
 
   	<p><b>Race: </b></p>
   	<select id="race">
+		<option hidden disabled selected value> </option>
   		<option value="AI">American Indian/Alaska Native</option>
   		<option value="A">Asian</option>
   		<option value="NH">Native Hawaiian/Other Pacific Islander</option>

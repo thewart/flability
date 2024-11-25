@@ -9,7 +9,6 @@ const dataDir = __dirname + '/data'
 app.use(express.static("public"))
 
 app.get("/", function(req, res) {
-    
     res.sendFile(__dirname + "/menu.html")
 })
 

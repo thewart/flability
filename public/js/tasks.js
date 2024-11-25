@@ -160,7 +160,7 @@ function endOfExperiment(){
     $("#RTs", opener.window.document).val(data.join("\n"));
     
     // call menu debriefing script
-    opener.updateMainMenu(2);
+    opener.updateMainMenu(3);
     
     // close the experiment window
     JavaScript:window.close();

@@ -1,2 +1,4 @@
 node_modules/
 pilot*
+data/*csv
+data/*log

@@ -6,7 +6,7 @@ let testMode = false;
 let speed = "normal"; //fast, normal
 // speed = (testMode == true) ? "fast" : speed; //testMode defaults to "fast"
 let skipPractice = false; // turn practice blocks on or off
-let openerNeeded = false; //true
+let openerNeeded = true; //true
 let fixedColor = true;
 let fixedTaskMap = true;
 
