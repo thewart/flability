@@ -22,7 +22,7 @@ app.post('/submit', function(req, resp) {
     var data = req.body;
     var filePath = dataDir + '/' + data.sessionID + '_' + data.workerID;
 
-    var demoData = [data.studyID, data.workerID, data.sessionID, data.demographics].join(',');
+    var demoData = [data.survey_code, data.demographics].join(',');
     
     // Name  for data file
     fs.writeFileSync(filePath + '.log', demoData);
