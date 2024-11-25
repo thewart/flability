@@ -13,9 +13,11 @@
 				<p id="NoGo" style="font-family: arial; color: black; font-size: 40px;"></p>
 				<button id="myButton"> Continue </button>
 				<form id="mainForm" method="post" action="/submit">
-					<input type="hidden" id="studyID" name="studyID" value="">
-					<input type="hidden" id="workerID" name="workerID" value="">
-					<input type="hidden" id="sessionID" name="sessionID" value="">
+					<!-- <input type="hidden" id="studyID" name="studyID" value=""> -->
+					<!-- <input type="hidden" id="workerID" name="workerID" value=""> -->
+					<!-- <input type="hidden" id="sessionID" name="sessionID" value=""> -->
+					<input type="hidden", id="surveyCode", name="surveyCode", value="">
+					<input type="hidden", id="expID", name="expID", value="">
 					<input type="hidden" id="RTs" name="RTs" value="">
 					<input type="hidden" id="demographics" name="demographics" value="flabilityPilotProlific">
 					<input type="hidden" id="ExpName" name="ExpName" value="flabilityPilotProlific">
@@ -38,9 +40,11 @@
 	</table>
 	<script>
 		function showCode() {
-			$('#submitButton').hide();
-			$('#mainForm').append("<p>Thank you for participating." +
-				"This is where the completion link will show up for people who are getting paid.</p>")
+
+			window.location.href="https://duke-psy-credit.sona-systems.com/webstudy_credit.aspx?experiment_id=1677&credit_token=6f2fedb2b71b448d9d122b833ba29b0f&survey_code=" + document.getElementById('surveyCode').value
+			// $('#submitButton').hide();
+			// $('#mainForm').append("<p>Thank you for participating." +
+			// 	"Please follow this link to receive course credit.</p>")
 		}
 	</script>
 </body>
