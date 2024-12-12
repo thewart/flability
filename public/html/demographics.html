@@ -12,11 +12,7 @@
       		// let e = document.getElementById("gender");
       		// data.push(e.options[e.selectedIndex].value);
 			data.push($('#gender').val());
-      		data.push($('#dob').val());
-			data.push($('#first').val());
-			data.push($('#middle').val());
-			data.push($('#last').val());
-			data.push($('#birthplace').val());
+      		data.push($('#age').val());
       		data.push($('#ethnicity').val());
       		data.push($('#race').val());
 
@@ -41,20 +37,8 @@
   		<option value="NA">Do not wish to respond</option>
   	</select>
 
-  	<p><b> Date of birth: (leave blank if you do not wish to respond)</b></p>
-	<input type="date" id="dob" min="1900-01-01" max="2006-01-01"/>
-
-	<p><b> First name: (leave blank if you do not wish to respond)</b></p>
-  	<input id="first"></input>
-	
-	<p><b> Middle name: (leave blank if you do not wish to respond or do not have a middle name)</b></p>
-  	<input id="middle" value=""></input>
-
-	<p><b> Last name: (leave blank if you do not wish to respond)</b></p>
-  	<input id="last" value=""></input>
-
-	<p><b> City/Municipality of Birth: (leave blank if you do not wish to respond)</b></p>
-  	<input id="birthplace" value=""></input>
+  	<p><b> Age: (leave blank if you do not wish to respond)</b></p>
+	<input type="number" id="age" min="18" max="99"/>
 
   	<p><b>Ethnicity:</b></p>
   	<select id="ethnicity">

@@ -7,8 +7,8 @@ let speed = "normal"; //fast, normal
 // speed = (testMode == true) ? "fast" : speed; //testMode defaults to "fast"
 let skipPractice = false; // turn practice blocks on or off
 let openerNeeded = true; //true
-let fixedColor = true;
-let fixedTaskMap = true;
+let fixedColor = false;
+let fixedTaskMap = false;
 
 // ----- Block Paramenters (CHANGE ME) ----- //
 let cueDiffByBlock = {A: 0.55, C: 0.65, D: 0.75, E: 0.85};
@@ -17,7 +17,7 @@ let switchPropByBlock = 0.5;
 let incPropByBlock = 0.5;
 
 let blockNames = Object.keys(cueDiffByBlock);
-let numBlockReps = 1, trialsPerBlock = 50;
+let numBlockReps = 1, trialsPerBlock = 100;
 let numBlocks = blockNames.length * numBlockReps;
 let blockOrder = getBlockOrder(blockNames, numBlockReps); //1st arg is array of block names
 
@@ -34,7 +34,7 @@ let respL = 'z', respR = 'm';
 let pracOrder = shuffle(["taskA", "taskB"]);
 
 // ----- Structural Paramenters (CHANGE ME) ----- //
-let stimInterval = (speed == "fast") ? 10 : 3000; //2000 stimulus interval
+let stimInterval = (speed == "fast") ? 10 : 3000; //3000 stimulus interval
 let fixInterval = (speed == "fast") ? 10 : 500; //500 ms intertrial interval
 let itiMin = (speed == "fast") ? 20 : 1000; //1200
 let itiMax = (speed == "fast") ? 20 : 1200; //1400

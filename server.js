@@ -20,9 +20,9 @@ app.post('/submit', function(req, resp) {
     
     // Generate Data
     var data = req.body;
-    var filePath = dataDir + '/' + data.sessionID + '_' + data.workerID;
+    var filePath = dataDir + '/' + data.surveyCode;
 
-    var demoData = [data.survey_code, data.demographics].join(',');
+    var demoData = [data.surveyCode, data.demographics].join(',');
     
     // Name  for data file
     fs.writeFileSync(filePath + '.log', demoData);

@@ -1,6 +1,5 @@
 // create global curStage variable
 let curStage = 0;
-console.log(curStage)
 
 // creates popup window
 function basicPopup(url) {
@@ -34,7 +33,6 @@ function updateMainMenu(expStage){
   // display text based on experiment stage
   switch(expStage){
     case 0: //consent 
-    console.log('here I am')
       $("#myButton").show();
       $("#submit").hide();
       $("#instruction").text("Click button to read the consent form. PLEASE DO NOT CLOSE THIS SCREEN.");
