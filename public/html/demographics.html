@@ -9,21 +9,12 @@
 
         // code for clicking the submit button
       	$("#submitButton").click(function(){
-
-          // gender
-      		let e = document.getElementById("gender");
-      		data[0] = e.options[e.selectedIndex].value;
-
-          // age
-      		data[1] = document.getElementById("age").value;
-
-          // ethnicity
-      		e = document.getElementById("ethnicity");
-      		data[2] = e.options[e.selectedIndex].value;
-
-          // race
-      		e = document.getElementById("race");
-      		data[3] = e.options[e.selectedIndex].value;
+      		// let e = document.getElementById("gender");
+      		// data.push(e.options[e.selectedIndex].value);
+			data.push($('#gender').val());
+      		data.push($('#age').val());
+      		data.push($('#ethnicity').val());
+      		data.push($('#race').val());
 
           // combine data and update menu.html code
       		$("#demographics", opener.window.document).val(data.join(","));
@@ -42,6 +33,7 @@
   	<select id="gender">
   		<option value="F">Female</option>
   		<option value="M">Male</option>
+		<option value="O">None of the above</option>
   		<option value="NA">Do not wish to respond</option>
   	</select>
 
@@ -63,7 +55,7 @@
   		<option value="AA">African Ameirican/Black</option>
   		<option value="W">Caucasian/White</option>
   		<option value="M">Multiracial</option>
-  		<option value="O">Other</option>
+  		<option value="O">None of the above</option>
   		<option value="NA">Do not wish to respond</option>
   	</select>
   	<br>
