@@ -187,6 +187,31 @@ if (stimType === "orientedBars") {
   
   var taskName = {taskA: 'type', taskB: 'fill'};
   var elemNames = {taskA: {C: 'circles', T: 'triangles'}, taskB: {F: 'filled', E: 'empty'}};
+
+} else if (stimType=="magpar") {
+  
+  var stimSet = [1, 2, 3, 4, 6, 7, 8, 9];
+
+  let aMap = fixedTaskMap ? 1 : randIntFromInterval(1,2);
+  let bMap = fixedTaskMap ? 1 : randIntFromInterval(1,2);
+
+  var singleTaskMap = {taskA: {}, taskB: {}};
+  stimSet.forEach(s => {
+    if (isEven(s)) {
+      singleTaskMap.taskA[s] = (aMap == 1) ? respL : respR;
+    } else if (isOdd(s)) {
+      singleTaskMap.taskA[s] = (aMap == 1) ? respR : respL;
+    } 
+
+    if (s > 5) {
+      singleTaskMap.taskB[s] = (bMap == 1) ? respL : respR;
+    } else if (s < 5) {
+      singleTaskMap.taskB[s] = (bMap == 1) ? respR : respL;
+    }
+  })
+
+  var taskName = {taskA: 'parity', taskB: 'magnitude'};
+  //var elemNames = {taskA: {C: 'circles', T: 'triangles'}, taskB: {F: 'filled', E: 'empty'}};
 }
 
 let respMap = makeRespMap(stimSet, singleTaskMap);
