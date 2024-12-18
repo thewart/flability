@@ -34,15 +34,15 @@ function drawRingSet(){
   drawRing(50, 118, 5, propRed);
 }
 
-function drawStimulus(){
-  let number = stimArr[trialCount];
+// function drawStimulus(){
+//   let number = stimArr[trialCount];
   
-  ctx.fillStyle = "black";
-  ctx.font = "bold 100px Arial";
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  ctx.fillText(number, ctx.canvas.width/2, ctx.canvas.height/2);
-}
+//   ctx.fillStyle = "black";
+//   ctx.font = "bold 100px Arial";
+//   ctx.textAlign = "center";
+//   ctx.textBaseline = "middle";
+//   ctx.fillText(number, ctx.canvas.width/2, ctx.canvas.height/2);
+// }
 
 function drawElementGrid(elements, opts) {
   const cellSize = opts.gridSize / opts.nRow;
@@ -103,4 +103,14 @@ function drawCircle(centerX, centerY, area, stroke=true, fill=false) {
 
   if (stroke) ctx.stroke();
   if (fill) ctx.fill();
+}
+
+function drawCharacter(stim, centerX, centerY, fontSize, color='black') {
+  ctx.font = fontSize + "px Arial";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+
+  ctx.fillStyle = color;
+  ctx.fillText(stim, centerX, centerY);
+
 }

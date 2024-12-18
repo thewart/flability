@@ -161,53 +161,53 @@ function instructionCode(expStage) {
 
   if (expStage === "prac1-1") {
     let stimType = aIs1 ? eL1 + eL2: eL2 + eL1;
-    let stimL = stimConstructor(stimType, 1.0, 1.0);
+    let stimL = randElemVec(stimType, 1.0, 1.0);
     drawCircleCue((color1 === 'red') ? 1 : 0, Object.assign(cueOpts, {offsetX: -100}));
     drawElementGrid(stimL, Object.assign(stimOpts, {offsetX: -100}));
 
     stimType = aIs1 ? eR1 + eR2: eR2 + eR1;
-    let stimR = stimConstructor(stimType, 1, 1);
+    let stimR = randElemVec(stimType, 1, 1);
     drawElementGrid(stimR, Object.assign(stimOpts, {offsetX: 100}));
     drawCircleCue((color1 === 'red') ? 0 : 1, Object.assign(cueOpts, {offsetX: 100}));
 
   } else if (expStage === "prac1-2") {
     let stimType = aIs1 ? eL1 + eL2: eL2 + eL1;
-    let stimL = stimConstructor(stimType, 1.0, 1.0);
+    let stimL = randElemVec(stimType, 1.0, 1.0);
     drawCircleCue((color1 === 'red') ? 1 : 0, Object.assign(cueOpts, {offsetX: -dd}));
     drawElementGrid(stimL, Object.assign(stimOpts, {offsetX: -dd}));
     stimType = aIs1 ? eL1 + eR2: eR2 + eL1;
-    stimL = stimConstructor(stimType, 1.0, 1.0);
+    stimL = randElemVec(stimType, 1.0, 1.0);
     drawCircleCue((color1 === 'red') ? 1 : 0, Object.assign(cueOpts, {offsetX: -d}));
     drawElementGrid(stimL, Object.assign(stimOpts, {offsetX: -d}));
     drawMultilineText("Press '" + respL + "'\nfor " + eN1[eL1], x0 - (dd+d)/2, y0 + textd, lined)
 
     stimType = aIs1 ? eR1 + eL2: eL2 + eR1;
-    let stimR = stimConstructor(stimType, 1, 1);
+    let stimR = randElemVec(stimType, 1, 1);
     drawElementGrid(stimR, Object.assign(stimOpts, {offsetX: d}));
     drawCircleCue((color1 === 'red') ? 1 : 0, Object.assign(cueOpts, {offsetX: d}));
     stimType = aIs1 ? eR1 + eR2: eR2 + eR1;
-    stimR = stimConstructor(stimType, 1, 1);
+    stimR = randElemVec(stimType, 1, 1);
     drawElementGrid(stimR, Object.assign(stimOpts, {offsetX: dd}));
     drawCircleCue((color1 === 'red') ? 1 : 0, Object.assign(cueOpts, {offsetX: dd}));
     drawMultilineText("Press '" + respR + "'\nfor " + eN1[eR1], x0 + (dd+d)/2, y0 + textd, lined)
 
   } else if (expStage === 'prac2') {
     let stimType = aIs1 ? eL1 + eL2: eL2 + eL1;
-    let stimL = stimConstructor(stimType, 1.0, 1.0);
+    let stimL = randElemVec(stimType, 1.0, 1.0);
     drawCircleCue((color1 === 'red') ? 0 : 1, Object.assign(cueOpts, {offsetX: -dd}));
     drawElementGrid(stimL, Object.assign(stimOpts, {offsetX: -dd}));
     stimType = aIs1 ? eR1 + eL2: eL2 + eR1;
-    stimL = stimConstructor(stimType, 1.0, 1.0);
+    stimL = randElemVec(stimType, 1.0, 1.0);
     drawCircleCue((color1 === 'red') ? 0 : 1, Object.assign(cueOpts, {offsetX: -d}));
     drawElementGrid(stimL, Object.assign(stimOpts, {offsetX: -d}));
     drawMultilineText("Press '" + respL + "'\nfor " + eN2[eL2], x0 - (dd+d)/2, y0 + textd, lined)
 
     stimType = aIs1 ? eL1 + eR2: eR2 + eL1;
-    let stimR = stimConstructor(stimType, 1, 1);
+    let stimR = randElemVec(stimType, 1, 1);
     drawElementGrid(stimR, Object.assign(stimOpts, {offsetX: d}));
     drawCircleCue((color1 === 'red') ? 0 : 1, Object.assign(cueOpts, {offsetX: d}));
     stimType = aIs1 ? eR1 + eR2: eR2 + eR1;
-    stimR = stimConstructor(stimType, 1, 1);
+    stimR = randElemVec(stimType, 1, 1);
     drawElementGrid(stimR, Object.assign(stimOpts, {offsetX: dd}));
     drawCircleCue((color1 === 'red') ? 0 : 1, Object.assign(cueOpts, {offsetX: dd}));
     drawMultilineText("Press '" + respR + "'\nfor " + eN2[eR2], x0 + (dd+d)/2, y0 + textd, lined)
@@ -215,25 +215,25 @@ function instructionCode(expStage) {
   } else if (expStage === 'prac3') {
     let cueProp = 0.75;
     let stimType = aIs1 ? eL1 + eR2: eR2 + eL1;
-    let stimL = stimConstructor(stimType, 1.0, 1.0);
+    let stimL = randElemVec(stimType, 1.0, 1.0);
     drawCircleCue((color1 === 'red') ? cueProp : 1-cueProp, Object.assign(cueOpts, {offsetX: -dd}));
     drawElementGrid(stimL, Object.assign(stimOpts, {offsetX: -dd}));
     drawMultilineText("Press '" + respL + "'\n for " + eN1[eL1], x0 - dd, y0 + textd, lined)
 
     stimType = aIs1 ? eR1 + eL2: eL2 + eR1;
-    let stimR = stimConstructor(stimType, 1.0, 1.0);
+    let stimR = randElemVec(stimType, 1.0, 1.0);
     drawCircleCue((color1 === 'red') ? cueProp : 1-cueProp, Object.assign(cueOpts, {offsetX: -d}));
     drawElementGrid(stimR, Object.assign(stimOpts, {offsetX: -d}));
     drawMultilineText("Press '" + respR + "'\n for " + eN1[eR1], x0 - d, y0 + textd, lined)
     
     stimType = aIs1 ? eR1 + eL2: eL2 + eR1;
-    stimL = stimConstructor(stimType, 1, 1);
+    stimL = randElemVec(stimType, 1, 1);
     drawElementGrid(stimL, Object.assign(stimOpts, {offsetX: d}));
     drawCircleCue((color1 === 'red') ? 1-cueProp : cueProp, Object.assign(cueOpts, {offsetX: d}));
     drawMultilineText("Press '" + respL + "'\n for " + eN2[eL2], x0 + d, y0 + textd, lined)
     
     stimType = aIs1 ? eL1 + eR2: eR2 + eL1;
-    stimR = stimConstructor(stimType, 1, 1);
+    stimR = randElemVec(stimType, 1, 1);
     drawElementGrid(stimR, Object.assign(stimOpts, {offsetX: dd}));
     drawCircleCue((color1 === 'red') ? 1-cueProp : cueProp, Object.assign(cueOpts, {offsetX: dd}));
     drawMultilineText("Press '" + respR + "'\n for " + eN2[eR2], x0 + dd, y0 + textd, lined)
@@ -241,7 +241,7 @@ function instructionCode(expStage) {
   } else if (expStage === 'main1' || expStage === 'main2') {
 
     let stimType = aIs1 ? eL1 + eR2: eR2 + eL1;
-    let stimL = stimConstructor(stimType, 1.0, 1.0);
+    let stimL = randElemVec(stimType, 1.0, 1.0);
     drawCircleCue((color1 === 'red') ? 0.9 : 0.1, Object.assign(cueOpts, {offsetX: -100}));
     drawElementGrid(stimL, Object.assign(stimOpts, {offsetX: -100}));
     drawMultilineText("Press '" + respL + "'\n for " + eN1[eL1], x0 - 100, y0 + textd, lined)

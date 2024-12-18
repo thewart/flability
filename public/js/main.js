@@ -2,10 +2,10 @@
 "use strict";
 
 // for testing
-let testMode = false;
+let testMode = true;
 let speed = "normal"; //fast, normal
 // speed = (testMode == true) ? "fast" : speed; //testMode defaults to "fast"
-let skipPractice = false; // turn practice blocks on or off
+let skipPractice = true; // turn practice blocks on or off
 let openerNeeded = true; //true
 let fixedColor = true;
 let fixedTaskMap = true;
@@ -169,6 +169,13 @@ if (stimType === "orientedBars") {
     }
   }
   
+  var drawStimulus = function(stim, stimOpts) {
+    let propB = stimDiff[block-1];
+    let propA = propB;
+    let elemVec = randElemVec(stim, propA, propB);
+    drawElementGrid(elemVec, stimOpts);
+  }
+
   var stimSet = ['CF', 'CE', 'TF', 'TE'];
   
   let aMap = fixedTaskMap ? 1 : randIntFromInterval(1,2);
@@ -189,6 +196,10 @@ if (stimType === "orientedBars") {
   var elemNames = {taskA: {C: 'circles', T: 'triangles'}, taskB: {F: 'filled', E: 'empty'}};
 
 } else if (stimType=="magpar") {
+
+  var drawStimulus = function(stim, stimOpts) {
+    drawCharacter(stim, ctx.canvas.width/2, ctx.canvas.height/2, stimOpts.fontSize)
+  }
   
   var stimSet = [1, 2, 3, 4, 6, 7, 8, 9];
 

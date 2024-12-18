@@ -114,7 +114,7 @@ function getSecondPracticeTask(){
   return (pracOrder == 1) ? "m" : "p";
 }
 
-function stimConstructorFixedProp(stimType, propA, propB) {
+function randElemVecFixed(stimType, propA, propB) {
   function getElemCount(s) {
     let prop = (s.at(0) == stimType.at(0) ? propA : 1-propA) * (s.at(1) === stimType.at(1) ? propB : 1-propB);
     return Math.round(prop * stimOpts.nRow * stimOpts.nCol);
@@ -125,13 +125,13 @@ function stimConstructorFixedProp(stimType, propA, propB) {
   return shuffle(elementSet).slice(0, stimOpts.nRow * stimOpts.nCol);
 } 
 
-function stimConstructor(stimType, propA, propB) {
+function randElemVec(stimType, propA, propB) {
   function getDimSets(s, sSet, majorProp) {
     let majorCount = Math.round(total * majorProp);
     let minorCount = total - majorCount;
     return shuffle(sSet.flatMap(item => Array(item===s ? majorCount : minorCount).fill(item)));
   }
-  
+
   let total = stimOpts.nRow * stimOpts.nCol;
   let A = getDimSets(stimType.at(0), Object.keys(singleTaskMap.taskA), propA);
   let B = getDimSets(stimType.at(1), Object.keys(singleTaskMap.taskB), propB);
