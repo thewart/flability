@@ -106,11 +106,11 @@ function drawCircle(centerX, centerY, area, stroke=true, fill=false) {
 }
 
 function drawCharacter(stim, centerX, centerY, fontSize, color='black') {
+
   ctx.font = fontSize + "px Arial";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
 
   ctx.fillStyle = color;
   ctx.fillText(stim, centerX, centerY);
-
 }

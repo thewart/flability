@@ -5,7 +5,7 @@
 let testMode = true;
 let speed = "normal"; //fast, normal
 // speed = (testMode == true) ? "fast" : speed; //testMode defaults to "fast"
-let skipPractice = true; // turn practice blocks on or off
+let skipPractice = false; // turn practice blocks on or off
 let openerNeeded = true; //true
 let fixedColor = true;
 let fixedTaskMap = true;
@@ -199,33 +199,47 @@ if (stimType === "orientedBars") {
 
 } else if (stimType=="magpar") {
 
-  var drawStimulus = function(stim, stimOpts) {
-    drawCharacter(stim, ctx.canvas.width/2, ctx.canvas.height/2, stimOpts.fontSize)
+  var drawStimulus = function(stim, opts) {
+    offsetX = (opts.offsetX === undefined) ? 0 : opts.offsetX;
+    offsetY = (opts.offsetY === undefined) ? 0 : opts.offsetY;
+    var centerX = ctx.canvas.width / 2 + offsetX;
+    var centerY = ctx.canvas.height / 2 + offsetY; 
+  
+    drawCharacter(stim, centerX, centerY, opts.fontSize)
   }
   var createStimArray = createStimArrayNoBacksies;
-  
+
   stimOpts.fontSize = 100;
   var stimSet = [1, 2, 3, 4, 6, 7, 8, 9];
 
   let aMap = fixedTaskMap ? 1 : randIntFromInterval(1,2);
   let bMap = fixedTaskMap ? 1 : randIntFromInterval(1,2);
 
+  var singleTaskMap = {
+    taskA: {
+      even: (aMap == 1) ? respL : respR,
+      odd: (aMap == 1) ? respR : respL
+    }, taskB: {
+      'greater than 5': (bMap == 1) ? respL : respR,
+      'less than 5': (bMap == 1) ? respR : respL
+    }
+  };
+
   var respMap = {taskA: {}, taskB: {}};
   stimSet.forEach(s => {
     if (isEven(s)) {
-      respMap.taskA[s] = (aMap == 1) ? respL : respR;
+      respMap.taskA[s] = singleTaskMap.taskA.even;
     } else if (isOdd(s)) {
-      respMap.taskA[s] = (aMap == 1) ? respR : respL;
+      respMap.taskA[s] = singleTaskMap.taskA.odd;
     } 
-
     if (s > 5) {
-      respMap.taskB[s] = (bMap == 1) ? respL : respR;
+      respMap.taskB[s] = singleTaskMap.taskB['greater than 5'];
     } else if (s < 5) {
-      respMap.taskB[s] = (bMap == 1) ? respR : respL;
+      respMap.taskB[s] = singleTaskMap.taskB['less than 5'];
     }
   })
 
-  var taskName = {taskA: 'parity', taskB: 'magnitude'};
+  var taskName = {taskA: 'even or odd', taskB: 'greater or less than 5'};
   //var elemNames = {taskA: {C: 'circles', T: 'triangles'}, taskB: {F: 'filled', E: 'empty'}};
 }
 
