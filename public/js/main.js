@@ -175,7 +175,7 @@ if (stimType === "orientedBars") {
     let elemVec = randElemVec(stim, propA, propB);
     drawElementGrid(elemVec, stimOpts);
   }
-
+  var createStimArray = createStimArrayRand;
   var stimSet = ['CF', 'CE', 'TF', 'TE'];
   
   let aMap = fixedTaskMap ? 1 : randIntFromInterval(1,2);
@@ -202,6 +202,8 @@ if (stimType === "orientedBars") {
   var drawStimulus = function(stim, stimOpts) {
     drawCharacter(stim, ctx.canvas.width/2, ctx.canvas.height/2, stimOpts.fontSize)
   }
+  var createStimArray = createStimArrayNoBacksies;
+  
   stimOpts.fontSize = 100;
   var stimSet = [1, 2, 3, 4, 6, 7, 8, 9];
 

@@ -91,7 +91,7 @@ function createCueArray(cueDiff, taskArr) {
   return cueArr;
 }
 
-function createStimArray(incArr){
+function createStimArrayRand(incArr){
   let targetsArr = [];
   incArr.forEach(conStatus => 
     targetsArr.push((conStatus == "c") ? _.sample(conStim) : _.sample(incStim))
