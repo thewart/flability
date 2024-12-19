@@ -25,7 +25,7 @@ let blockOrder = getBlockOrder(blockNames, numBlockReps); //1st arg is array of 
 
 let colorValues = {red: "#ff3503", blue: "#0381ff"};
 let cueType = "circle"; // {rect, circle, squircle}
-let stimType = "cvt";
+let stimType = "magpar";
 let cueOpts = {lineWidth: 10, numSegments: 10, radius: 125};
 // stimOpts.gap = stimOpts.fontSize * stimOpts.gapProp;
 let taskMap;
@@ -191,6 +191,8 @@ if (stimType === "orientedBars") {
       E: (bMap == 1) ? respR : respL
     }
   };
+
+  var respMap = makeRespMap(stimSet, singleTaskMap);
   
   var taskName = {taskA: 'type', taskB: 'fill'};
   var elemNames = {taskA: {C: 'circles', T: 'triangles'}, taskB: {F: 'filled', E: 'empty'}};
@@ -200,32 +202,30 @@ if (stimType === "orientedBars") {
   var drawStimulus = function(stim, stimOpts) {
     drawCharacter(stim, ctx.canvas.width/2, ctx.canvas.height/2, stimOpts.fontSize)
   }
-  
+  stimOpts.fontSize = 100;
   var stimSet = [1, 2, 3, 4, 6, 7, 8, 9];
 
   let aMap = fixedTaskMap ? 1 : randIntFromInterval(1,2);
   let bMap = fixedTaskMap ? 1 : randIntFromInterval(1,2);
 
-  var singleTaskMap = {taskA: {}, taskB: {}};
+  var respMap = {taskA: {}, taskB: {}};
   stimSet.forEach(s => {
     if (isEven(s)) {
-      singleTaskMap.taskA[s] = (aMap == 1) ? respL : respR;
+      respMap.taskA[s] = (aMap == 1) ? respL : respR;
     } else if (isOdd(s)) {
-      singleTaskMap.taskA[s] = (aMap == 1) ? respR : respL;
+      respMap.taskA[s] = (aMap == 1) ? respR : respL;
     } 
 
     if (s > 5) {
-      singleTaskMap.taskB[s] = (bMap == 1) ? respL : respR;
+      respMap.taskB[s] = (bMap == 1) ? respL : respR;
     } else if (s < 5) {
-      singleTaskMap.taskB[s] = (bMap == 1) ? respR : respL;
+      respMap.taskB[s] = (bMap == 1) ? respR : respL;
     }
   })
 
   var taskName = {taskA: 'parity', taskB: 'magnitude'};
   //var elemNames = {taskA: {C: 'circles', T: 'triangles'}, taskB: {F: 'filled', E: 'empty'}};
 }
-
-let respMap = makeRespMap(stimSet, singleTaskMap);
 
 //construct arrays of congruent/incongruent stimuli from response match/mismatch
 let conStim = [], incStim = [];

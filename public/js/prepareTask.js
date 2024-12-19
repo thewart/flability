@@ -100,6 +100,16 @@ function createStimArray(incArr){
   return targetsArr;
 }
 
+function createStimArrayNoBacksies(incArr) {
+  let targetsArr = [];
+  let lastStim;
+  incArr.forEach(conStatus => {
+    let thisConStim = conStim.filter(s => s != lastStim);
+    let thisIncStim = incStim.filter(s => s != lastStim);
+    targetsArr.push((conStatus == "c") ? _.sample(thisConStim) : _.sample(thisIncStim))
+  });
+}
+
 //untested!
 function createStimFromResp(incArr, taskArr, respArr){
   let targetsArr = [];
