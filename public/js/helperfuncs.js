@@ -37,3 +37,7 @@ function isEven(n) {
 function isOdd(n) {
   return Math.abs(n % 2) == 1;
 }
+
+function intersect(arrA, arrB) {
+  return arrA.filter(x => arrB.includes(x))
+}

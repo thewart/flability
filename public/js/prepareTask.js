@@ -106,8 +106,12 @@ function createStimArrayNoBacksies(incArr) {
   incArr.forEach(conStatus => {
     let thisConStim = conStim.filter(s => s != lastStim);
     let thisIncStim = incStim.filter(s => s != lastStim);
-    targetsArr.push((conStatus == "c") ? _.sample(thisConStim) : _.sample(thisIncStim))
+    let thisStim = (conStatus == "c") ? _.sample(thisConStim) : _.sample(thisIncStim)
+    targetsArr.push(thisStim)
+    lastStim = thisStim;
   });
+
+  return targetsArr;
 }
 
 //untested!

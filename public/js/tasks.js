@@ -157,7 +157,10 @@ function endOfExperiment(){
   // end of experiment stuff
   try {
     // upload data to menu.html's DOM element
+    finalAcc = 100 * accCount/trialCount;
     $("#RTs", opener.window.document).val(data.join("\n"));
+    $("#finalAcc", opener.window.document).val(finalAcc);
+    $("#threshAcc", opener.window.document).val(taskAccCutoff);
     
     // call menu debriefing script
     opener.updateMainMenu(3);

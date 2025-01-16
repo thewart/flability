@@ -2,13 +2,13 @@
 "use strict";
 
 // for testing
-let testMode = true;
+let testMode = false;
 let speed = "normal"; //fast, normal
 // speed = (testMode == true) ? "fast" : speed; //testMode defaults to "fast"
 let skipPractice = false; // turn practice blocks on or off
 let openerNeeded = true; //true
-let fixedColor = true;
-let fixedTaskMap = true;
+let fixedColor = false;
+let fixedTaskMap = false;
 
 // ----- Block Paramenters (CHANGE ME) ----- //
 let cueDiffByBlock = {A: 0.55, C: 0.65, D: 0.75, E: 0.85};
@@ -17,7 +17,7 @@ let switchPropByBlock = 0.5;
 let incPropByBlock = 0.5;
 
 let blockNames = Object.keys(cueDiffByBlock);
-let numBlockReps = 1, trialsPerBlock = 50;
+let numBlockReps = 1, trialsPerBlock = 80;
 let numBlocks = blockNames.length * numBlockReps;
 let blockOrder = getBlockOrder(blockNames, numBlockReps); //1st arg is array of block names
 
@@ -34,16 +34,16 @@ let respL = 'z', respR = 'm';
 let pracOrder = shuffle(["taskA", "taskB"]);
 
 // ----- Structural Paramenters (CHANGE ME) ----- //
-let stimInterval = (speed == "fast") ? 10 : 3000; //2000 stimulus interval
+let stimInterval = (speed == "fast") ? 10 : 4000; //2000 stimulus interval
 let fixInterval = (speed == "fast") ? 10 : 500; //500 ms intertrial interval
 let itiMin = (speed == "fast") ? 20 : 1000; //1200
 let itiMax = (speed == "fast") ? 20 : 1200; //1400
 
 let earlyCueInterval = 0; //100; early cue (relative to target presentation), 0 makes cue concurrant with target presentation. only valid with rectangle cue
-let numPracticeTrials = 12;
+let numPracticeTrials = 8;
 let miniBlockLength = 0; //doesn't need to be multiple of 24. 0 to turn off
-let practiceAccCutoff = (testMode == true) ? 0 : 80; // 75 acc%
-let taskAccCutoff = (testMode == true) ? 0 : 80; // 75 acc%
+let practiceAccCutoff = (testMode == true) ? 0 : 75; // 75 acc%
+let taskAccCutoff = (testMode == true) ? 0 : 65; // 65 acc%
 
 function ITIInterval(){
   let itiStep = 50; //step size
@@ -207,10 +207,11 @@ if (stimType === "orientedBars") {
   
     drawCharacter(stim, centerX, centerY, opts.fontSize)
   }
+  //either createStimArrayRand to allow repeats, or createStimArrayNoBacksies to ensure no stim repeats
   var createStimArray = createStimArrayNoBacksies;
 
   stimOpts.fontSize = 100;
-  var stimSet = [1, 2, 3, 4, 6, 7, 8, 9];
+  var stimSet = ['1', '2', '3', '4', '6', '7', '8', '9'];
 
   let aMap = fixedTaskMap ? 1 : randIntFromInterval(1,2);
   let bMap = fixedTaskMap ? 1 : randIntFromInterval(1,2);
@@ -226,16 +227,17 @@ if (stimType === "orientedBars") {
   };
 
   var respMap = {taskA: {}, taskB: {}};
-  stimSet.forEach(s => {
+  stimSet.forEach(ss => {
+    let s = Number(ss);
     if (isEven(s)) {
-      respMap.taskA[s] = singleTaskMap.taskA.even;
+      respMap.taskA[ss] = singleTaskMap.taskA.even;
     } else if (isOdd(s)) {
-      respMap.taskA[s] = singleTaskMap.taskA.odd;
+      respMap.taskA[ss] = singleTaskMap.taskA.odd;
     } 
     if (s > 5) {
-      respMap.taskB[s] = singleTaskMap.taskB['greater than 5'];
+      respMap.taskB[ss] = singleTaskMap.taskB['greater than 5'];
     } else if (s < 5) {
-      respMap.taskB[s] = singleTaskMap.taskB['less than 5'];
+      respMap.taskB[ss] = singleTaskMap.taskB['less than 5'];
     }
   })
 
@@ -336,11 +338,11 @@ function promptMenuClosed(){
   $('.MenuClosedPrompt').show();
 }
 
-function logData(data, stage) {
-  sectionEnd = new Date().getTime() - runStart;
-  data.push([stage, sectionType, block, blockType, 
-    NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN,
-    sectionStart, sectionEnd, sectionEnd - sectionStart]
-  );
-  console.log(data);
-}
+// function logData(data, stage) {
+//   sectionEnd = new Date().getTime() - runStart;
+//   data.push([stage, sectionType, block, blockType, 
+//     NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN,
+//     sectionStart, sectionEnd, sectionEnd - sectionStart]
+//   );
+//   console.log(data);
+// }

@@ -1,5 +1,5 @@
 // create global curStage variable
-let curStage = 2;
+let curStage = 0;
 console.log(curStage)
 
 // creates popup window
@@ -37,18 +37,18 @@ function updateMainMenu(expStage){
     console.log('here I am')
       $("#myButton").show();
       $("#submit").hide();
-      $("#instruction").text("Click button to read the consent form. PLEASE DO NOT CLOSE THIS SCREEN.");
+      $("#instruction").html("Click button to read the consent form. <br> PLEASE DO NOT CLOSE THIS SCREEN.");
       $("#instruction").show();
       break;
     case 1: // demographics
       $("#myButton").show();
       //$("#submit").hide();
-      $("#instruction").text("Click button to fill out demographic survey. PLEASE DO NOT CLOSE THIS SCREEN.");
+      $("#instruction").html("Click button to fill out demographic survey. <br> PLEASE DO NOT CLOSE THIS SCREEN.");
       $("#instruction").show();
       break;
     case 2: //main task
       $("#myButton").show();
-      $("#instruction").text("Click 'Continue' button to start the main task. PLEASE DO NOT CLOSE THIS SCREEN.");
+      $("#instruction").html("Click 'Continue' button to start the main task. <br> PLEASE DO NOT CLOSE THIS SCREEN.");
       $("#instruction").show();
       break;
     case 3: //debriefing
@@ -61,10 +61,8 @@ function updateMainMenu(expStage){
       break;
     case -1: //nonconsent
       $("#myButton").hide();
-      $("#instruction").text("As you have indicated that you do not consent to participate in this study, '" + 
-        "please close this window and return this submission on Prolific by selecting the 'stop without completing' button.");
+      $("#instruction").html("<a href='https://app.prolific.com/submissions/complete?cc=CWV4VDWZ'>Please use this link to return the submission.</a>");
       $("#instruction").show();
-
   }
 }
 

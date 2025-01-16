@@ -17,6 +17,8 @@
 					<input type="hidden" id="workerID" name="workerID" value="">
 					<input type="hidden" id="sessionID" name="sessionID" value="">
 					<input type="hidden" id="RTs" name="RTs" value="">
+					<input type="hidden" id="finalAcc" name="finalAcc" value="">
+					<input type="hidden" id="threshAcc" name="finalAcc" value="">
 					<input type="hidden" id="demographics" name="demographics" value="flabilityPilotProlific">
 					<input type="hidden" id="ExpName" name="ExpName" value="flabilityPilotProlific">
 					<p style="font-size:22px; margin-left: 50px; margin-right:50px;">
@@ -38,9 +40,18 @@
 	</table>
 	<script>
 		function showCode() {
+			finalAcc = Number($("#finalAcc").val());
+			threshAcc = Number($("#threshAcc").val());
 			$('#submitButton').hide();
-			$('#mainForm').append("<p>Thank you for participating." +
-				" This is where the completion link will show up for people who are getting paid.</p>")
+			if (finalAcc >= threshAcc) {
+				$('#mainForm').append("<p>Thank you for participating. \n" +
+					"<a href=https://app.prolific.com/submissions/complete?cc=CWHKZYIB>Please click here to have your submission approved.</a></p>");
+			} else {
+				$('#mainForm').append("<p>Your final accuracy was " + Math.round(finalAcc) + "%" +
+					", which is below the minimum threshold of " + threshAcc + "%. \n" + 
+					"<a href=https://app.prolific.com/submissions/complete?cc=CWV4VDWZ>Please use this link to return your submission on Prolific.</a></p>"
+				);
+			}
 		}
 	</script>
 </body>
