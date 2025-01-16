@@ -1,5 +1,38 @@
 const getBlockOrder = (blockNames, blockReps) => shuffle(repeat(blockNames, blockReps));
 
+function duplicateAndShuffle(X, N) {
+  if (N <= 0) {
+      throw new Error("N must be a positive integer");
+  }
+  if (X.length === 0) {
+      throw new Error("Input array X cannot be empty");
+  }
+  if (X.length === 1) {
+      return Array(N).fill(X[0]);
+  }
+  
+  const result = [];
+  let lastElement = null;
+  
+  for (let i = 0; i < N; i++) {
+      let shuffled;
+      if (lastElement === null) {
+          // First copy can be shuffled normally
+          shuffled = shuffle(X);
+      } else {
+          // Keep shuffling until we get a valid first element
+          do {
+              shuffled = shuffle(X);
+          } while (shuffled[0] === lastElement);
+      }
+      
+      result.push(...shuffled);
+      lastElement = shuffled[shuffled.length - 1];
+  }
+  
+  return result;
+}
+
 function getBlockParameters(blockLetter) {
   var thisBlock = {
     switchProp: (typeof(switchPropByBlock) === 'number') ? switchPropByBlock : switchPropByBlock[blockLetter],

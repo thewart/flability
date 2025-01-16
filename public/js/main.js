@@ -17,9 +17,9 @@ let switchPropByBlock = 0.5;
 let incPropByBlock = 0.5;
 
 let blockNames = Object.keys(cueDiffByBlock);
-let numBlockReps = 1, trialsPerBlock = 80;
+let numBlockReps = 2, trialsPerBlock = 60;
 let numBlocks = blockNames.length * numBlockReps;
-let blockOrder = getBlockOrder(blockNames, numBlockReps); //1st arg is array of block names
+let blockOrder = duplicateAndShuffle(blockNames, numBlockReps); //1st arg is array of block names
 
 // ----- Cue Paramenters (CHANGE ME) ----- //
 
