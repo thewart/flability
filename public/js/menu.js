@@ -90,7 +90,7 @@ $(document).ready(function(){
   punt = new Date().getTime();
   document.getElementById('studyID').value = partInfo.has("STUDY_ID") ? partInfo.get("STUDY_ID") : "NA";
   document.getElementById('sessionID').value = partInfo.has("SESSION_ID") ? partInfo.get("SESSION_ID") : punt;
-  document.getElementById('workerID').value = partInfo.has("PROLIFIC_PID") ? partInfo.has("PROLIFIC_PID") : "NA";
+  document.getElementById('workerID').value = partInfo.has("PROLIFIC_PID") ? partInfo.get("PROLIFIC_PID") : "NA";
 
   prepareMenu();
 

@@ -287,7 +287,7 @@ $(document).ready(function(){
       countDown(3);
     } else if (expType == 7) {
       clearInterval(sectionTimer);
-      
+      expType = 0;
       // 7: block feedback - press button to start next block
       // logData(data, 'feedback');      
       // increment block information before beginning next block
