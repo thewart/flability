@@ -11,7 +11,7 @@ let fixedColor = false;
 let fixedTaskMap = false;
 
 // ----- Block Paramenters (CHANGE ME) ----- //
-let cueDiffByBlock = {A: 0.55, C: 0.65, D: 0.75, E: 0.85};
+let cueDiffByBlock = {A: 0.55, B: 0.65, C: 0.75, D: 0.85};
 let stimDiffByBlock = 9/9;
 let switchPropByBlock = 0.5;
 let incPropByBlock = 0.5;
