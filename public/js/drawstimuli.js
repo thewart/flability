@@ -1,4 +1,4 @@
-function drawCircleCue(propRed, opts) {
+function drawCircleCue(propColorA, opts) {
   offsetX = (opts.offsetX === undefined) ? 0 : opts.offsetX;
   offsetY = (opts.offsetY === undefined) ? 0 : opts.offsetY;
   var centerX = ctx.canvas.width / 2 + offsetX;
@@ -8,16 +8,16 @@ function drawCircleCue(propRed, opts) {
   ctx.lineWidth = opts.lineWidth;    
   
   for (var i = 0; i < opts.numSegments; i++) {
-    ctx.strokeStyle = colorValues.red;
-    endAngle = startAngle + partLen * propRed;
+    ctx.strokeStyle = colorValues[colorA];
+    endAngle = startAngle + partLen * propColorA;
     if (endAngle > 2 * Math.PI) endAngle += -2 * Math.PI;
     ctx.beginPath();
     ctx.arc(centerX, centerY, opts.radius, startAngle, endAngle);
     ctx.stroke();
     startAngle = endAngle;
     
-    ctx.strokeStyle = colorValues.blue;
-    endAngle = startAngle + partLen * (1-propRed);
+    ctx.strokeStyle = colorValues[colorB];
+    endAngle = startAngle + partLen * (1-propColorA);
     if (endAngle > 2 * Math.PI) endAngle += -2 * Math.PI;
     ctx.beginPath();
     ctx.arc(centerX, centerY, opts.radius, startAngle, endAngle);
@@ -28,21 +28,11 @@ function drawCircleCue(propRed, opts) {
 
 function drawRingSet(){
   let isThisTaskRed = taskColor[taskArr[trialCount]] == "red";
-  let propRed = isThisTaskRed ? cueArr[trialCount] : 1-cueArr[trialCount];
-  drawRing(50, 130, 5, propRed);
-  drawRing(50, 142, 5, propRed);
-  drawRing(50, 118, 5, propRed);
+  let propColorA = isThisTaskRed ? cueArr[trialCount] : 1-cueArr[trialCount];
+  drawRing(50, 130, 5, propColorA);
+  drawRing(50, 142, 5, propColorA);
+  drawRing(50, 118, 5, propColorA);
 }
-
-// function drawStimulus(){
-//   let number = stimArr[trialCount];
-  
-//   ctx.fillStyle = "black";
-//   ctx.font = "bold 100px Arial";
-//   ctx.textAlign = "center";
-//   ctx.textBaseline = "middle";
-//   ctx.fillText(number, ctx.canvas.width/2, ctx.canvas.height/2);
-// }
 
 function drawElementGrid(elements, opts) {
   const cellSize = opts.gridSize / opts.nRow;

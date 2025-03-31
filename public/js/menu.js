@@ -1,5 +1,5 @@
 // create global curStage variable
-let curStage = 0;
+let curStage = 2;
 console.log(curStage)
 
 // creates popup window

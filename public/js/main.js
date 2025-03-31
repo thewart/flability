@@ -5,7 +5,7 @@
 let testMode = false;
 let speed = "normal"; //fast, normal
 // speed = (testMode == true) ? "fast" : speed; //testMode defaults to "fast"
-let skipPractice = false; // turn practice blocks on or off
+let skipPractice = true; // turn practice blocks on or off
 let openerNeeded = true; //true
 let fixedColor = false;
 let fixedTaskMap = false;
@@ -23,14 +23,16 @@ let blockOrder = duplicateAndShuffle(blockNames, numBlockReps); //1st arg is arr
 
 // ----- Cue Paramenters (CHANGE ME) ----- //
 
-let colorValues = {red: "#ff3503", blue: "#0381ff"};
+let colorValues = {red: "#D92E2E", blue: "#2E52D9", green: "#36B336",
+   yellow: "#D9D12E", black: "#191919", white: "#fcfcfc"};
 let cueType = "circle"; // {rect, circle, squircle}
-let stimType = "magpar";
+let stimType = "stroop";
 let cueOpts = {lineWidth: 10, numSegments: 10, radius: 125};
-// stimOpts.gap = stimOpts.fontSize * stimOpts.gapProp;
+
 let taskMap;
 // ----- Stimulus Paramenters (CHANGE ME) ----- //
-let respL = 'z', respR = 'm';
+let respLL = 'z', respL = 'x', respR = ',', respRR = '.';
+let respSet = [respLL, respL, respR, respRR];
 let pracOrder = shuffle(["taskA", "taskB"]);
 
 // ----- Structural Paramenters (CHANGE ME) ----- //
@@ -78,125 +80,42 @@ let expType = 0; // see below
 // case 1: taskA = Red, taskB = Blue
 // case 2: taskA = Blue, taskB = Red
 let colorMapping = fixedColor ? 1 : randIntFromInterval(1,2);
-let colorA = (colorMapping == 1) ? "red" : "blue";
-let colorB = (colorMapping == 1) ? "blue" : "red";
+let colorA = (colorMapping == 1) ? "black" : "white";
+let colorB = (colorMapping == 1) ? "white" : "black";
 let taskColor = {taskA: colorA, taskB: colorB};
 
-let gridSize = 120;
-let dimLen = 3;
-let stimOpts = {nRow: dimLen, nCol: dimLen, gridSize: gridSize, element: {}}
+// let gridSize = 120;
+// let dimLen = 3;
+// let stimOpts = {nRow: dimLen, nCol: dimLen, gridSize: gridSize, element: {}}
+let stimOpts = new Object();
+if (stimType === "stroop") {
+  stimOpts.fontSize = 75;
 
-if (stimType === "orientedBars") {
-  
-  stimOpts.element = {long: gridSize/dimLen * 0.8, short: gridSize/dimLen * 0.4, fillStyle: "black", lineWidth: 2};
-  
-  var drawElement = function (element, x, y, opts) {
-    ctx.beginPath();
-    ctx.lineWidth = opts.lineWidth;
-    ctx.strokeStyle = 'black';
-    
-    switch (element.at(0)) {
-      case 'V':
-      ctx.rect(x-opts.short/2, y-opts.long/2, opts.short, opts.long);
-      break;
-      
-      case 'H':
-      ctx.rect(x-opts.long/2, y-opts.short/2, opts.long, opts.short); 
-      break;
-    }
-    
-    switch (element.at(1)) {
-      case 'F':
-      ctx.fillStyle = opts.fillStyle;
-      ctx.fill();
-      break;
-      
-      case 'E':
-      ctx.stroke();
-      break;
-    }
+  var drawStimulus = function(stim, opts) {
+    offsetX = (opts.offsetX === undefined) ? 0 : opts.offsetX;
+    offsetY = (opts.offsetY === undefined) ? 0 : opts.offsetY;
+    var centerX = ctx.canvas.width / 2 + offsetX;
+    var centerY = ctx.canvas.height / 2 + offsetY; 
+    var [word, color] = stim.split('/');
+    drawCharacter(word, centerX, centerY, opts.fontSize, color)
   }
-  
-  var stimSet = ['VF', 'VE', 'HF', 'HE'];
-  
-  // var aMap = randIntFromInterval(1,2);
-  // var bMap = randIntFromInterval(1,2);
-  let aMap = 1;
-  let bMap = 1;
-  
-  var singleTaskMap = {
-    taskA: {
-      H: (aMap == 1) ? respL : respR,
-      V: (aMap == 1) ? respR : respL
-    },
-    taskB: {
-      F: (bMap == 1) ? respL : respR,
-      E: (bMap == 1) ? respR : respL
-    }
-  };
-  
-  var taskName = {taskA: 'orientation', taskB: 'fill'};
-  
-} else if (stimType === "cvt") {
-  
-  let cellArea = (gridSize * gridSize) / (dimLen * dimLen);
-  stimOpts.element = {area: cellArea*0.2, fillStyle: "black", lineWidth: 2};
-  
-  var drawElement = function (element, x, y, opts) {
-    ctx.beginPath();
-    
-    switch (element.at(0)) {
-      case 'C':
-      drawCircle(x, y, opts.area, false, false);
-      break;
-      
-      case 'T':
-      drawTriangle(x, y, opts.area, false, false); 
-      break;
-    }
-    
-    switch (element.at(1)) {
-      case 'F':
-      ctx.fillStyle = opts.fillStyle;
-      ctx.fill();
-      break;
-      
-      case 'E':
-      ctx.lineWidth = opts.lineWidth;
-      ctx.strokeStyle = 'black';    
-      ctx.stroke();
-      break;
-    }
+
+  var createStimArray = createStimArrayNoBacksies;
+  var wordSet = ["red", "blue", "yellow", "green"];
+  var stimSet = new Array();
+  var singleTaskMap = {taskA: {}, taskB: {}};
+  var respSetShuffled = shuffle(respSet);
+
+  for (var i = 0; i < wordSet.length; i++) {
+    singleTaskMap.taskA[wordSet[i]] = respSetShuffled[i];
+    for (var j = 0; j < wordSet.length; j++) stimSet.push(wordSet[i] + '/' + wordSet[j]);
   }
-  
-  var drawStimulus = function(stim, stimOpts) {
-    let propB = stimDiff[block-1];
-    let propA = propB;
-    let elemVec = randElemVec(stim, propA, propB);
-    drawElementGrid(elemVec, stimOpts);
-  }
-  var createStimArray = createStimArrayRand;
-  var stimSet = ['CF', 'CE', 'TF', 'TE'];
-  
-  let aMap = fixedTaskMap ? 1 : randIntFromInterval(1,2);
-  let bMap = fixedTaskMap ? 1 : randIntFromInterval(1,2);
-  
-  var singleTaskMap = {
-    taskA: {
-      C: (aMap == 1) ? respL : respR,
-      T: (aMap == 1) ? respR : respL
-    },
-    taskB: {
-      F: (bMap == 1) ? respL : respR,
-      E: (bMap == 1) ? respR : respL
-    }
-  };
+  singleTaskMap.taskB = singleTaskMap.taskA;
 
   var respMap = makeRespMap(stimSet, singleTaskMap);
-  
-  var taskName = {taskA: 'type', taskB: 'fill'};
-  var elemNames = {taskA: {C: 'circles', T: 'triangles'}, taskB: {F: 'filled', E: 'empty'}};
+  var taskName = {taskA: "word reading", taskB: "color naming"};
 
+  
 } else if (stimType=="magpar") {
 
   var drawStimulus = function(stim, opts) {

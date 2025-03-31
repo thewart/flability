@@ -143,7 +143,7 @@ function createRespFromStim(stimArr, taskArr, respMap){
 
 function makeRespMap(stimSet, singleTaskMap) {
   let respMap = {taskA: {}, taskB: {}};
-  stimSet.forEach(s => respMap.taskA[s] = singleTaskMap.taskA[s.at(0)]);
-  stimSet.forEach(s => respMap.taskB[s] = singleTaskMap.taskB[s.at(1)]);
+  stimSet.forEach(s => respMap.taskA[s] = singleTaskMap.taskA[s.split('/')[0]]);
+  stimSet.forEach(s => respMap.taskB[s] = singleTaskMap.taskB[s.split('/')[1]]);
   return respMap;
 }
