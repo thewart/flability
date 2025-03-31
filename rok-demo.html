@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ROK Animation Demo</title>
+    <script type="text/javascript" src="/home/seth/projects/flability/simplified-rok.js"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #333;
+            color: white;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        canvas {
+            border: 1px solid #666;
+            margin: 20px;
+        }
+        .controls {
+            margin: 10px;
+        }
+        button {
+            padding: 8px 16px;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>ROK Animation Demo</h1>
+    <canvas id="rokCanvas" width="800" height="600"></canvas>
+    <div class="controls">
+        <button onclick="startAnimation()">Start</button>
+        <button onclick="stopAnimation()">Stop</button>
+    </div>
+
+    <script>
+        // ROK Animation Class
+        // Initialize animation
+        let rokAnimation;
+        const canvas = document.getElementById('rokCanvas');
+
+        function initROK() {
+            rokAnimation = new ROKAnimation(canvas, {
+                numberOfObjects: 50,
+                coherenceMovement: 10,
+                coherentMovementDirection: 0,
+                coherentOrientation: 0,
+                coherenceOrientation: 100,
+                movementSpeed: 20,
+                objectSize: 2,
+                objectColor: 'white',
+                stimulusType: 1,  
+                randomMovementType: 0,
+                apertureWidth: 400,
+                apertureHeight: 300,
+                apertureShape: 1,  // elliptical
+                backgroundColor: '#222222',
+                fadeOut: 0,
+                lifeSpan: 500
+            });
+        }
+
+        function startAnimation() {
+            if (!rokAnimation) {
+                initROK();
+            }
+            rokAnimation.start();
+        }
+
+        function stopAnimation() {
+            if (rokAnimation) {
+                rokAnimation.stop();
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', initROK);
+    </script>
+</body>
+</html>
