@@ -259,7 +259,7 @@ function itiScreen(){
   respOnset, respArr[trialCount]]);
   
   // prepare ITI canvas
-  ctx.fillStyle = accFeedbackColor();
+  // ctx.fillStyle = accFeedbackColor();
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   
   // display response feedback (correct/incorrect/too slow)

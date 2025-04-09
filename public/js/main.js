@@ -5,7 +5,7 @@
 let testMode = false;
 let speed = "normal"; //fast, normal
 // speed = (testMode == true) ? "fast" : speed; //testMode defaults to "fast"
-let skipPractice = true; // turn practice blocks on or off
+let skipPractice = false; // turn practice blocks on or off
 let openerNeeded = true; //true
 let fixedColor = false;
 let fixedTaskMap = false;
@@ -97,6 +97,7 @@ if (stimType === "stroop") {
     var centerX = ctx.canvas.width / 2 + offsetX;
     var centerY = ctx.canvas.height / 2 + offsetY; 
     var [word, color] = stim.split('/');
+    console.log(stim, word, color)
     drawCharacter(word, centerX, centerY, opts.fontSize, color)
   }
 
@@ -113,8 +114,17 @@ if (stimType === "stroop") {
   singleTaskMap.taskB = singleTaskMap.taskA;
 
   var respMap = makeRespMap(stimSet, singleTaskMap);
-  var taskName = {taskA: "word reading", taskB: "color naming"};
+  var taskName = {taskA: "read the word", taskB: "identify the color of the print"};
+  var elemNames = {
+    taskA: {red: "word 'red'", blue: "word 'blue'", yellow: "word 'yellow'", green: "word 'green'"},
+    taskB: {red: "color red", blue: "color blue", yellow: "color yellow", green: "color green"}
+  }
 
+  var pracRespMap = {taskA: {}, taskB: {}}
+  wordSet.forEach(w => {
+    pracRespMap.taskA[w + '/black'] = singleTaskMap.taskA[w];
+    pracRespMap.taskB['\u25AC/' + w] = singleTaskMap.taskB[w];
+  });
   
 } else if (stimType=="magpar") {
 
