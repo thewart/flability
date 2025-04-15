@@ -114,7 +114,7 @@ if (stimType === "stroop") {
   singleTaskMap.taskB = singleTaskMap.taskA;
 
   var respMap = makeRespMap(stimSet, singleTaskMap);
-  var taskName = {taskA: "read the word", taskB: "identify the color of the print"};
+  var taskName = {taskA: "read the word", taskB: "identify the print color"};
   var elemNames = {
     taskA: {red: "word 'red'", blue: "word 'blue'", yellow: "word 'yellow'", green: "word 'green'"},
     taskB: {red: "color red", blue: "color blue", yellow: "color yellow", green: "color green"}
