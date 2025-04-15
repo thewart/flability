@@ -1,10 +1,16 @@
-function createPracticeArrays(nReps, task, cueDiff){
+function createPracticeArrays(nReps, task, isolated = false, cueDiff){
   var nTrials = Object.keys(stimSet).length * nReps;
 
   // stimArr = shuffle(repeat(Object.keys(stimSet), nReps));
-  stimArr = shuffle(repeat(stimSet, nReps));
-  incArr = [];
-  for (var s in stimArr) incArr.push(conStim.includes(s) ? 'c' : 'i'); 
+  if (isolated) {
+    var thisStimSet = Object.keys(pracRespMap[task]);
+    stimArr = shuffle(repeat(thisStimSet, nReps));
+    incArr = new Array(stimArr.length).fill(null);
+  } else {  
+    stimArr = shuffle(repeat(stimSet, nReps));
+    incArr = [];
+    for (var s in stimArr) incArr.push(conStim.includes(s) ? 'c' : 'i'); 
+  }
   stimDiff = repeat([1.0], block);
 
   if (task == "") {

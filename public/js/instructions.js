@@ -5,9 +5,9 @@ let numPracticeReps =  Math.ceil(numPracticeTrials / Object.keys(stimSet).length
 let instructions = {
   // contains the iterator for each instruction block
   iterator: {
-    "prac1-1": 0, "prac1-2": 0, "prac2": 0, "prac3": 0, "main1": 0, 'main2': 0,
+    "prac1-1": 0, "prac1-2": 0, "prac2": 0, "prac3": 0, "prac4": 0, "prac5": 0, "main1": 0, 'main2': 0,
   },
-  order: ["prac1-1", "prac1-2", "prac2", "prac3", "main1", "main2"],
+  order: ["prac1-1", "prac1-2", "prac2", "prac3", "prac4", "prac5", "main1", "main2"],
   // what does instruction section end with?
   // #nextSectionButton, #startExpButton, buttonPressNextSection, buttonPressStartTask
   exitResponse: {
@@ -15,6 +15,8 @@ let instructions = {
     "prac1-2": 'buttonPressStartTask',
     "prac2": 'buttonPressStartTask',
     "prac3": 'buttonPressStartTask',
+    "prac4": 'buttonPressStartTask',
+    "prac5": 'buttonPressStartTask',
     "main1": '#nextSectionButton',
     "main2": 'buttonPressStartTask'
   }
