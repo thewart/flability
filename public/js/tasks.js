@@ -20,27 +20,27 @@ function runTasks(){
   // --- PRACTICE 1 --- //
   if (expStage.indexOf("prac1") != -1){
     
-    runPractice(numPracticeReps, pracOrder[0], true);
+    runPractice(numPracticeTrials, pracOrder[0], true);
     
     // --- PRACTICE 2 --- //
   } else if (expStage.indexOf("prac2") != -1){
     
-    runPractice(numPracticeReps, pracOrder[1], true);
+    runPractice(numPracticeTrials, pracOrder[1], true);
     
     // --- PRACTICE 3 --- //
   } else if (expStage.indexOf("prac3") != -1){
     
-    runPractice(numPracticeReps, pracOrder[0], false);
+    runPractice(numPracticeTrials, pracOrder[0], false);
     
     // --- PRACTICE 4 --- //
   } else if (expStage.indexOf("prac4") != -1){
     
-    runPractice(numPracticeReps, pracOrder[1], false);
+    runPractice(numPracticeTrials, pracOrder[1], false);
     
     // --- PRACTICE 5 --- //
   } else if (expStage.indexOf("prac5") != -1) {
     
-    runPractice(numPracticeReps * 2, '', 0.75);
+    runPractice(numPracticeTrials, '', false, 0.75);
         
     // --- MAIN TASK --- //
   } else if (expStage.indexOf("main") != -1) {
@@ -265,7 +265,7 @@ function itiScreen(){
   respOnset, respArr[trialCount]]);
   
   // prepare ITI canvas
-  // ctx.fillStyle = accFeedbackColor();
+  ctx.fillStyle = "black";
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   
   // display response feedback (correct/incorrect/too slow)

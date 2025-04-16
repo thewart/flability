@@ -1,13 +1,13 @@
-function createPracticeArrays(nReps, task, isolated = false, cueDiff){
-  var nTrials = Object.keys(stimSet).length * nReps;
-
+function createPracticeArrays(nTrials, task, isolated = false, cueDiff){
   // stimArr = shuffle(repeat(Object.keys(stimSet), nReps));
   if (isolated) {
     var thisStimSet = Object.keys(pracRespMap[task]);
-    stimArr = shuffle(repeat(thisStimSet, nReps));
+    let nRep =  Math.ceil(nTrials / thisStimSet.length);
+    stimArr = shuffle(repeat(thisStimSet, nRep)).slice(0, nTrials-1);
     incArr = new Array(stimArr.length).fill(null);
   } else {  
-    stimArr = shuffle(repeat(stimSet, nReps));
+    let nRep =  Math.ceil(nTrials / stimSet.length);
+    stimArr = shuffle(repeat(stimSet, nRep)).slice(0, nTrials-1);
     incArr = [];
     for (var s in stimArr) incArr.push(conStim.includes(s) ? 'c' : 'i'); 
   }
@@ -22,7 +22,8 @@ function createPracticeArrays(nReps, task, isolated = false, cueDiff){
     switchArr[0] = null;
     taskArr = Array(nTrials).fill(task);
   }
-  respArr = createRespFromStim(stimArr, taskArr, respMap);
+
+  respArr = isolated ? createRespFromStim(stimArr, taskArr, pracRespMap) : createRespFromStim(stimArr, taskArr, respMap);
   cueArr = createCueArray(cueDiff, taskArr);
 }
 

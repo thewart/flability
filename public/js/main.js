@@ -42,7 +42,7 @@ let itiMin = (speed == "fast") ? 20 : 1000; //1200
 let itiMax = (speed == "fast") ? 20 : 1200; //1400
 
 let earlyCueInterval = 0; //100; early cue (relative to target presentation), 0 makes cue concurrant with target presentation. only valid with rectangle cue
-let numPracticeTrials = 8;
+let numPracticeTrials = 16;
 let miniBlockLength = 0; //doesn't need to be multiple of 24. 0 to turn off
 let practiceAccCutoff = (testMode == true) ? 0 : 75; // 75 acc%
 let taskAccCutoff = (testMode == true) ? 0 : 65; // 65 acc%
@@ -123,7 +123,7 @@ if (stimType === "stroop") {
   var pracRespMap = {taskA: {}, taskB: {}}
   wordSet.forEach(w => {
     pracRespMap.taskA[w + '/black'] = singleTaskMap.taskA[w];
-    pracRespMap.taskB['\u25AC/' + w] = singleTaskMap.taskB[w];
+    pracRespMap.taskB['\u25A0/' + w] = singleTaskMap.taskB[w];
   });
   
 } else if (stimType=="magpar") {

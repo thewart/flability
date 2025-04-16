@@ -18,14 +18,17 @@ function getInstructionText(){
   let eL = getKeyByValue(tM1, respL);
   let eLL = getKeyByValue(tM1, respLL);
 
-  let realPracTrials = Object.keys(stimSet).length * numPracticeReps;
+  let realPracTrials = numPracticeTrials;
   let blockTime = Math.ceil(trialsPerBlock * (fixInterval + stimInterval/2 + 0.5*(itiMax + itiMin)) / (1000 * 60));
   let beginText = " Please place your hands on the '" + respL + "' and '" + respR + "' keys as shown.</p>" +
-   "<img src=/images/handsOnKeyboard6.png height=200>" +  "<p><b>Press any button to begin</b>.</p>";
+   "<img src=/images/four_finger_keyhands.png height=200>" +  "<p><b>Press any button to begin</b>.</p>";
 
   let instructionText = {
     'prac1-1': [
-      "<p>In this experiment, you will see a single color word printed in the middle of the screen." +
+      "<p>In this experiment, you will see a target displayed inside a circle in the middle of the screen." + 
+      "\n Your job is to quickly make the correct response to the target.</p>",
+
+      "<p>The target will be a single color word printed in the middle of the screen, as shown above." +
       " This word will also be printed in color." +
       " However, the color word will not always match the color of the print</p>",
 
@@ -38,34 +41,27 @@ function getInstructionText(){
     ],
 
     'prac1-2' : [
-      "<p>First we will practice each task in isolation with simplified cues.</p>",
+      "<p>First we will practice each task in isolation with simplified targets.</p>",
 
       "<p>When the circle is " + color1 + ", you will " + task1 + ".</p>",
 
-      "<p>Press '" + respLL + "' with your left hand middle finger for the " + eN1[eLL] + ".</p>",
-
-      "<p>Press '" + respL + "' with your left hand index finger for the " + eN1[eL] + ".</p>",
-
-      "<p>Press '" + respR + "' with your right hand index finger for the " + eN1[eR] + ".</p>",
-
+      "<p>Press '" + respLL + "' with your left hand middle finger for the " + eN1[eLL] + ".</p>" +
+      "<p>Press '" + respL + "' with your left hand index finger for the " + eN1[eL] + ".</p>" +
+      "<p>Press '" + respR + "' with your right hand index finger for the " + eN1[eR] + ".</p>" +
       "<p>Press '" + respRR + "' with your right hand middle finger for the " + eN1[eRR] + ".</p>",
 
       "<p>This block contains " + realPracTrials + " trials." + beginText
     ],
 
     'prac2' : [
-      "<p>Next we will practice the other task in isolation, again with simplified cues.</p>",
+      "<p>Next we will practice the other task in isolation, again with simplified targets.</p>",
 
       "<p>When the circle is " + color2 + ", you will " + task2 + ".</p>",
 
-      "<p>Press '" + respLL + "' with your left hand middle finger for the " + eN2[eLL] + ".</p>",
-
-      "<p>Press '" + respL + "' with your left hand index finger for the " + eN2[eL] + ".</p>",
-
-      "<p>Press '" + respR + "' with your right hand index finger for the " + eN2[eR] + ".</p>",
-
+      "<p>Press '" + respLL + "' with your left hand middle finger for the " + eN2[eLL] + ".</p>" +
+      "<p>Press '" + respL + "' with your left hand index finger for the " + eN2[eL] + ".</p>" +
+      "<p>Press '" + respR + "' with your right hand index finger for the " + eN2[eR] + ".</p>" +
       "<p>Press '" + respRR + "' with your right hand middle finger for the " + eN2[eRR] + ".</p>",
-
       "<p>This block contains " + realPracTrials + " trials." + beginText
 
     ],
@@ -75,43 +71,39 @@ function getInstructionText(){
 
       "<p>When the circle is " + color1 + ", you will " + task1 + ".</p>",
 
-      "<p>Press '" + respLL + "' with your left hand middle finger for the " + eN1[eLL] + ".</p>",
-
-      "<p>Press '" + respL + "' with your left hand index finger for the " + eN1[eL] + ".</p>",
-
-      "<p>Press '" + respR + "' with your right hand index finger for the " + eN1[eR] + ".</p>",
-
+      "<p>Press '" + respLL + "' with your left hand middle finger for the " + eN1[eLL] + ".</p>" +
+      "<p>Press '" + respL + "' with your left hand index finger for the " + eN1[eL] + ".</p>" +
+      "<p>Press '" + respR + "' with your right hand index finger for the " + eN1[eR] + ".</p>" +
       "<p>Press '" + respRR + "' with your right hand middle finger for the " + eN1[eRR] + ".</p>",
 
       "<p>This block contains " + realPracTrials + " trials." + beginText
     ],
 
     'prac4': [
+      "<p>Next, we will practice the other task, again using color words in colored print.</p>",
+
       "<p>When the circle is " + color2 + ", you will " + task2 + ".</p>",
 
-      "<p>Press '" + respLL + "' with your left hand middle finger for the " + eN2[eLL] + ".</p>",
-
-      "<p>Press '" + respL + "' with your left hand index finger for the " + eN2[eL] + ".</p>",
-
-      "<p>Press '" + respR + "' with your right hand index finger for the " + eN2[eR] + ".</p>",
-
+      "<p>Press '" + respLL + "' with your left hand middle finger for the " + eN2[eLL] + ".</p>" +
+      "<p>Press '" + respL + "' with your left hand index finger for the " + eN2[eL] + ".</p>" +
+      "<p>Press '" + respR + "' with your right hand index finger for the " + eN2[eR] + ".</p>" +
       "<p>Press '" + respRR + "' with your right hand middle finger for the " + eN2[eRR] + ".</p>",
 
       "<p>This block contains " + realPracTrials + " trials." + beginText
     ],
 
     'prac5': [
-      "<p>In this last practice task, you will either " + task1 + ", or " + task2 + 
-      ", depending on the shading of the circle surrounding it.</p>",
+      "<p>In this last practice task, you will either " + task1 + " or " + task2 + 
+      ",\n depending on the shading of the circle surrounding the target.</p>",
 
       "<p>However, the circle will contain segments of both " + color1 + " and " + color2 +
       ".\n Choose your response based on which the circle contains more of.",
 
-      "<p>If the circle is more " + color1 + ", you should " + task1 + ".</p>",
+      "<p>If the circle is more " + color1 + " than " + color2 + ", you should " + task1 + ".</p>",
 
-      "<p>If instead the circle is more " + color2 + ", you should " + task2 + ".</p>",
+      "<p>If instead the circle is more " + color2 + " than " + color1 + ", you should " + task2 + ".</p>",
 
-      "<p>This block contains " + (realPracTrials * 2) + " trials." + beginText
+      "<p>This block contains " + realPracTrials + " trials." + beginText
     ], 
 
     'main1': [
@@ -185,14 +177,7 @@ function instructionCode(expStage) {
   let eL = getKeyByValue(tM1, respL);
   let eLL = getKeyByValue(tM1, respLL);
 
-  // let eR2 = getKeyByValue(tM2, respR);
-  // let eL2 = getKeyByValue(tM2, respL);
-
-  // let eR1 = getKeyByValue(rM1, respR);
-  // let eL1 = getKeyByValue(rM1, respL);
-  // let eR2 = getKeyByValue(rM2, respR);
-  // let eL2 = getKeyByValue(rM2, respL);
-  let aIs1 = pracOrder[0] === 'taskA';
+  // let aIs1 = pracOrder[0] === 'taskA';
 
   ctx.clearRect(0, 0, instrCanvas.width, instrCanvas.height);
   let cueOpts = {lineWidth: 7, numSegments: 6, radius: 75, offsetY:-40};
@@ -216,7 +201,7 @@ function instructionCode(expStage) {
     drawExampleStim(color1, getKeyByValue(ptM1, respR), respR, eN1[eR], d);
     drawExampleStim(color1, getKeyByValue(ptM1, respRR), respRR, eN1[eRR], dd);
     
-  } else if (expStage === "prac-2") {
+  } else if (expStage === "prac2") {
     drawExampleStim(color2, getKeyByValue(ptM2, respLL), respLL, eN2[eLL], -dd);
     drawExampleStim(color2, getKeyByValue(ptM2, respL), respL, eN2[eL], -d);
     drawExampleStim(color2, getKeyByValue(ptM2, respR), respR, eN2[eR], d);
@@ -236,34 +221,26 @@ function instructionCode(expStage) {
     drawExampleStim(color2, getRandStim(rM2, respRR), respRR, eN2[eRR], dd);
 
   } else if (expStage === 'prac5') {
-    let cueProp = 0.7;
-    getRandStim(rM1, respL)
-    drawExampleStim(color1, getRandStim(rM1, respL), respL, eL, -dd, cueProp);
-    drawExampleStim(color1, getRandStim(rM1, respR), respR, eR, -dd, cueProp);
+    let cueProp = 0.75;
+    let stimL = _.sample(intersect(incStim, getAllKeysByValue(rM1, respL)));
+    let stimR = _.sample(intersect(incStim, getAllKeysByValue(rM2, respR)));
 
-    // stimL = _.sample(getAllKeysByValue(rM2, respL));
-    // drawStimulus(stimL, Object.assign(stimOpts, {offsetX: d}));
-    // drawCircleCue((color1 === 'red') ? 1-cueProp : cueProp, Object.assign(cueOpts, {offsetX: d}));
-    // resetText();
-    // drawMultilineText("Press '" + respL + "'\n for " + eL2, x0 + d, y0 + textd, lined)
+    drawExampleStim(color1, stimL, respL, eN1[eL], -d, cueProp);
+    drawExampleStim(color2, stimR, respR, eN2[eR], d, cueProp);
     
-    // stimR = _.sample(getAllKeysByValue(rM2, respR));
-    // drawStimulus(stimR, Object.assign(stimOpts, {offsetX: dd}));
-    // drawCircleCue((color1 === 'red') ? 1-cueProp : cueProp, Object.assign(cueOpts, {offsetX: dd}));
-    // resetText();
-    // drawMultilineText("Press '" + respR + "'\n for " + eR2, x0 + dd, y0 + textd, lined)
-    
-  } else if (expStage === 'main1' || expStage === 'main2') {
-    eligibleStim = intersect(incStim, getAllKeysByValue(rM1, respL));
-    let stim = _.sample(eligibleStim);
-    drawCircleCue((color1 === 'red') ? 0.9 : 0.1, Object.assign(cueOpts, {offsetX: -100}));
-    drawStimulus(stim, Object.assign(stimOpts, {offsetX: -100}));
-    resetText();
-    drawMultilineText("Press '" + respL + "'\n for " + eL1, x0 - 100, y0 + textd, lined)
+  } else if (expStage === 'main1') {
+    let stim = _.sample(intersect(incStim, getAllKeysByValue(rM1, respL)));
+    drawExampleStim(color1, stim, respL, eN1[eL], -d, 0.9);
+    drawExampleStim(color2, stim, respR, eN2[eR], d, 0.6);
 
-    drawCircleCue((color1 === 'red') ? 0.4 : 0.6, Object.assign(cueOpts, {offsetX: 100}));
-    drawStimulus(stim, Object.assign(stimOpts, {offsetX: 100}));
-    resetText();
-    drawMultilineText("Press '" + respR + "'\n for " + eR2, x0 + 100, y0 + textd, lined);
+    // drawCircleCue((color1 === 'red') ? 0.9 : 0.1, Object.assign(cueOpts, {offsetX: -100}));
+    // drawStimulus(stim, Object.assign(stimOpts, {offsetX: -100}));
+    // resetText();
+    // drawMultilineText("Press '" + respL + "'\n for " + eL1, x0 - 100, y0 + textd, lined)
+
+    // drawCircleCue((color1 === 'red') ? 0.4 : 0.6, Object.assign(cueOpts, {offsetX: 100}));
+    // drawStimulus(stim, Object.assign(stimOpts, {offsetX: 100}));
+    // resetText();
+    // drawMultilineText("Press '" + respR + "'\n for " + eR2, x0 + 100, y0 + textd, lined);
   }
 }

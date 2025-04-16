@@ -27,7 +27,7 @@ function getInstructionText(){
     // let dirR = "right";
   }
 
-  let realPracTrials = Object.keys(stimSet).length * numPracticeReps;
+  // let realPracTrials = Object.keys(stimSet).length * numPracticeReps;
   let blockTime = Math.ceil(trialsPerBlock * (fixInterval + stimInterval + 0.5*(itiMax + itiMin)) / (1000 * 60));
   let beginText = " Please place your hands on the '" + respL + "' and '" + respR + "' keys as shown.</p>" +
    "<img src=/images/handsOnKeyboard6.png height=200>" +  "<p><b>Press any button to begin</b>.</p>";
@@ -60,7 +60,7 @@ function getInstructionText(){
       "<p>Press '" + respR + "' with your right hand index finger if the " + elemType + 
       " are " + eN1[eR1] + ".</p>",
 
-      "<p>This block contains " + realPracTrials + " trials." + beginText
+      "<p>This block contains " + numPracticeTrials + " trials." + beginText
     ],
 
     'prac2': [
@@ -73,7 +73,7 @@ function getInstructionText(){
       "<p>Press '" + respR + "' with your right hand index finger if the " + elemType + 
       " are " + eN2[eR2] + ".</p>",
 
-      "<p>This block contains " + realPracTrials + " trials." + beginText
+      "<p>This block contains " + numPracticeTrials + " trials." + beginText
     ],
 
     'prac3': [
@@ -92,7 +92,7 @@ function getInstructionText(){
       // "<p>As before, press '" + respL + "' if the relevant arrows are pointing " + dirL + ", and \n press '" + respR +
       // "' if the relevant arrows are pointing " + dirR + ".</p>",
 
-      "<p>This block contains " + (realPracTrials * 2) + " trials." + beginText
+      "<p>This block contains " + numPracticeTrials + " trials." + beginText
     ], 
 
     'main1': [
