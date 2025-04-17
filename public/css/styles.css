@@ -80,10 +80,13 @@ table{
 
 #modal-container{
   display: none;
-  font-size: 18px;
   margin: auto;
   text-align: center;
   padding: 10px;
+}
+
+#open-modal{
+  font-size: 18px;
 }
 
 #startExpButton {

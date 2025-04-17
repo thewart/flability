@@ -332,7 +332,7 @@ function miniBlockScreen(){
 }
 
 function bigBlockScreen(){
-  // let minutesBreak = 2;
+  let minutesBreak = 2;
   sectionType = "blockBreak";
   sectionStart = new Date().getTime() - runStart;
   expType = 0; //else expType stays = 1 till below runs
