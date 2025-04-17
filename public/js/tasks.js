@@ -13,6 +13,8 @@ function runTasks(){
   $(document).off("click","#nextInstrButton");
   $(document).off("click","#startExpButton");
   $(document).off("click","#nextSectionButton");
+  $("#modal-container").hide();
+  $("#myModal").hide();
   
   //reset accuracy and block trial count
   accCount = 0; blockTrialCount = 0;
@@ -359,6 +361,8 @@ function drawBreakScreen(max){
   ctx.fillText("Your overall accuracy so far is " + Math.round((accCount/trialCount)*100) + "%.",canvas.width/2,canvas.height/2+50);
   ctx.font = "bold 25px Arial";
   ctx.fillText("Press any button to continue.",canvas.width/2,canvas.height/2 + 200);
+
+  $("#modal-container").show();
 }
 
 // functions for determining ITI feedback depending on accuracy

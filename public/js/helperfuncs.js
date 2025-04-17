@@ -41,3 +41,28 @@ function isOdd(n) {
 function intersect(arrA, arrB) {
   return arrA.filter(x => arrB.includes(x))
 }
+
+resetText = function() {
+  ctx.fillStyle = "black";
+  ctx.font = "bold 20px Arial";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+}
+
+drawExampleStim = function(color, stim, respWhich, elemName, disp, cueProp = 1.0) {
+  let textd = 60;
+  let lined = 25;
+  let cueOpts = {lineWidth: 7, numSegments: 6, radius: 75, offsetY:-40};
+  let stimOpts = {fontSize: 45, offsetY:-35}
+  let x0 = ctx.canvas.width/2;
+  let y0 = ctx.canvas.height/2
+  drawCircleCue((color === colorA) ? cueProp : 1-cueProp, Object.assign(cueOpts, {offsetX: disp}));
+  drawStimulus(stim, Object.assign(stimOpts, {offsetX: disp}));
+  resetText();
+  drawMultilineText("Press '" + respWhich + "' for the \n" + elemName, x0 + disp, y0 + textd, lined)
+}
+
+getRandStim = function(respMap, respWhich) {
+  return _.sample(getAllKeysByValue(respMap, respWhich));
+}
+

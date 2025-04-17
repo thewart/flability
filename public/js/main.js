@@ -55,7 +55,7 @@ function ITIInterval(){
 
 //initialize global task variables
 let stimArr, taskArr, respArr, switchArr, incArr, cueArr, stimDiff; // global vars for task arrays
-let canvas, ctx, instrCanvas, itx; // global canvas variable
+let canvas, ctx, instrCanvas, modalCanvas1, modalCanvas2; // global canvas variable
 let expStage = (skipPractice == true) ? "main1" : "prac1-1";
 // vars for tasks (iterator, accuracy) and reaction times:
 let trialCount, blockTrialCount, acc, accCount, stimOnset, respOnset, respTime, block = 1, partResp, runStart, blockType = NaN;
@@ -180,9 +180,14 @@ stimSet.forEach(s => respMap.taskA[s] == respMap.taskB[s] ? conStim.push(s) : in
 
 // ------ EXPERIMENT STARTS HERE ------ //
 $(document).ready(function(){
+  setUpModal();
   // prepare task canvas
   instrCanvas = document.getElementById('instruction-canvas');
   canvas = document.getElementById('myCanvas');
+  modalCanvas1 = document.getElementById('modal-canvas-1');
+  modalCanvas2 = document.getElementById('modal-canvas-2');
+  drawModal();
+
   ctx = canvas.getContext('2d');
   ctx.font = "bold 60px Arial";
   ctx.textBaseline= "middle";

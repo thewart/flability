@@ -1,5 +1,22 @@
 // see function navigateInstructionPath() in tasks.js for naviagtion code
 
+function setUpModal() {
+  var modal = document.getElementById("myModal");
+  var btn = document.getElementById("open-modal");
+  var span = document.getElementsByClassName("close")[0];
+  btn.onclick = function() {
+    modal.style.display = "block";
+  }
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+}
+
 // global instruction iterator information. Change as needed
 let instructions = {
   // contains the iterator for each instruction block
@@ -40,7 +57,7 @@ function runInstructions(){
   // main instruction function (come here at start of instruction block)
   sectionStart = new Date().getTime() - runStart;
   sectionType = "instructions";
-
+  
   // draw on instruction canvas
   ctx = instrCanvas.getContext('2d');
   
@@ -50,7 +67,7 @@ function runInstructions(){
   
   // execute code for this instruction stage (usually drawing on canvas)
   instructionCode(expStage);
-
+  
   // if need to repeat instructions (e.g., participant failed to meet accuracy requirement), then reshow all instructions
   if (instructions["iterator"][expStage] >= instructionText[expStage].length) {
     
@@ -58,7 +75,7 @@ function runInstructions(){
     for (var i = 0; i < instructionText[expStage].length; i++) {
       $('#instruction-body').append(instructionText[expStage][i]);
     }
-        
+    
     // display instructions and prepare exit response mapping
     $('.instructions').show();
     exitResponse();

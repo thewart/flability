@@ -34,7 +34,6 @@ function updateMainMenu(expStage){
   // display text based on experiment stage
   switch(expStage){
     case 0: //consent 
-    console.log('here I am')
       $("#myButton").show();
       $("#submit").hide();
       $("#instruction").html("Click button to read the consent form. <br> PLEASE DO NOT CLOSE THIS SCREEN.");
