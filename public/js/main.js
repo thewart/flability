@@ -3,9 +3,9 @@
 
 // for testing
 let testMode = false;
-let speed = "fast"; //fast, normal
+let speed = "normal"; //fast, normal
 // speed = (testMode == true) ? "fast" : speed; //testMode defaults to "fast"
-let skipPractice = true; // turn practice blocks on or off
+let skipPractice = false; // turn practice blocks on or off
 let openerNeeded = true; //true
 let fixedColor = false;
 let fixedTaskMap = false;
@@ -222,7 +222,7 @@ $(document).ready(function(){
     } else if (expType == 7) {
       clearInterval(sectionTimer);
       $("#modal-container").hide();
-      $("#myModal").hide();    
+      $("#myModal").hide();
       expType = 0;
       // 7: block feedback - press button to start next block
       // logData(data, 'feedback');      

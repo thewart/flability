@@ -78,17 +78,25 @@ table{
   font-weight: bold;
 }
 
-#modal-container{
-  display: none;
-  margin: auto;
-  text-align: center;
-  padding: 10px;
+#modal-container {
+  display: none; /* Will be controlled by JS */
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100; /* Ensure it stays on top */
 }
 
-#open-modal{
+#open-modal {
   font-size: 18px;
+  padding: 8px 12px;
+  background-color: #CCCCCC;
+  border: 2px outset grey;
+  cursor: pointer;
 }
 
+#open-modal:hover {
+  background-color: #BBBBBB;
+}
 #startExpButton {
   display:none;
   color: black;

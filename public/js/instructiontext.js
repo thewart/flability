@@ -124,6 +124,9 @@ function getInstructionText(){
       
       "<p>The circle on the right is mostly " + color2 +
       ", so you would " + task2 + ".</p>",
+
+      "<p>You may review the correct target responses by clicking the button in the lower right corner." + 
+      "\n You will also have a chance to review the mapping between blocks."
       
     ],
     

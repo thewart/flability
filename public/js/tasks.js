@@ -359,6 +359,7 @@ function drawBreakScreen(max){
     ctx.fillText("You are finished with block " + block + ". You have " + (numBlocks - block) + " block left.",canvas.width/2,canvas.height/2);
   }
   ctx.fillText("Your overall accuracy so far is " + Math.round((accCount/trialCount)*100) + "%.",canvas.width/2,canvas.height/2+50);
+  ctx.fillText("You may review the correct responses by clicking on the button in the upper right corner.", canvas.width/2,canvas.height/2+100)
   ctx.font = "bold 25px Arial";
   ctx.fillText("Press any button to continue.",canvas.width/2,canvas.height/2 + 200);
 
