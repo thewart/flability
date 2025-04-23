@@ -60,7 +60,7 @@ function updateMainMenu(expStage){
       break;
     case -1: //nonconsent
       $("#myButton").hide();
-      $("#instruction").html("<a href='https://app.prolific.com/submissions/complete?cc=CWV4VDWZ'>Please use this link to return the submission.</a>");
+      $("#instruction").html("<a href='https://app.prolific.com/submissions/complete?cc=C13KM17A'>Please use this link to return the submission.</a>");
       $("#instruction").show();
   }
 }

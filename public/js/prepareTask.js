@@ -92,7 +92,7 @@ function createTaskArray(switchArr){
 function createCueArray(cueDiff, taskArr) {
   let cueArr = [];
   taskArr.forEach(task => 
-    cueArr.push(taskColor[task] == "red" ? cueDiff : 1-cueDiff)
+    cueArr.push(task == "taskA" ? cueDiff : 1-cueDiff)
   );
   
   return cueArr;
