@@ -55,7 +55,8 @@ function navigateInstructionPath(repeat = false){
 
 function runInstructions(){ 
   // main instruction function (come here at start of instruction block)
-  sectionStart = new Date().getTime() - runStart;
+  // sectionStart = new Date().getTime() - runStart;
+  sectionStart = performance.now()
   sectionType = "instructions";
   
   // draw on instruction canvas
@@ -125,7 +126,7 @@ function runInstructions(){
   
   $(document).on('click', '#nextSectionButton', function(){
     // log data for time spent on this section
-    sectionEnd = new Date().getTime() - runStart;
+    sectionEnd = performance.now();
     
     // clear all button press listeners
     $(document).off("click","#nextInstrButton");

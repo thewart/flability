@@ -203,8 +203,9 @@ $(document).ready(function(){
       acc = respArr[trialCount] == event.key.toLowerCase();
       // if (acc == 1){accCount++;}
       accCount += acc;
-      respOnset = new Date().getTime() - runStart;
-      respTime = respOnset - stimOnset;
+      // respOnset = new Date().getTime() - runStart;
+      respOnset[trialCount] = performance.now();
+      respTime = respOnset[trialCount] - stimOnset[trialCount];
     }
   })
   
@@ -263,7 +264,8 @@ $(document).ready(function(){
     promptMenuClosed();
   } else {
     // start experiment
-    runStart = new Date().getTime();
+    // runStart = new Date().getTime();
+    runStart = performance.now();
     runInstructions();
   }
 });

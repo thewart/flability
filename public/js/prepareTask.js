@@ -1,5 +1,7 @@
 function createPracticeArrays(nTrials, task, isolated = false, cueDiff){
   // stimArr = shuffle(repeat(Object.keys(stimSet), nReps));
+  stimOnset = new Array(nTrials).fill(null);
+  respOnset = new Array(nTrials).fill(null)
   if (isolated) {
     var thisStimSet = Object.keys(pracRespMap[task]);
     let nRep =  Math.ceil(nTrials / thisStimSet.length);
@@ -31,6 +33,8 @@ function createArrays(blockOrder, trialsPerBlock){
   let blockParams;
   // write over practice block
   stimArr = []; taskArr = []; switchArr = []; incArr = [], cueArr = []; respArr = []; stimDiff = [];
+  stimOnset = new Array(blockOrder.length * trialsPerBlock).fill(null);
+  respOnset = new Array(blockOrder.length * trialsPerBlock).fill(null);
 
   blockOrder.forEach( blockLetter => {
     blockParams = getBlockParameters(blockLetter);
